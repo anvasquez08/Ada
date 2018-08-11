@@ -13,7 +13,9 @@ class App extends React.Component {
     return (
       <div>
 
-      <Authentication />
+      {this.state.showLoginModal ?
+      <Authentication /> : null
+      }
 
       <Inventory />
 
