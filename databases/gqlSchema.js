@@ -3,6 +3,8 @@ const { Inventory } = require('./schema.js');
 const { GraphQLNonNull, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } = require('graphql');
 
 /* == Submit image and return recommendations from inventory. == */
+/* Image to be sent to image server. */
+
 const RootQuery = new GraphQLObjectType({ 
     name: 'RootQueryType', 
     fields: {
@@ -18,6 +20,8 @@ const RootQuery = new GraphQLObjectType({
           resolve: (root, {imageUrl}) => {
             /* TODO: Logic to save to image DB */
             console.log(imageUrl)
+            /* TODO: Add Analysis logis for image url. */
+
 
             /* TODO: Logic to pic inventory based on tags */
             let inventory = new Promise((resolve, reject) => {
