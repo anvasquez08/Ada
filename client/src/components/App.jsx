@@ -12,6 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+<<<<<<< HEAD
 
       {this.state.showLoginModal ?
       <Authentication /> : null
@@ -19,6 +20,9 @@ class App extends React.Component {
 
       <Inventory />
 
+=======
+        Test
+>>>>>>> master
       </div>
       )
   }
