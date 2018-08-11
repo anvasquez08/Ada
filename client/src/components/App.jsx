@@ -6,13 +6,13 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showLoginModal: true
+      showLoginModal: true,
+      isLoggedIn: false
     }
   }
   render() {
     return (
       <div>
-<<<<<<< HEAD
 
       {this.state.showLoginModal ?
       <Authentication /> : null
@@ -20,9 +20,6 @@ class App extends React.Component {
 
       <Inventory />
 
-=======
-        Test
->>>>>>> master
       </div>
       )
   }
