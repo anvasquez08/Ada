@@ -22,5 +22,7 @@ app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: tru
 
 /*====================================== */
 
-app.get("/scrape", scraper.googleScrape);
+app.get('/scrape', scraper.googleScrape)
+app.get('/tags', scraper.getByTags)
+
 app.listen(8080, () => console.info("Listening on port 8080"));

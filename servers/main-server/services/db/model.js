@@ -22,6 +22,14 @@
 //     .then(item=>cb(null,item))
 // }
 
-// module.exports = {
-//   saveItem
+// let getByTags = (tags, cb)=>{
+//   console.log(tags)
+//   Item.find({tags: {$all: tags}})
+//     .then(items=>cb(null,items))
 // }
+
+// module.exports = {
+//   saveItem,
+//   getByTags
+// }
+
