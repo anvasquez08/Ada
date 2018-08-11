@@ -12,8 +12,5 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/../../client/dist'))
 
 app.get('/scrape', scraper.googleScrape)
-app.get('/other',(req,res)=>{
-  res.send("Wowza!")
-})
 
 app.listen(8080, () => console.log("Listening on port 8080"))
