@@ -24,13 +24,12 @@ class Authentication extends React.Component {
   render() {
     return (
     <div>
-      Username:
+      {/* Username:
       <input type="text" value={this.state.username} onChange={this.handleUsername}></input>
       Password:
-      <input type="password" value={this.state.password} onChange={this.handlePassword}></input><br />
+      <input type="password" value={this.state.password} onChange={this.handlePassword}></input><br /> */}
 
-      Or sign in with:
-      <button>Google</button><button>Facebook</button><button>Instagram</button>
+      Sign in with <a href="/auth/instagram">Instagram</a>
     </div>
     )}
 }
