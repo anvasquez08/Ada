@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-let {DBURL} = require('../../../../config')
+// let {DBURL} = require('../../../../config')
 
 mongoose.connect(DBURL);
 let db = mongoose.connection;
