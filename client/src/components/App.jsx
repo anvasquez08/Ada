@@ -1,5 +1,4 @@
 import React from 'react';
-import Test from './Test.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,7 +8,6 @@ class App extends React.Component {
     return (
       <div>
         Test
-        <Test/>
       </div>
       )
   }
