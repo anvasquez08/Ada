@@ -18,13 +18,18 @@
   },
   "homepage": "https://github.com/Allende-HR/Allende-HR#readme",
   "dependencies": {
+    "apollo-boost": "^0.1.13",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.0.0-alpha.2",
     "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "graphql": "^0.13.2",
+    "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
     "popper.js": "^1.12.9",
     "react": "^16.0.0",
+    "react-apollo": "^2.1.11",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6"
   },
