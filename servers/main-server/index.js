@@ -15,7 +15,6 @@ app.use(express.static(__dirname + "/../../client/dist"));
 const gqlSchema = require('../../databases/gqlSchema.js');
 app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
 
-// console.log('Server file',  inventoryDB )
 /*====================================== */
 
-app.listen(8080, () => console.log("Listening on port 8080"));
+app.listen(8080, () => console.info("Listening on port 8080"));

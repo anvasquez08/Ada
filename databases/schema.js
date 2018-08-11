@@ -10,6 +10,6 @@ const inventorySchema = new mongoose.Schema({
     timestamp: { type : Date, default: Date.now }
 });
   
-  const Inventory = inventoryDB.model('Inventory', inventorySchema);
+const Inventory = inventoryDB.model('Inventory', inventorySchema);
 
-  module.exports = { Inventory }
+ module.exports = { Inventory }

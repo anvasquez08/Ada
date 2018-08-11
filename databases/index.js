@@ -5,11 +5,11 @@ const inventoryDB = mongoose.createConnection(
   "mongodb://fashionapp:hackreactor1@ds119081.mlab.com:19081/inventory", { poolSize: 20 }
 );
 
-inventoryDB.on('error', function(err) {
+inventoryDB.on('error', (err) => {
   if (err) throw err;
 });
 
-inventoryDB.once('open', function callback() {
+inventoryDB.once('open', () => {
   console.info('Connected to inventory database.');
 });
 
