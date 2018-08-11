@@ -1,15 +1,16 @@
-const mongoose = require('mongoose');
-const { inventoryDB } = require('./index.js');
+const mongoose = require("mongoose");
+const { inventoryDB } = require("./index.js");
 
-const inventorySchema = new mongoose.Schema({
-    url: { type: String, unique: true },
-    brandName: String,
-    price: Number, 
-    imageUrl: String,
-    visualTags: [String],
-    timestamp: { type : Date, default: Date.now }
+const itemSchema = mongoose.Schema({
+  id: { type: Number, unique: true },
+  name: String,
+  brandName: String,
+  url: { type: String, unique: true },
+  imageUrl: String,
+  price: Number,
+  timestamp: { type: Date, default: Date.now }
 });
-  
-const Inventory = inventoryDB.model('Inventory', inventorySchema);
 
- module.exports = { Inventory }
+const Item = inventoryDB.model("Item", itemSchema);
+
+module.exports = { Item };
