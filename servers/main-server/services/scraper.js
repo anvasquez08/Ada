@@ -31,11 +31,18 @@ var googleScrape = (req,res)=>{
           })
         })
     });
-  }, Promise.resolve([])).then(function(val){
-      res.send(results)
-  });
+  }, Promise.resolve([])).then(()=>res.send(results));
+}
+
+var getByTags = (req,res)=>{
+  var tags = req.query.q.toLowerCase().split(" ")
+  console.log(tags)
+  model.getByTags(tags,(err,results)=>{
+    res.send(results)
+  })
 }
 
 module.exports = {
-  googleScrape
+  googleScrape,
+  getByTags
 };
