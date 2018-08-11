@@ -24,6 +24,8 @@
     "cheerio": "latest",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "passport": "^0.4.0",
+    "passport-instagram": "^1.0.0",
     "jquery": "^3.3.1",
     "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
