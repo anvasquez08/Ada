@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const async = require('async');
+
 mongoose.connect('mongodb://localhost/recommendations');
 
 var db = mongoose.connection;
@@ -11,21 +13,57 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  inventoryId: Number,
-  itemLabels: [[String]]
+var itemKeywords = mongoose.Schema({
+  keyword: String,
+  inventoryIds: [Number]
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Item = mongoose.model('ItemKeywords', itemKeywords);
 
-var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
-    if(err) {
-      callback(err, null);
+let indexItem = (id, itemLabels) => {
+
+  async.each(itemLabels, (label) => {
+    Item.findOne({keyword: label}, (err, keywordItem) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (keywordItem === null) {
+          let itemToSave = new Item({
+            keyword: label,
+            inventoryIds: [id]
+          })
+          itemToSave.save((err) => {
+            if (err) {
+              console.log(err);
+            }
+          })
+        } else {
+          Item.findOneAndUpdate({keyword: label}, {$push: {inventoryIds: id}}, (err) => {
+            if (err) {
+              console.log('ERR UPDATING KEYWORD')
+            }
+          })
+        }
+      }
+    })
+  }, (err) => {
+    console.log(err);
+  })
+}
+
+let getKetwordEntries = (itemKeywords, callback) => {
+  Item.find({keyword: {$in: itemKeywords}}, (err, results) => {
+    if (err) {
+      callback(err);
     } else {
-      callback(null, items);
+      console.log('RESULTS', results);
+      callback(null, results);
     }
-  });
-};
+  })
+}
 
-module.exports.selectAll = selectAll;
+module.exports = {
+  db,
+  indexItem,
+  getKetwordEntries
+}
