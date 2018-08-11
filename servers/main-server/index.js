@@ -1,12 +1,16 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require('cors')
 const bodyParser = require("body-parser");
 const googleVision = require('./recommendations/service/imageTraits.js');
+const scraper = require('./services/scraper')
 
 const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/../../client/dist"));
+
+app.get('/scrape', scraper.googleScrape)
 
 app.post('/index', function(req, res) {
     let url = 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png'
