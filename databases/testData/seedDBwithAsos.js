@@ -1,5 +1,5 @@
 const inventory = require('../testData/asos.json');
-const saveItem = require('../Inventory').saveItem;
+const {saveItem} = require('../helpers')
 
 inventory["products"].forEach((item) => {
   saveItem(

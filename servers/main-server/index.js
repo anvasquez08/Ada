@@ -1,6 +1,7 @@
 const express = require("express");
 const graph = require("express-graphql");
 const morgan = require("morgan");
+
 const passport = require('passport')
 const db = require('../../databases/Inventory')
 const cors = require('cors')
@@ -23,6 +24,7 @@ app.use(express.static(__dirname + "/../../client/dist"));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter)
+
 /*============== Graph QL ============== */
 const gqlSchema = require('../../databases/gqlSchema.js');
 app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
