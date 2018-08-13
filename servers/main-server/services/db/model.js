@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// let {DBURL} = require('../../../../config')
+let {DBURL} = require('../../../../config')
 
 mongoose.connect(DBURL);
 let db = mongoose.connection;
@@ -22,6 +22,13 @@ let saveItem = ({tags, imageUrl, visitUrl}, cb)=>{
     .then(item=>cb(null,item))
 }
 
+let getByTags = (tags, cb)=>{
+  console.log(tags)
+  Item.find({tags: {$all: tags}})
+    .then(items=>cb(null,items))
+}
+
 module.exports = {
-  saveItem
+  saveItem,
+  getByTags
 }

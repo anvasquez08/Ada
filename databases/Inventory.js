@@ -20,17 +20,19 @@ let itemSchema = mongoose.Schema({
   name: String,
   brandName: String,
   imageUrl: String,
+  url: String,
   price: Number
 });
 
 let Item = mongoose.model('Item', itemSchema);
 
-let saveItem = (id, name, brandName, imageUrl, price) => {
+let saveItem = (id, name, brandName, imageUrl, url, price) => {
   let newItem = new Item({
     id: id,
     name: name,
     brandName: brandName,
     imageUrl: imageUrl,
+    url: url,
     price: price
   });
 
