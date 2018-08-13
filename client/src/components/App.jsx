@@ -10,7 +10,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showLoginModal: true
+      showLoginModal: true,
+      isLoggedIn: false
     }
   }
   render() {
