@@ -1,3 +1,0 @@
-const GOOGLE_API_KEY = 'AIzaSyC_GGCUBJcyu-L0BP0SN-kZfykB7HTmjcE'
-
-module.exports.GOOGLE_API_KEY = GOOGLE_API_KEY;

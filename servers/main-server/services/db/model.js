@@ -17,10 +17,10 @@ let {DBURL} = require('../../../../config')
 
 // let Item = mongoose.model('item', itemSchema)
 
-// let saveItem = ({tags, imageUrl, visitUrl}, cb)=>{
-//   new Item({tags,imageUrl,visitUrl}).save()
-//     .then(item=>cb(null,item))
-// }
+let saveItem = ({tags, imageUrl, visitUrl}, cb)=>{
+  new Item({tags,imageUrl,visitUrl}).save()
+    .then(item=>cb(null,item))
+}
 
 let getByTags = (tags, cb)=>{
   console.log(tags)
