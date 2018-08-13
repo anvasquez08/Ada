@@ -1,5 +1,5 @@
 const { InventoryType } = require('./gqlTypes.js');
-const { Inventory } = require('./schema.js');
+const { Item } = require('./schema.js');
 const { GraphQLNonNull, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } = require('graphql');
 
 /* == Submit image and return recommendations from inventory. == */
@@ -25,7 +25,7 @@ const RootQuery = new GraphQLObjectType({
 
             /* TODO: Logic to pic inventory based on tags */
             let inventory = new Promise((resolve, reject) => {
-                Inventory.find({}, (err, res) => {
+              Item.find({}, (err, res) => {
                     err ? reject(err) : resolve(res)
                 })
             })
