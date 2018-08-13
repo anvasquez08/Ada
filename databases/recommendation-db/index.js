@@ -18,7 +18,12 @@ var itemKeywords = mongoose.Schema({
   inventoryIds: [Number]
 });
 
+var mostRecentTimestamp = mongoose.Schema({
+  timestamp: Date
+});
+
 var Item = mongoose.model('ItemKeywords', itemKeywords);
+var Timestamp = mongoose.model('Timestamp', mostRecentTimestamp);
 
 let indexItem = (id, itemLabels) => {
 
@@ -62,8 +67,28 @@ let getKetwordEntries = (itemKeywords, callback) => {
   })
 }
 
+let updateRecentTimestamp = (timestamp) => {
+  Timestamp.findOneAndUpdate({}, {timestamp: timestamp}, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  })
+}
+
+let getRecentTimestamp = (callback) => {
+  Timestamp.findOne({}, (err, latestTimestamp) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, latestTimestamp);
+    }
+  })
+}
+
 module.exports = {
   db,
   indexItem,
-  getKetwordEntries
+  getKetwordEntries,
+  updateRecentTimestamp,
+  getRecentTimestamp
 }
