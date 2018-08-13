@@ -1,9 +1,9 @@
 import React from 'react';
+
+import NavBar from './NavBar.jsx';
 import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
 
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
 class App extends React.Component {
   constructor(props) {
@@ -15,8 +15,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      {this.state.showLoginModal ?
-      <Authentication /> : null
+      <NavBar />
+      {
+      //   this.state.showLoginModal ?
+      // <Authentication /> : null
       }
 
       <Inventory />
