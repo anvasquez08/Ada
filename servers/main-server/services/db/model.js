@@ -1,34 +1,37 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-let {DBURL} = require('../../../../config')
 
-mongoose.connect(DBURL);
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log("db connected")
-});
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+// let {DBURL} = require('../../../../config')
 
-let itemSchema = new Schema({
-  tags: [String],
-  imageUrl: {type: String, unique: true, sparse:true},
-  visitUrl: {type: String, unique: true, sparse:true},
-})
 
-let Item = mongoose.model('item', itemSchema)
+// mongoose.connect(DBURL);
+// let db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function() {
+//   console.log("db connected")
+// });
 
-let saveItem = ({tags, imageUrl, visitUrl}, cb)=>{
-  new Item({tags,imageUrl,visitUrl}).save()
-    .then(item=>cb(null,item))
-}
+// let itemSchema = new Schema({
+//   tags: [String],
+//   imageUrl: {type: String, unique: true, sparse:true},
+//   visitUrl: {type: String, unique: true, sparse:true},
+// })
 
-let getByTags = (tags, cb)=>{
-  console.log(tags)
-  Item.find({tags: {$all: tags}})
-    .then(items=>cb(null,items))
-}
+// let Item = mongoose.model('item', itemSchema)
 
-module.exports = {
-  saveItem,
-  getByTags
-}
+// let saveItem = ({tags, imageUrl, visitUrl}, cb)=>{
+//   new Item({tags,imageUrl,visitUrl}).save()
+//     .then(item=>cb(null,item))
+// }
+
+// let getByTags = (tags, cb)=>{
+//   console.log(tags)
+//   Item.find({tags: {$all: tags}})
+//     .then(items=>cb(null,items))
+// }
+
+
+// module.exports = {
+//   saveItem,
+//   getByTags
+// }

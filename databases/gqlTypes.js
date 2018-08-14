@@ -11,25 +11,29 @@ const InventoryType = new GraphQLObjectType({
   name: 'InventoryPiece',
   description: 'Type for inventory properties.', 
   fields: () => ({
-    url: {
-      type: GraphQLString, 
-      description: `The article's url.`
+    id: {
+      type: GraphQLInt, 
+      description: `The article's id.`
     }, 
+    name: {
+      type: GraphQLString, 
+      description:  `The article's  name.`
+    },
     brandName: {
       type: GraphQLString, 
       description:  `The article's brand name.`
     },
-    price: {
-      type: GraphQLInt, 
-      description: `The article's price.`
-    },
+    url: {
+      type: GraphQLString, 
+      description: `The article's url.`
+    }, 
     imageUrl: {
       type: GraphQLString, 
       description:  `The article's image url.`
     },
-    visualTags: {
-      type: new GraphQLList( GraphQLString ), 
-      description: `The article's visual tags.`
+    price: {
+      type: GraphQLInt, 
+      description: `The article's price.`
     },
     timestamp: {
       type: GraphQLInt, 

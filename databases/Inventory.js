@@ -20,8 +20,9 @@ let itemSchema = mongoose.Schema({
   name: String,
   brandName: String,
   imageUrl: String,
-  url: String,
-  price: Number
+  price: Number,
+  timestamp: { type : Date, default: Date.now },
+  url: String
 });
 
 let Item = mongoose.model('Item', itemSchema);
@@ -37,12 +38,23 @@ let saveItem = (id, name, brandName, imageUrl, url, price) => {
   });
 
   newItem.save((err) => {
-    if (err) console.log('Error in database save function');
+    if (err) console.log(err);
     else console.log('Successfully saved data');
   });
 }
 
+let retrieveNewItems = (timestamp, callback) => {
+  Item.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, newItems);
+    }
+  })
+}
+
 module.exports = {
   db,
-  saveItem
+  saveItem,
+  retrieveNewItems
 }
