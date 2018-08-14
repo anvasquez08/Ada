@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon servers/main-server/index.js"
+    "server-dev": "nodemon servers/index.js"
   },
   "repository": {
     "type": "git",
