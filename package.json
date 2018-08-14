@@ -47,7 +47,8 @@
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-spinners": "^0.3.3",
-    "request": "latest"
+    "request": "latest",
+    "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -58,8 +59,8 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "6.24.1",
     "babel-register": "^6.7.2",
-    "enzyme": "2.8.2",
     "css-loader": "^1.0.0",
+    "enzyme": "2.8.2",
     "exports-loader": "0.6.4",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",

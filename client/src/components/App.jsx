@@ -1,12 +1,15 @@
 import React from 'react';
+<<<<<<< HEAD
 import axios from 'axios';
+=======
+
+import NavBar from './NavBar.jsx';
+>>>>>>> master
 import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
 import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
 
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,6 +36,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+<<<<<<< HEAD
       
       <button onClick={this.handleLogin}>Login</button>
 
@@ -41,6 +45,13 @@ class App extends React.Component {
         <Authentication user={this.state.user}/>
       </div>
       </Modal>
+=======
+      <NavBar />
+      {
+      //   this.state.showLoginModal ?
+      // <Authentication /> : null
+      }
+>>>>>>> master
 
       <Inventory />
       <UploadComponent/>
