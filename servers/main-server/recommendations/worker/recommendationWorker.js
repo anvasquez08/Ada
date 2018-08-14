@@ -1,17 +1,16 @@
-const inventoryDB = require('../../../../databases/Inventory.js');
-const recommendationDB = require('../../../../databases/recommendation-db/index.js');
+const helpers = require('../../../../databases/helpers.js');
 const googleVision = require('../helpers/googleVision.js');
 
 let updateIndexDB = () => {
     let now = Date.now();
-    recommendationDB.getRecentTimestamp((err, recentTimstamp) => {
+    helpers.getRecentTimestamp((err, recentTimstamp) => {
         if (err) {
             callback(err);
         } else {
             if (!recentTimstamp) {
                 recentTimstamp = {timestamp: '1995-12-17T03:24:00'}
             }
-            inventoryDB.retrieveNewItems(recentTimstamp.timestamp, (err, newInventory) => {
+            helpers.retrieveNewItems(recentTimstamp.timestamp, (err, newInventory) => {
                 if (err) {
                     console.log(err);
                 } else {
@@ -35,7 +34,7 @@ let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
 }
 
 let saveItemRecommendation = (inventoryId, itemLabels) => {
-    recommendationDB.indexItem(inventoryId, itemLabels);
+  helpers.indexItem(inventoryId, itemLabels);
 }
 
 let indexNewItems = (newItems) => {
