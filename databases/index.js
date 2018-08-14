@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const { DBInventoryURI } = require("../config.js");
 
-const inventoryDB = mongoose.createConnection(DBInventoryURI, { poolSize: 20 });
+const inventoryDB = mongoose.createConnection(
+  "mongodb://fashionapp:hackreactor1@ds119081.mlab.com:19081/inventory", { poolSize: 20 }
+);
 
 inventoryDB.on("error", err => {
   if (err) throw err;

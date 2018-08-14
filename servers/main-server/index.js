@@ -4,19 +4,13 @@ const morgan = require("morgan");
 
 const passport = require('passport')
 const db = require('../../databases/Inventory')
-<<<<<<< HEAD
 const authRouter = require('../routes/authRoutes')
-// const scraper = require('./services/scraper')
-=======
 const cors = require('cors')
 const bodyParser = require("body-parser");
 const recommendationService = require('./recommendations/service/imageTraits.js');
-const scraper = require('./services/scraper')
-const authRouter = require('../routes/authRoutes')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const fileUpload = require('express-fileupload');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
->>>>>>> fb3b6d0defae9f7e8934e4fe37960db0ee77376e
 const { inventoryDB } = require('../../databases/index.js')
 
 
