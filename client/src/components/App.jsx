@@ -2,11 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
-<<<<<<< HEAD
 import Modal from '@material-ui/core/Modal';
-=======
 import UploadComponent from './UploadComponent.jsx';
->>>>>>> master
 
 import { Query } from "react-apollo";
 import gql from "graphql-tag";

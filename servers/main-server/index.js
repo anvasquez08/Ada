@@ -19,7 +19,6 @@ const { inventoryDB } = require('../../databases/index.js')
 const app = express();
 app.use(fileUpload());
 app.use(cors())
-<<<<<<< HEAD
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/../../client/dist'))
@@ -29,14 +28,6 @@ app.use(passport.session());
 
 // Routers
 app.use('/auth', authRouter);
-=======
-app.use(morgan("dev"));
-app.use(bodyParser.json());
-app.use(express.static(__dirname + "/../../client/dist"));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use('/auth', authRouter)
->>>>>>> master
 
 /*============== Graph QL ============== */
 const gqlSchema = require('../../databases/gqlSchema.js');
