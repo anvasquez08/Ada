@@ -4,6 +4,7 @@ import Inventory from '../components/Inventory.jsx';
 import Header from '../components/Header.jsx'
 import Landing from '../components/Landing.jsx'
 import '../styles/css/main.css'
+import UploadComponent from './UploadComponent.jsx';
 
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -12,7 +13,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showLoginModal: true
+      showLoginModal: true,
+      isLoggedIn: false
     }
   }
   render() {
@@ -20,11 +22,13 @@ class App extends React.Component {
       <div>
         <Header/>
         <Landing/>
-        {this.state.showLoginModal ?
-        <Authentication /> : null
-        }
-        <Inventory />
-        </div>
+      {this.state.showLoginModal ?
+      <Authentication /> : null
+      }
+
+      <Inventory />
+      <UploadComponent/>
+      </div>
       )
   }
 }
