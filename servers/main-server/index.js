@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require('express-session');
 const graph = require("express-graphql");
 const morgan = require('morgan')
 const passport = require('passport')
@@ -17,12 +18,12 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/../../client/dist'))
+app.use(session({secret: 'jack', cookie: {maxAge: 1000*20*60}}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Routers
-app.use('/auth', authRouter)
-app.use('/auth', authRouter)
+app.use('/auth', authRouter);
 
 /*============== Graph QL ============== */
 const gqlSchema = require('../../databases/gqlSchema.js');
