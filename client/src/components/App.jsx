@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showLoginModal: true,
+      showLoginModal: false,
       isLoggedIn: false,
       user: ''
     }
@@ -33,22 +33,19 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      
-      <button onClick={this.handleLogin}>Login</button>
 
       <Modal open={this.state.showLoginModal} onClose={this.handleLogin}>
-      <div style={{background: 'grey', color: 'white'}}>
-        <Authentication user={this.state.user}/>
-      </div>
+        <div style={{background: 'grey', color: 'white'}}>
+          <Authentication user={this.state.user}/>
+        </div>
       </Modal>
-      <NavBar />
-      {
-      //   this.state.showLoginModal ?
-      // <Authentication /> : null
-      }
+
+      <NavBar user={this.state.user} handleLogin={this.handleLogin}/>
 
       <Inventory />
+
       <UploadComponent/>
+
       </div>
       )
   }

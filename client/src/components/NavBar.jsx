@@ -14,7 +14,9 @@ class NavBar extends React.Component {
           <AppBar position="static" color="default">
             <Toolbar>
             <Typography variant="title" color="inherit">
-              Nav Bar
+              {this.props.user ?
+                <div>Signed in: {this.props.user} || <a href="/auth/logout">Logout</a></div>:
+                <button onClick={this.props.handleLogin}>Login</button>}
             </Typography>
             </Toolbar>
           </AppBar></div>
