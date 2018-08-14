@@ -45,7 +45,7 @@ class App extends React.Component {
         <Authentication user={this.state.user}/>
       </div>
       </Modal>
-      <NavBar />
+      {/* <NavBar /> */}
       {
       //   this.state.showLoginModal ?
       // <Authentication /> : null
