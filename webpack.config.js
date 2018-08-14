@@ -21,10 +21,13 @@ module.exports = {
         }
       },
       {
-        test:/\.css$/,
-        include: SRC_DIR,
-        loader: ['style-loader','css-loader']
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        loader: 'file?name=fonts/[name].[ext]'
+      }
     ]
   }
 };
