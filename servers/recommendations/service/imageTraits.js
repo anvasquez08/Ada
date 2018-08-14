@@ -1,4 +1,4 @@
-const recommendationDB = require('../../../../databases/index.js');
+const recommendationDB = require('./../../../databases/index.js');
 const googleVision = require('../helpers/googleVision.js')
 
 

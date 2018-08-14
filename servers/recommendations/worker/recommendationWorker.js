@@ -1,4 +1,4 @@
-const helpers = require('../../../../databases/helpers.js');
+const helpers = require('./../../../databases/helpers.js');
 const googleVision = require('../helpers/googleVision.js');
 
 let updateIndexDB = () => {
