@@ -1,49 +1,43 @@
-const GOOGLE_API_KEY = require('./../../../config.js').GOOGLE_API_KEY;
-const axios = require('axios');
-const base64Img = require('base64-img');
+var i2b = require("imageurl-base64");
+const AWS = require('aws-sdk');
+AWS.config.update({region: 'us-west-2'});
+const rekognition = new AWS.Rekognition();
+
 
 let getLabelsFromURL = (imageURL, callback) => {
-    base64Img.requestBase64(imageURL, function(err, response64, image64) {
-      console.log(image64)
-        getLabels(image64.substring(22), function(err, response) {
-            if (err) {
-                callback(err);
-            } else {
-                let traits = response.data.responses[0].labelAnnotations.map(function(trait) {
-                    return trait.description;
-                });
-                callback(null, traits);
-            }
-        });
+    i2b(imageURL, function(err, image64){
+        if (image64) {
+            getLabels(image64.base64, function(err, response) {
+                if (err) {
+                    callback(err);
+                } else {
+                    let traits = response.Labels.map(function(trait) {
+                        return trait.Name;
+                    });
+                    callback(null, traits);
+                }
+            });
+        }
+        else {
+        }
     });      
 }
 
 let getLabels = (imageFile, callback) => {
-    axios({
-        method: 'post',
-        params: {key: GOOGLE_API_KEY},
-        url: 'https://vision.googleapis.com/v1/images:annotate',
-        data: {
-                
-            "requests":[
-                {
-                    "image":{
-                        "content":imageFile
-                    },
-                    "features":[
-                        {
-                            "type":"LABEL_DETECTION",
-                            "maxResults":5
-                        }
-                    ]
-                }
-            ]
+    let params = {
+        Image: {
+            Bytes: new Buffer(imageFile, 'base64')
+        }, 
+        MaxLabels: 123, 
+        MinConfidence: 70
+       };
+
+    rekognition.detectLabels(params, function (err, data) {
+        if (err) {
+            callback(err.stack);
+        } else {
+            callback(null, data);
         }
-    })
-    .then(function(response) {
-        callback(null, response);
-    }).catch(function(err) {
-        callback(err);
     });
 }
 

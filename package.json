@@ -22,6 +22,7 @@
     "@material-ui/icons": "^2.0.2",
     "apollo-boost": "^0.1.13",
     "async": "^2.6.1",
+    "atob": "^2.1.1",
     "aws-sdk": "^2.291.0",
     "axios": "^0.18.0",
     "base64-img": "^1.0.4",
@@ -35,6 +36,8 @@
     "express-session": "^1.15.6",
     "filereader": "^0.10.3",
     "graphql": "^0.13.2",
+    "imageurl-base64": "^1.0.0",
+    "is-blob": "^1.0.0",
     "jquery": "^3.3.1",
     "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
@@ -52,7 +55,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-spinners": "^0.3.3",
-    "request": "latest",
+    "requests": "^0.2.2",
     "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
