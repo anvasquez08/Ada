@@ -13,10 +13,6 @@ const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js');
-// const AWS = require('aws-sdk');
-// AWS.config.update({region: 'us-west-2'});
-// const rekognition = new AWS.Rekognition();
-// const scraper = require('./services/scraper') // Fix
 
 const app = express();
 app.use(fileUpload());
@@ -48,18 +44,17 @@ app.post('/index', function(req, res) {
     });
     
 });
-
-// app.post('/recommend', function(req, res) {
-//     let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
-//     recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
-//         if (err) {
-//             res.send(err)
-//         } else {
-//             res.send(recommendations);
-//         }
-//     });
-    
-// });
+/* Will use graph ql route. */
+app.post('/recommend', function(req, res) {
+    let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
+    recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(recommendations);
+        }
+    });  
+});
 
 app.post('/upload', (req,res) => {
     
@@ -74,7 +69,7 @@ app.post('/upload', (req,res) => {
         }
     })
     
-   })
+})
 
 app.post('/update', function(req, res) {
     console.log('HIT ENDPOINT')
