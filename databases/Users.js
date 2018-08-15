@@ -17,16 +17,22 @@ let userSchema = mongoose.Schema({
   },
   username: String,
   password: String,
-  email: String
+  email: String,
+  history: {type: [String], default: []},
+  favorites: {type: [String], default: []},
+  age: {type: Number, default: 0},
+  gender: {type: String, default: 'F'}
 });
 
 let User = mongoose.model('User', userSchema);
 
-let saveUser = (username, password, email) => {
+let saveUser = (username, password, email, age, gender) => {
   let newUser = new User({
     username: username,
     password: password,
-    email: email
+    email: email,
+    age: age,
+    gender: gender
   });
 
   newUser.save((err) => {
@@ -35,8 +41,37 @@ let saveUser = (username, password, email) => {
   });
 }
 
+let addHistoryToUser = (username, history) => {
+  User.findOneAndUpdate({username: username}, {$push: {history: history}}, (err) => {
+    if (err) {
+      console.log('ERR ADDING HISTORY TO USER', err)
+    }
+  });
+}
+
+let addFavoriteToUser = (username, favorite) => {
+  User.findOneAndUpdate({username: username}, {$push: {favorites: favorite}}, (err) => {
+    if (err) {
+      console.log('ERR ADDING FAVORITE TO USER', err)
+    }
+  });
+}
+
+let getUser = (username, callback) => {
+  User.findOne({username: username}, (err, foundUser) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, foundUser);
+    }
+  })
+}
+
 module.exports = {
   db,
-  saveUser
+  saveUser,
+  addHistoryToUser,
+  addFavoriteToUser,
+  getUser
 }
 

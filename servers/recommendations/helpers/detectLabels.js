@@ -5,6 +5,7 @@ const rekognition = new AWS.Rekognition();
 
 
 let getLabelsFromURL = (imageURL, callback) => {
+    //Create base64 string from image
     i2b(imageURL, function(err, image64){
         if (image64) {
             getLabels(image64.base64, function(err, response) {

@@ -1,6 +1,7 @@
 const path = require('path');
 const AWS = require('aws-sdk');
 const recService = require('../recommendations/service/imageTraits.js');
+const userDB = require ('../../databases/Users.js')
 
 
 AWS.config.update({region: 'us-west-2'});
@@ -8,7 +9,7 @@ AWS.config.update({region: 'us-west-2'});
 // Create S3 service object
 s3 = new AWS.S3();
 
-let uploadImage = (imageFile, callback) => {
+let uploadImage = (username, imageFile, callback) => {
 
   var uploadParams = {Bucket: 'coding-jacks-awesome-bucket', Key: '', Body: ''};
   uploadParams.Body = imageFile.data;
@@ -19,12 +20,11 @@ let uploadImage = (imageFile, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log('url sent to file upload', data.Location)
       recService.getRecommendationsForURL(data.Location, (err, recommendations) => {
-        console.log('recs sent to fileUpload');
         if (err) {
           callback (err);
         } else {
+          userDB.addHistoryToUser(username, data.Location);
           callback(null, recommendations);
         }
       })

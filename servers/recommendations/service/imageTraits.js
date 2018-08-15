@@ -1,16 +1,13 @@
 const recommendationDB = require('./../../../databases/helpers.js');
-const googleVision = require('../helpers/googleVision.js')
+const detectLabels = require('../helpers/detectLabels.js')
 
-
+//Takes URL of image and returns array of inventoryId's to callback 
 let getRecommendationsForURL = (url, callback) => {
-    console.log('url sent to get recommendations sercie'. url)
-    googleVision.getLabelsFromURL(url, (err, labels) => {
-        console.log('labels received in rec service', labels);
+    detectLabels.getLabelsFromURL(url, (err, labels) => {
         if (err) {
             callback(err);
         } else {
             getRecommendationsFromLabels(labels, (err, recommendations) => {
-                console.log('recs from labels in sevice', recommendations);
                 if (err) {
                     callback(err);
                 } else {
@@ -33,6 +30,7 @@ let getRecommendationsFromLabels = (labels, callback) => {
     })
 }
 
+//Takes an object of inventoryIds and their occurences, returns array of inventoryIds sorted by greatest occurences first
 let idsSortedByKeywordMatch = (occurenceObject) => {
     console.log(occurenceObject);
     let inventoryItems = Object.keys(occurenceObject);
@@ -42,9 +40,10 @@ let idsSortedByKeywordMatch = (occurenceObject) => {
     return inventoryItems;
 }
 
-let numKeywordsForInventory = (inventoriesWithKeywords) => {
+//Checks the recommendations DB for tags in keywords, returns object containing the inventory ID's found with their occurences
+let numKeywordsForInventory = (keywords) => {
     let inventoryKeywordCount = {};
-    inventoriesWithKeywords.forEach(keyword => {
+    keywords.forEach(keyword => {
         keyword.inventoryIds.forEach((inventoryId) => {
             if (inventoryKeywordCount[inventoryId]) {
                 inventoryKeywordCount[inventoryId]++;
