@@ -27,9 +27,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/auth/current_user')
-      .then((result) => 
-      this.setState({user: result.data, isLoggedIn: true}));
+    // axios.get('/auth/current_user')
+    //   .then((result) => 
+    //   this.setState({user: result.data, isLoggedIn: true}));
   }
 
 

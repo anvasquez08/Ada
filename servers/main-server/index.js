@@ -3,6 +3,8 @@ const session = require('express-session');
 const graph = require("express-graphql");
 const morgan = require("morgan");
 
+const fs = require('fs');
+const axios = require("axios")
 const passport = require('passport')
 const db = require('../../databases/Inventory')
 const authRouter = require('../routes/authRoutes')
@@ -13,7 +15,9 @@ const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const fileUpload = require('express-fileupload');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB } = require('../../databases/index.js')
+const multer = require('multer');
 
+let upload = multer({dest: 'uploads/'});
 
 const app = express();
 app.use(fileUpload());
@@ -78,5 +82,12 @@ app.post('/upload', (req,res) => {
 app.post('/update', function(req, res) {
     recWorker.updateIndexDB();
 });
+
+app.post('/send', (req,res) => {
+    axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
+    .then(({data})=>{
+      res.send(data)
+    })
+})
 
 app.listen(8080, () => console.log("Listening on port 8080"));

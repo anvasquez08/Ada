@@ -1,10 +1,25 @@
 import React from 'react' 
 import Dropzone from 'react-dropzone'
+import axios from 'axios'
 import Button from '@material-ui/core/Button';
 export default class Landing extends React.Component{
   constructor(props){
     super(props)
     this.state = {}
+  }
+
+  handleImageUpload(e){
+    e.preventDefault()
+    console.log('uploading')
+    let input = document.getElementById('file')
+    let data = new FormData()
+    data.append('image', input.files[0])
+    data.append('name', 'image')
+    axios.post("/send",data)
+    .then(({data})=>{
+      console.log(data)
+    })
+    .catch(err=>console.log(err))
   }
 
   render(){
@@ -14,20 +29,11 @@ export default class Landing extends React.Component{
         <img style={{background: 'url(https://s3-eu-west-1.amazonaws.com/deepart-io/featured/deepart/bg-4.jpg) no-repeat center/cover', height: '50vh', width: '100vw'}}></img>
         <div style={{color: 'white', position: 'absolute', top: '70%', left: '40%', textAlign: 'center'}}>
           <h3>Find any clothing in seconds</h3>
-          <Button style={{color: 'white', justifyContent: 'center'}}>Try it now!</Button>
+          <form id="uploadbanner" encType="multipart/form-data" onSubmit={(e)=>this.handleImageUpload(e)}>
+          <input id="file" name="image" type="file" />
+          <input type="submit" value="submit" id="submit"/>
+       </form>
         </div>
-        {/* <div className='header'style={{width: "100vw", height: "66vh", background: "#FAC6CC", display: "flex", flexDirection: "column", alignItems: "center", justifyContent:"space-around"}}>
-          <div style={{width: "100vw", height: "50px",textAlign: "center"}}>Header</div>
-          <div style={{flexGrow:2, display:'flex'}}>
-            <div style={{alignSelf: "center", fontSize: "200%", color: "white", fontWeight: "bold"}}>BRAND</div>
-          </div>
-          <div style={{flexGrow:1}}>
-            <Dropzone style={{width: '40vw', height: '200px', borderWidth: '2px', borderColor: 'rgb(102, 102, 102)', borderStyle: 'dashed', borderRadius: '5px', textAlign: 'center'}}>Drop files here</Dropzone>
-          </div>
-        </div>
-        <div className='container'>
-          
-        </div> */}
       </div>
     )
   }
