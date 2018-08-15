@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon servers/main-server/index.js"
+    "server-dev": "nodemon servers/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,10 @@
   "homepage": "https://github.com/Allende-HR/Allende-HR#readme",
   "dependencies": {
     "@material-ui/core": "^1.5.0",
+<<<<<<< HEAD
     "@material-ui/icons": "^2.0.2",
+=======
+>>>>>>> 2995f39f57e143d11288a3e0ad371d33347a4f59
     "apollo-boost": "^0.1.13",
     "async": "^2.6.1",
     "aws-sdk": "^2.291.0",
@@ -32,6 +35,7 @@
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "express-graphql": "^0.6.12",
+    "express-session": "^1.15.6",
     "filereader": "^0.10.3",
     "graphql": "^0.13.2",
     "jquery": "^3.3.1",
@@ -50,7 +54,8 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-spinners": "^0.3.3",
-    "request": "latest"
+    "request": "latest",
+    "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -61,8 +66,8 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "6.24.1",
     "babel-register": "^6.7.2",
-    "enzyme": "2.8.2",
     "css-loader": "^1.0.0",
+    "enzyme": "2.8.2",
     "exports-loader": "0.6.4",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
