@@ -36,15 +36,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      <Header/>
+      <Header user={this.state.user} handleLogin={this.handleLogin}/>
       <Landing/>
       <Modal open={this.state.showLoginModal} onClose={this.handleLogin}>
         <div style={{background: 'grey', color: 'white'}}>
           <Authentication user={this.state.user}/>
         </div>
       </Modal>
-      <NavBar user={this.state.user} handleLogin={this.handleLogin}/>
-
       <Inventory />
 
       <UploadComponent/>

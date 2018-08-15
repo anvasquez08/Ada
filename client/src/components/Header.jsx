@@ -21,9 +21,12 @@ export default class Header extends React.Component{
           <IconButton style={{color:"#3f3f3f"}} aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="title" style={{color:"#3f3f3f"}}>
-            DeepFashion
+          <Typography variant="title" style={{color:"#3f3f3f", fontSize:"150%", flexGrow: 1}}>
+            bAI
           </Typography>
+          {this.props.user ?
+            <div>Signed in: {this.props.user} || <a href="/auth/logout">Logout</a></div>:
+            <a href='#' style={{textDecoration: 'none'}}onClick={this.props.handleLogin}>Login</a>}
         </Toolbar>
       </AppBar>
     )

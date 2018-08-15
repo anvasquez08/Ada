@@ -21,15 +21,6 @@ module.exports = {
         }
       },
       {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        test:/\.css$/,
-        include: SRC_DIR,
-        loader: ['style-loader','css-loader']
-      },
-=======
->>>>>>> dev
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
       },
@@ -37,10 +28,6 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
         loader: 'file?name=fonts/[name].[ext]'
       }
-<<<<<<< HEAD
-=======
->>>>>>> 2995f39f57e143d11288a3e0ad371d33347a4f59
->>>>>>> dev
     ]
   }
 };

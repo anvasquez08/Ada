@@ -19,14 +19,7 @@
   "homepage": "https://github.com/Allende-HR/Allende-HR#readme",
   "dependencies": {
     "@material-ui/core": "^1.5.0",
-<<<<<<< HEAD
     "@material-ui/icons": "^2.0.2",
-=======
-<<<<<<< HEAD
-    "@material-ui/icons": "^2.0.2",
-=======
->>>>>>> 2995f39f57e143d11288a3e0ad371d33347a4f59
->>>>>>> dev
     "apollo-boost": "^0.1.13",
     "async": "^2.6.1",
     "aws-sdk": "^2.291.0",

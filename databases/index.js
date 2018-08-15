@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-// const inventoryDB = mongoose.createConnection(
-//   "mongodb://fashionapp:hackreactor1@ds119081.mlab.com:19081/inventory", { poolSize: 20 }
-// );
 const async = require('async');
 const { DBInventoryURI, DBImageURI } = require("../config.js");
 

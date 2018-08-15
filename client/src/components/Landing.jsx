@@ -17,6 +17,7 @@ export default class Landing extends React.Component{
     data.append('name', 'image')
     axios.post("/send",data)
     .then(({data})=>{
+      //do something with the data-scores
       console.log(data)
     })
     .catch(err=>console.log(err))
@@ -30,8 +31,10 @@ export default class Landing extends React.Component{
         <div style={{color: 'white', position: 'absolute', top: '70%', left: '40%', textAlign: 'center'}}>
           <h3>Find any clothing in seconds</h3>
           <form id="uploadbanner" encType="multipart/form-data" onSubmit={(e)=>this.handleImageUpload(e)}>
-          <input id="file" name="image" type="file" />
-          <input type="submit" value="submit" id="submit"/>
+          <div style={{display:'flex', flexWrap:'nowrap'}}>
+          <input id="file" name="image" type="file"/>
+          <input type="submit" value="submit" id="submit" style={{background: '#0095ff'}}/>
+          </div>
        </form>
         </div>
       </div>

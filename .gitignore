@@ -1,15 +1,6 @@
 
 package-lock.json
 node_modules
-<<<<<<< HEAD
 client/dist/bundle.js
 config.js
-=======
-<<<<<<< HEAD
-bundle.js
-config.js
-=======
-client/dist/bundle.js
-config.js
->>>>>>> 2995f39f57e143d11288a3e0ad371d33347a4f59
->>>>>>> dev
+
