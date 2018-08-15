@@ -16,7 +16,7 @@ export default class Header extends React.Component{
 
   render(){
     return(
-      <AppBar style={{backgroundColor:'#f8f8f8', borderRadius:0, marginBottom:"0px", borderWidth:"0px", fontSize:"125%", boxShadow: "0 1px 1px #D3D3D3"}}>
+      <AppBar position='sticky' style={{backgroundColor:'#f8f8f8', borderRadius:0, marginBottom:"0px", borderWidth:"0px", fontSize:"125%", boxShadow: "0 1px 1px #D3D3D3"}}>
         <Toolbar>
           <IconButton style={{color:"#3f3f3f"}} aria-label="Menu">
             <MenuIcon />

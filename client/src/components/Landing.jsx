@@ -2,6 +2,7 @@ import React from 'react'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import Button from '@material-ui/core/Button';
+import '../assets/banner.jpg'
 export default class Landing extends React.Component{
   constructor(props){
     super(props)
@@ -26,8 +27,8 @@ export default class Landing extends React.Component{
   render(){
     return(
       <div style={{position: 'relative'}}>
-        <img style={{background: 'rgba(0, 0, 0, 0.45)' , height: '50vh', width: '100vw', position: 'absolute'}}></img>
-        <img style={{background: 'url(https://s3-eu-west-1.amazonaws.com/deepart-io/featured/deepart/bg-4.jpg) no-repeat center/cover', height: '50vh', width: '100vw'}}></img>
+        <img style={{background: 'rgba(0, 0, 0, 0.4)' , height: '50vh', width: '100vw', position: 'absolute'}}></img>
+        <img style={{background: 'url(../assets/banner.jpg) no-repeat', backgroundPosition:'center top', backgroundSize: 'cover', height: '50vh', width: '100vw', marginTop: '200'}}></img>
         <div style={{color: 'white', position: 'absolute', top: '70%', left: '40%', textAlign: 'center'}}>
           <h3>Find any clothing in seconds</h3>
           <form id="uploadbanner" encType="multipart/form-data" onSubmit={(e)=>this.handleImageUpload(e)}>
