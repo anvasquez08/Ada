@@ -5,6 +5,7 @@ const passport = require('passport')
 const cors = require('cors')
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
+const axios = require('axios')
 
 const authRouter = require('./routes/authRoutes')
 const gqlSchema = require('./../databases/gqlSchema.js');
@@ -83,5 +84,12 @@ app.post('/update', function(req, res) {
         }
     });
 });
+
+app.post('/send', (req,res) => {
+    axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
+    .then(({data})=>{
+      res.send(data)
+    })
+})
 
 app.listen(8080, () => console.log("Listening on port 8080"));
