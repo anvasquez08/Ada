@@ -4,9 +4,13 @@ import axios from 'axios';
 import NavBar from './NavBar.jsx';
 import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
+import Header from '../components/Header.jsx'
+import Landing from '../components/Landing.jsx'
+import '../styles/css/main.css'
 import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
 import Instagram from '../components/Instagram.jsx';
+
 
 
 class App extends React.Component {
@@ -44,13 +48,20 @@ class App extends React.Component {
     return (
       <div>
 
+      <NavBar />
+      <div style={{margin: "30px"}}>
+        {/* <div><Inventory/></div> */}
+        <div><UploadComponent/></div>
+      </div>
+      <NavBar />
+
+      <Header user={this.state.user} handleLogin={this.handleLogin}/>
+      <Landing/>
       <Modal open={this.state.showLoginModal} onClose={this.handleLogin}>
         <div style={{background: 'grey', color: 'white'}}>
           <Authentication user={this.state.user}/>
         </div>
       </Modal>
-
-      <NavBar user={this.state.user} handleLogin={this.handleLogin}/>
 
       <Instagram photos={this.state.instagramResults}/>
 
@@ -64,3 +75,4 @@ class App extends React.Component {
 }
 
 export default App
+
