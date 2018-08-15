@@ -11,6 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
 
 
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -36,6 +37,14 @@ class App extends React.Component {
   render() {
     return (
       <div>
+
+      <NavBar />
+      <div style={{margin: "30px"}}>
+        {/* <div><Inventory/></div> */}
+        <div><UploadComponent/></div>
+      </div>
+      <NavBar />
+
       <Header user={this.state.user} handleLogin={this.handleLogin}/>
       <Landing/>
       <Modal open={this.state.showLoginModal} onClose={this.handleLogin}>
@@ -53,3 +62,4 @@ class App extends React.Component {
 }
 
 export default App
+

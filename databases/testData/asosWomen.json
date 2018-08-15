@@ -6,8 +6,7 @@
       "url": "suncoo/suncoo-cut-out-detail-shirt/prd/10597700?clr=blanccasse",
       "imageUrl": "https://images.asos-media.com/products/suncoo-cut-out-detail-shirt/10597700-1-blanccasse?$XL$",
       "price":  123.04, 
-      "timestamp": 1000000, 
-      "isSelected": false
+      "timestamp": 1000000
     },
     {
       "id": 9764377,
@@ -16,8 +15,7 @@
       "url": "deby-debo/deby-debo-cena-smock-shirt/prd/9764377?clr=white",
       "imageUrl": "https://images.asos-media.com/products/deby-debo-cena-smock-shirt/9764377-1-white",
       "price": 38.71,
-      "timestamp": 1000000,
-      "isSelected": false
+      "timestamp": 1000000
     },
     {
       "id": 9942905,
@@ -26,8 +24,7 @@
       "url": "glamorous/glamorous-shirt-with-bow-details/prd/9942905?clr=white",
       "imageUrl": "https://images.asos-media.com/products/glamorous-shirt-with-bow-details/9942905-1-white",
       "price": 33.18,
-      "timestamp": 1000000,
-      "isSelected": false
+      "timestamp": 1000000
     }
   ]
 
