@@ -1,4 +1,4 @@
-const GOOGLE_API_KEY = require('../../../../config.js').GOOGLE_API_KEY;
+const GOOGLE_API_KEY = require('./../../../config.js').GOOGLE_API_KEY;
 const axios = require('axios');
 const base64Img = require('base64-img');
 
