@@ -12,6 +12,9 @@ const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js');
+// const AWS = require('aws-sdk');
+// AWS.config.update({region: 'us-west-2'});
+// const rekognition = new AWS.Rekognition();
 // const scraper = require('./services/scraper') // Fix
 
 const app = express();
@@ -45,33 +48,40 @@ app.post('/index', function(req, res) {
     
 });
 
-app.post('/recommend', function(req, res) {
-    let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
-    recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send(recommendations);
-        }
-    });
+// app.post('/recommend', function(req, res) {
+//     let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
+//     recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
+//         if (err) {
+//             res.send(err)
+//         } else {
+//             res.send(recommendations);
+//         }
+//     });
     
-});
+// });
 
 app.post('/upload', (req,res) => {
+    
     let imageFile = req.files.file;
-    imageUpload.uploadImage(imageFile, (err, fileURL) => {
+    
+    imageUpload.uploadImage(imageFile, (err, recommendations) => {
+        console.log('recs sent as response', recommendations)
         if (err) {
-            console.log(err);
             res.status(400).send(err);
         } else {
-            console.log(fileURL)
+            res.status(200).send(recommendations);
         }
     })
     
-  })
+   })
 
 app.post('/update', function(req, res) {
-    recWorker.updateIndexDB();
+    console.log('HIT ENDPOINT')
+    recWorker.updateIndexDB((err) => {
+        if (err) {
+            console.log(err);
+        }
+    });
 });
 
 app.listen(8080, () => console.log("Listening on port 8080"));
