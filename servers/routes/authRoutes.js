@@ -12,6 +12,9 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
+// passport.deserializeUser((id,done)=>{
+//   user.deserialize(id,done);
+// })
 
 passport.use(new InstagramStrategy({
   clientID: INSTAGRAM_CLIENT_ID,
@@ -24,24 +27,20 @@ passport.use(new InstagramStrategy({
 
 authRouter.get('/instagram',
   passport.authenticate('instagram'));
-  // , {
-  //   scope: ['profile', 'email'],
-  //   prompt: 'select_account'}),
-  //   (req, res) => res.send(""))
 
 authRouter.get('/instagram/callback',
   passport.authenticate('instagram', {failureRedirect: '/'}),
-  (req, res) => {
-    console.log("Redirecting");
-    console.log(res.req.user.username);
-    // res.send("Test");
-    res.redirect(clientUrl);
-  }
+  (req, res) => {res.redirect('/')}
 )
 
-authRouter.get('/logout'), (req, res) => {
+authRouter.get('/logout', (req, res) => {
   req.logout();
-  res.redirect(clientUrl);
-}
+  req.session.destroy();
+  res.redirect('/');
+});
+
+authRouter.get('/current_user', (req, res) => {
+  res.send(req.user.username);
+});
 
 module.exports = authRouter;
