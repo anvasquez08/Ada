@@ -11,7 +11,7 @@ const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
-const recommendationService = require('./recommendations/service/imageTraits.js');
+
 // const scraper = require('./services/scraper') // Fix
 
 const app = express();
@@ -44,7 +44,7 @@ app.post('/index', function(req, res) {
     });
     
 });
-
+/* Will use graph ql route. */
 app.post('/recommend', function(req, res) {
     let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
     recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
@@ -68,7 +68,7 @@ app.post('/upload', (req,res) => {
         }
     })
     
-  })
+})
 
 app.post('/update', function(req, res) {
     recWorker.updateIndexDB();

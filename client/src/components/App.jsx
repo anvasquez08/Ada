@@ -6,6 +6,7 @@ import Inventory from '../components/Inventory.jsx';
 import UploadComponent from './UploadComponent.jsx';
 
 
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -18,16 +19,18 @@ class App extends React.Component {
     return (
       <div>
       <NavBar />
-      {
-      //   this.state.showLoginModal ?
-      // <Authentication /> : null
-      }
-
-      <Inventory />
-      <UploadComponent/>
+        <div style={{margin: "30px"}}>
+          {/* <div><Inventory/></div> */}
+          <div><UploadComponent/></div>
+        </div>
       </div>
       )
   }
 }
 
 export default App
+
+// {
+//   //   this.state.showLoginModal ?
+//   // <Authentication /> : null
+//   }
