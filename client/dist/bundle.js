@@ -104,7 +104,7 @@ eval("throw new Error(\"Module build failed (from ./node_modules/babel-loader/li
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/anavasquez/Desktop/hack-reactor/thesis/client/src/index.jsx */"./client/src/index.jsx");
+module.exports = __webpack_require__(/*! /Users/jonathanizak/Desktop/Hack_Reactor/Allende-HR/client/src/index.jsx */"./client/src/index.jsx");
 
 
 /***/ })
