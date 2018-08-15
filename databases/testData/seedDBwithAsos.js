@@ -1,12 +1,12 @@
 const inventory = require('../testData/asos.json');
-const {saveItem} = require('../helpers')
+const saveItem = require('../helpers.js').saveItem;
 
-inventory["products"].forEach((item) => {
+inventory.forEach((item) => {
   saveItem(
     item["id"],
     item["name"],
     item["brandName"],
-    `${item["baseImageUrl"]}`+`?$S$`,
-    //`http://www.asos.com/${item["url"]}`,
+    `http://www.asos.com/${item["url"]}`,
+    `${item["baseImageUrl"]}`+`?$XXL$`,
     item["price"]["current"]["value"])
 })
