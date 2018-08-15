@@ -7,11 +7,15 @@ import App from "./components/App.jsx";
 // import { ApolloClient } from "apollo-client";
 ||||||| merged common ancestors
 import { ApolloProvider } from "react-apollo";
+<<<<<<< HEAD
+import { ApolloClient } from "apollo-client";
+=======
 import { _polloClient } from "apollo-client";
 =======
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 >>>>>>> a26d7a9923f0f11effcd0c33b769997fd6ff4512
+>>>>>>> master
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 

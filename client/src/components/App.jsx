@@ -9,6 +9,7 @@ import Landing from '../components/Landing.jsx'
 import '../styles/css/main.css'
 import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
+import Instagram from '../components/Instagram.jsx';
 
 
 
@@ -18,7 +19,8 @@ class App extends React.Component {
     this.state = {
       showLoginModal: false,
       isLoggedIn: false,
-      user: ''
+      user: '',
+      instagramResults: []
     }
     this.handleLogin = this.handleLogin.bind(this);
   }
@@ -26,11 +28,19 @@ class App extends React.Component {
   handleLogin() {
     this.setState({showLoginModal: !this.state.showLoginModal});
   }
+  
 
   componentDidMount() {
     axios.get('/auth/current_user')
       .then((result) => 
-      this.setState({user: result.data, isLoggedIn: true}));
+      this.setState({user: result.data, isLoggedIn: true}))
+      .then(() => {
+        axios.get('/auth/media')
+        .then((result) => {
+          console.log('Getting back to client: ', result)
+          this.setState({instagramResults: result.data.data})
+        })
+      })
   }
 
 
@@ -52,6 +62,9 @@ class App extends React.Component {
           <Authentication user={this.state.user}/>
         </div>
       </Modal>
+
+      <Instagram photos={this.state.instagramResults}/>
+
       <Inventory />
 
       <UploadComponent/>
