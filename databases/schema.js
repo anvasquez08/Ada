@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const { inventoryDB } = require("./index.js");
+const { inventoryDB, imageDB} = require("./index.js");
 
+/* Inventory Schema */
 const itemSchema = mongoose.Schema({
   id: { type: Number, unique: true },
   name: String,
@@ -13,4 +14,20 @@ const itemSchema = mongoose.Schema({
 
 const Item = inventoryDB.model("Item", itemSchema);
 
-module.exports = { Item };
+/* Keywords Schema */
+var itemKeywords = mongoose.Schema({
+  keyword: String,
+  inventoryIds: [Number]
+});
+
+var ItemKeywords = imageDB.model('ItemKeywords', itemKeywords);
+
+/* Timestamps Schema */
+var mostRecentTimestamp = mongoose.Schema({
+  timestamp: Date
+});
+
+var Timestamp = imageDB.model('Timestamp', mostRecentTimestamp);
+
+
+module.exports = { Item, ItemKeywords, Timestamp };

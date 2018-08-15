@@ -4,6 +4,7 @@ const base64Img = require('base64-img');
 
 let getLabelsFromURL = (imageURL, callback) => {
     base64Img.requestBase64(imageURL, function(err, response64, image64) {
+      console.log(image64)
         getLabels(image64.substring(22), function(err, response) {
             if (err) {
                 callback(err);
