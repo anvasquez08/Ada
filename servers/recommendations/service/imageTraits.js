@@ -1,5 +1,6 @@
 const recommendationDB = require('./../../../databases/helpers.js');
 const googleVision = require('../helpers/googleVision.js')
+const DBHelpers = require('../../../databases/helpers');
 
 
 let getRecommendationsForURL = (url, callback) => {
@@ -14,9 +15,25 @@ let getRecommendationsForURL = (url, callback) => {
                 if (err) {
                     callback(err);
                 } else {
-                    callback(null, recommendations)
+                    inventoryFromRecommendations(recommendations, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
                 }
             })
+        }
+    })
+}
+
+let inventoryFromRecommendations = (recommendations, callback) => {
+    DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, inventories);
         }
     })
 }
