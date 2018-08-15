@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-const express = require("express");
-const session = require('express-session');
-const graph = require("express-graphql");
-const morgan = require("morgan");
-=======
 // const express = require("express");
 // const graph = require("express-graphql");
 // const morgan = require("morgan");
@@ -11,7 +5,6 @@ const morgan = require("morgan");
 // const cors = require('cors')
 // const bodyParser = require("body-parser");
 // const fileUpload = require('express-fileupload');
->>>>>>> master
 
 // const scraper = require('./services/scraper')
 // const authRouter = require('../routes/authRoutes')
@@ -30,24 +23,9 @@ const morgan = require("morgan");
 // app.use(passport.session());
 // app.use('/auth', authRouter)
 
-<<<<<<< HEAD
-const app = express();
-app.use(fileUpload());
-app.use(cors())
-app.use(morgan('dev'))
-app.use(bodyParser.json())
-app.use(express.static(__dirname + '/../../client/dist'))
-app.use(session({secret: 'jack', cookie: {maxAge: 1000*20*60}}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Routers
-app.use('/auth', authRouter);
-=======
 // /*============== Graph QL ============== */
 // const gqlSchema = require('../../databases/gqlSchema.js');
 // app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
->>>>>>> master
 
 // /*====================================== */
 
