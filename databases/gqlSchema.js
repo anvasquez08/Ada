@@ -26,7 +26,7 @@ const RootQuery = new GraphQLObjectType({
             return inventory
           }
         }
-     }
+      }
 })
 
 // add mutations
