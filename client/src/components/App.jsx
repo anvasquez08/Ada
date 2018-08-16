@@ -37,7 +37,6 @@ class App extends React.Component {
       .then(() => {
         axios.get('/auth/media')
         .then((result) => {
-          console.log('Getting back to client: ', result)
           this.setState({instagramResults: result.data.data})
         })
       })
@@ -48,12 +47,11 @@ class App extends React.Component {
     return (
       <div>
 
-      <NavBar />
+      <NavBar user={this.state.user}/>
       <div style={{margin: "30px"}}>
         {/* <div><Inventory/></div> */}
         <div><UploadComponent/></div>
       </div>
-      <NavBar />
 
       {/* <Header user={this.state.user} handleLogin={this.handleLogin}/>
       <Landing/>
@@ -68,7 +66,7 @@ class App extends React.Component {
       <Inventory />
 
       <UploadComponent/> */}
-
+      <Instagram photos={this.state.instagramResults}/>
       </div>
       )
   }

@@ -17,7 +17,13 @@ class InstagramEntry extends React.Component {
 
   render() {
     return (
-      <img onClick={() => {this.toggleStyle(); this.props.select(this.props.photo.images.low_resolution.url)}} style={this.state.toggleStyle ? {backgroundSize: 'cover', opacity: 0.5, filter: 'grayscale(100%)'} : null} src={this.props.photo.images.low_resolution.url} height="193" width="auto"></img>
+      <div style={{height:'150px', width: '150px', overflow: 'hidden'}}>
+      <img onClick={() => {this.toggleStyle(); this.props.select(this.props.photo.images.low_resolution.url)}}
+        style={this.state.toggleStyle
+          ? {objectFit: 'cover', opacity: 0.5, filter: 'grayscale(100%)', backgroundPosition: 'center top', width: '100%'}
+          : {objectFit: 'cover', backgroundPosition: 'center top', width: '100%'}}
+        src={this.props.photo.images.low_resolution.url}></img>
+      </div>
     )
   }
 }
