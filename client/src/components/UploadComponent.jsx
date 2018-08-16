@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Grid, Image, Menu, Form, Checkbox, Card, Icon, Button, Input } from "semantic-ui-react";
+import { Grid, Input } from "semantic-ui-react";
 
 class UploadComponent extends Component {
 
@@ -15,16 +15,13 @@ class UploadComponent extends Component {
         // '/files' is your node.js route that triggers our middleware
         axios.post('/upload', data).then((response) => {
         console.log('Recommendations', response); // do something with the response
-        });
+        this.props.handleStateChange('inventory', response.data)
+      });
     }
     
     render() {
         return(
           <div>
-              {/* PICTURE BANNER */}
-              <div style={{overflow: "hidden", maxHeight:"300px"}}>
-                <Image src='https://i.imgur.com/nw6xJ3h.jpg' fluid/>
-              </div>          
               <Grid style={{margin: "10px"}}>
                   <Grid.Row centered columns={2}>
                     <Grid.Column>
