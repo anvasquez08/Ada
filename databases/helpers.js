@@ -15,6 +15,16 @@ exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
     .catch(err => console.log("Error in database save function", err));
 };
 
+exports.inventoryItemsWithIds = (inventoryIds, callback) => {
+  Item.find({id: {$in: inventoryIds}}, (err, inventoryItems) => {
+    if (err) {
+      callabck(err);
+    } else {
+      callback(null, inventoryItems);
+    }
+  })
+}
+
 exports.indexItem = (id, itemLabels) => {
 
   async.each(itemLabels, (label) => {
