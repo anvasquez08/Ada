@@ -31,15 +31,15 @@ class App extends React.Component {
   
 
   componentDidMount() {
-    axios.get('/auth/current_user')
-      .then((result) => 
-      this.setState({user: result.data, isLoggedIn: true}))
-      .then(() => {
-        axios.get('/auth/media')
-        .then((result) => {
-          this.setState({instagramResults: result.data.data})
-        })
-      })
+    // axios.get('/auth/current_user')
+    //   .then((result) => 
+    //   this.setState({user: result.data, isLoggedIn: true}))
+    //   .then(() => {
+    //     axios.get('/auth/media')
+    //     .then((result) => {
+    //       this.setState({instagramResults: result.data.data})
+    //     })
+    //   })
   }
 
 

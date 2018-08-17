@@ -4,13 +4,8 @@ const async = require('async');
 exports.saveItem = ({name, brandName, url, imageUrl, price, labels}, callback) => {
   new Item({name, brandName, url, imageUrl, price, labels})
     .save()
-<<<<<<< HEAD
     .then(response => callback(null,"Successfully saved data"))
     .catch(err => callback(err));
-=======
-    .then(response => console.log("Successfully saved data"))
-    .catch(err => console.log("Error in database save function", err));
->>>>>>> dev
 };
 
 exports.inventoryItemsWithIds = (inventoryIds, callback) => {

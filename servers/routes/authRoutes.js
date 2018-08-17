@@ -35,10 +35,10 @@ authRouter.get('/instagram/callback',
     res.redirect('/')}
 );
 
-authRouter.get('/current_user', (req, res) => {
-  req.session.accessToken = req.user.accessToken;
-  res.send(req.user.profile.username);
-});
+// authRouter.get('/current_user', (req, res) => {
+//   req.session.accessToken = req.user.accessToken;
+//   res.send(req.user.profile.username);
+// });
 
 authRouter.get('/media', (req, res) => {
   axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.session.accessToken}`)
@@ -56,12 +56,9 @@ authRouter.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-<<<<<<< HEAD
-authRouter.get('/current_user', (req, res) => {
-  if(!req.user) return res.send()
-  res.send(req.user.username);
-});
-=======
->>>>>>> dev
+// authRouter.get('/current_user', (req, res) => {
+//   if(!req.user) return res.send()
+//   res.send(req.user.username);
+// });
 
 module.exports = authRouter;

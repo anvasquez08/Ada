@@ -1,7 +1,7 @@
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({ show: true })
 var cheerio = require('cheerio');
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-core')
 var model = require('../../databases/helpers')
 
 let memo = {

@@ -14,10 +14,7 @@ const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js');
-<<<<<<< HEAD
-const scraper = require('./services/scraper') // Fix
-=======
->>>>>>> dev
+const scraper = require('./services/scraper')
 
 const app = express();
 app.use(fileUpload());
