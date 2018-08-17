@@ -53,19 +53,6 @@ class App extends React.Component {
         <div><UploadComponent/></div>
       </div>
 
-      {/* <Header user={this.state.user} handleLogin={this.handleLogin}/>
-      <Landing/>
-      <Modal open={this.state.showLoginModal} onClose={this.handleLogin}>
-        <div style={{background: 'grey', color: 'white'}}>
-          <Authentication user={this.state.user}/>
-        </div>
-      </Modal>
-
-      <Instagram photos={this.state.instagramResults}/>
-
-      <Inventory />
-
-      <UploadComponent/> */}
       <Instagram photos={this.state.instagramResults}/>
       </div>
       )
