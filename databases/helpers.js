@@ -16,7 +16,7 @@ exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
 };
 
 exports.inventoryItemsWithIds = (inventoryIds, callback) => {
-  Item.find({id: {$in: inventoryIds}}, (err, inventoryItems) => {
+  Item.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
     if (err) {
       callabck(err);
     } else {
@@ -61,7 +61,6 @@ exports.getKetwordEntries = (itemKeywords, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log('RESULTS', results);
       callback(null, results);
     }
   })
@@ -93,7 +92,6 @@ exports.updateRecentTimestamp = (timestamp) => {
 }
 
 exports.getRecentTimestamp = (callback) => {
-  console.log('hit timestamp');
   Timestamp.findOne({}, (err, latestTimestamp) => {
     if (err) {
       console.log('error getting recent timestamp', err);
