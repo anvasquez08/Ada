@@ -13,7 +13,7 @@ const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js');
-// const scraper = require('./services/scraper') // Fix
+const scraper = require('./services/scraper') // Fix
 
 const app = express();
 app.use(fileUpload());
@@ -30,7 +30,7 @@ app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: tru
 
 /*====================================== */
 
-// app.get('/scrape', scraper.googleScrape)
+app.get('/scrape', scraper.scrape.bind(this,'zara'))
 // app.get('/tags', scraper.getByTags)
 
 app.post('/index', function(req, res) {

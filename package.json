@@ -43,6 +43,7 @@
     "passport": "^0.4.0",
     "passport-instagram": "^1.0.0",
     "popper.js": "^1.12.9",
+    "puppeteer": "^1.7.0",
     "react": "^16.0.0",
     "react-apollo": "^2.1.11",
     "react-bootstrap": "^0.32.1",

@@ -40,6 +40,7 @@ authRouter.get('/logout', (req, res) => {
 });
 
 authRouter.get('/current_user', (req, res) => {
+  if(!req.user) return res.send()
   res.send(req.user.username);
 });
 

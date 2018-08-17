@@ -3,10 +3,11 @@ const { inventoryDB } = require("./index.js");
 
 /* Inventory Schema */
 const itemSchema = mongoose.Schema({
-  id: { type: Number, unique: true },
+  // id: { type: Number, unique: false},
   name: String,
+  labels: [String],
   brandName: String,
-  url: { type: String, unique: true },
+  url: { type: String, unique: true, sparse: true },
   imageUrl: String,
   price: Number,
   timestamp: { type: Date, default: Date.now }

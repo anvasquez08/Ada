@@ -1,17 +1,10 @@
 const { Item, ItemKeywords, Timestamp } = require("./schema.js");
 
-exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
-  new Item({
-    id: id,
-    name: name,
-    brandName: brandName,
-    url: url,
-    imageUrl: imageUrl,
-    price: price
-  })
+exports.saveItem = ({name, brandName, url, imageUrl, price, labels}, callback) => {
+  new Item({name, brandName, url, imageUrl, price, labels})
     .save()
-    .then(response => console.log("Successfully saved data"))
-    .catch(err => console.log("Error in database save function"));
+    .then(response => callback(null,"Successfully saved data"))
+    .catch(err => callback(err));
 };
 
 exports.indexItem = (id, itemLabels) => {
