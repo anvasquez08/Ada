@@ -9,6 +9,7 @@ import '../styles/css/main.css'
 import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
 
+import Instagram from '../components/Instagram.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,35 +17,51 @@ class App extends React.Component {
     this.state = {
       showLoginModal: false,
       isLoggedIn: false,
-      user: ''
+      user: '',
+      inventory: [], 
+      brands: [],
+      instagramResults: []
     }
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/auth/current_user')
+      .then((result) => 
+      this.setState({user: result.data, isLoggedIn: true}))
+      .then(() => {
+        axios.get('/auth/media')
+        .then((result) => {
+          console.log('Getting back to client: ', result)
+          this.setState({instagramResults: result.data.data})
+        })
+      })
   }
 
   handleLogin() {
     this.setState({showLoginModal: !this.state.showLoginModal});
   }
 
-  componentDidMount() {
-    axios.get('/auth/current_user')
-      .then((result) => 
-      this.setState({user: result.data, isLoggedIn: true}));
+  handleStateChange(key, val) {
+    let brands = val.map(({brandName}) => brandName)
+    this.setState({[key]: val, brands: [...new Set(brands)]})
   }
 
 
   render() {
     return (
       <div>
-      <NavBar isLoggedIn={this.state.isLoggedIn}/>
+      <NavBar user={this.state.user}/>
         <div style={{margin: "30px"}}>
           <div>
               <Inventory 
               handleStateChange={this.handleStateChange} 
-              inventory={this.state.inventory} brands={this.props.brands}
+              inventory={this.state.inventory}
               brands={this.state.brands}/>
             </div>
-        </div>      
-
+      <Instagram photos={this.state.instagramResults}/>
+        </div>
       </div>
       )
   }

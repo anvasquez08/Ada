@@ -1,5 +1,6 @@
 const recommendationDB = require('./../../../databases/helpers.js');
 const googleVision = require('../helpers/googleVision.js')
+const DBHelpers = require('../../../databases/helpers');
 
 
 let getRecommendationsForURL = (url, callback) => {
