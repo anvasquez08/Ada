@@ -1,80 +1,129 @@
-import React from 'react';
-import InventoryResults from './InventoryResults.jsx';
-import inventory from '../../../databases/testData/asosWomen.json';
-
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
-/* Add isSelected to DB */
+import React from "react";
+import UploadComponent from "./UploadComponent.jsx";
+import inventory from "../../../databases/testData/asosWomen.json";
+import {
+  Grid,
+  Image,
+  Menu,
+  Form,
+  Checkbox,
+  Card,
+  Icon,
+  Button
+} from "semantic-ui-react";
 
 class Inventory extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      inventory: inventory, 
-      totalInventory: inventory,
-      brands: []
-    }
+      prices: ["$", "$$", "$$$", "$$$$"],
+      filters: []
+    };
     this.filterBrands = this.filterBrands.bind(this);
   }
 
-  componentDidMount() {
-    let brands = inventory.map((item) => {return {[item.brandName]: false}})
-    this.setState({brands: [... new Set(brands)]})
-  }
-
   filterBrands(name) {
-    let filtered = this.state.brands.slice()
+    let filtered = this.state.brands.slice();
 
     for (let i = 0; i < filtered.length; i++) {
       if (Object.keys(filtered[i])[0] === name) {
-        let val = filtered[i][name]
-        filtered[i][name] = !val
+        let val = filtered[i][name];
+        filtered[i][name] = !val;
       }
-    }   
-    this.setState({brands: filtered})
+    }
+    this.setState({ brands: filtered });
   }
 
   render() {
     return (
-      <Grid container direction="row">
-      
-      {/*FORM FOR BRANDS */}
-        <Grid item lg={2}>
-        <FormControl component="fieldset">
-      {
-        this.state.brands.map((singlebrand, ind) => {
-          let name = Object.keys(singlebrand)[0]
-          let isChecked = Object.values(singlebrand)[0]
-          return (
-            <div key={ind}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                    name={name}
-                    checked={isChecked}
-                    onChange={ (e) => {this.filterBrands(e.target.name)}}
-                    value={name}
-                  />}
-                  label={name}
-                  />
+      <div>
+          {/* HEADER IMAGE */}
+        <div style={{ overflow: "hidden", maxHeight: "300px" }}>
+          <Image src="https://i.imgur.com/nw6xJ3h.jpg" fluid />
+        </div>
+
+        <Grid style={{ margin: "10px" }}>
+          {/* UPLOAD COMPONENT */}
+          <Grid.Row centered>
+            <UploadComponent handleStateChange={this.props.handleStateChange}/>
+          </Grid.Row>
+          
+          {/* INVENTORY FILTERS */}
+          <Grid.Column width={3}>
+            <Menu vertical>
+              <Menu.Item>
+                <Menu.Header>Price</Menu.Header>
+                <Form>
+                  { this.props.brands.length > 0 && this.state.prices.map(price => {
+                    return (
+                      <Form.Field key={price}>
+                        <Checkbox
+                          radio
+                          label={price}
+                          name={price}
+                          value={price}
+                          checked={this.state.value === "this"}
+                          onChange={this.handleChange}
+                        />
+                      </Form.Field>
+                    );
+                  })}
+                </Form>
+              </Menu.Item>
+              <Menu.Item>
+                <Menu.Header>Brands</Menu.Header>
+                <Form>
+                  {this.props.brands && this.props.brands.map((singlebrand, ind) => {
+                    let name = Object.keys(singlebrand)[0];
+                    let isChecked = Object.values(singlebrand)[0];
+                    return (
+                      <Form.Field key={ind}>
+                        <Checkbox
+                          radio
+                          label={name}
+                          name={name}
+                          value={name}
+                          checked={this.state.value === "this"}
+                          onChange={this.handleChange}
+                        />
+                      </Form.Field>
+                    );
+                  })}
+                </Form>
+              </Menu.Item>
+            </Menu>
+          </Grid.Column>
+
+          {/* INVENTORY RESULTS */}
+          <Grid.Column width={12}>
+            <div>
+              <Card.Group itemsPerRow={4}>
+                { this.props.inventory && this.props.inventory.map(item => {
+                  return (
+                    <Card key={item.id}>
+                      <Card.Content>
+                        <Image src={item.imageUrl} size="big" centered />
+                        <p style={{ fontSize: "15px", color: "#909090" }}>
+                          {item.brandName}
+                        </p>
+                        <p style={{ fontWeight: "bold" }}>{item.name}</p>
+                        <p>${item.price}</p>
+                        <p style={{ fontSize: "9px", color: "#909090" }}>
+                          From {item.brandName}
+                        </p>
+                        <Button size="mini">Buy</Button>
+                        <Button size="mini">Details</Button>
+                      </Card.Content>
+                    </Card>
+                  );
+                })}
+              </Card.Group>
             </div>
-          )
-        })
-      }
-      </FormControl>   
-        
-    </Grid>
-       {/* RESULTS */}
-        <Grid item lg={8}>
-        <InventoryResults inventory={this.state.inventory}/>
+          </Grid.Column>
         </Grid>
-    </Grid>
-  )}
+      </div>
+    );
+  }
 }
 
 export default Inventory;

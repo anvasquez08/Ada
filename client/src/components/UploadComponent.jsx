@@ -1,6 +1,6 @@
-
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Grid, Input } from "semantic-ui-react";
 
 class UploadComponent extends Component {
 
@@ -14,8 +14,9 @@ class UploadComponent extends Component {
         data.append('file', event.target.files[0]);
         // '/files' is your node.js route that triggers our middleware
         axios.post('/upload', data).then((response) => {
-        console.log(response); // do something with the response
-        });
+        console.log('Recommendations', response); // do something with the response
+        this.props.handleStateChange('inventory', response.data)
+      });
     }
     
     render() {
@@ -43,5 +44,6 @@ class UploadComponent extends Component {
         )
     }
 }
+
 
 export default UploadComponent;

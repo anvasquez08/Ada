@@ -5,7 +5,6 @@ import NavBar from './NavBar.jsx';
 import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
 import Header from '../components/Header.jsx'
-import Landing from '../components/Landing.jsx'
 import '../styles/css/main.css'
 import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
@@ -27,33 +26,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // axios.get('/auth/current_user')
-    //   .then((result) => 
-    //   this.setState({user: result.data, isLoggedIn: true}))
-    //   .then(() => {
-    //     axios.get('/auth/media')
-    //     .then((result) => {
-    //       this.setState({instagramResults: result.data.data})
-    //     })
-    //   })
-  }
-
-  handleLogin() {
-    this.setState({showLoginModal: !this.state.showLoginModal});
-  }
-
-  handleStateChange(key, val) {
-    let brands = val.map(item => {
-      return { [item.brandName]: false };
-    });
-    this.setState({[key]: val, brands: [...new Set(brands)]})
+    axios.get('/auth/current_user')
+      .then((result) => 
+      this.setState({user: result.data, isLoggedIn: true}));
   }
 
 
   render() {
     return (
       <div>
-        <NavBar isLoggedIn={this.state.isLoggedIn}/>
+      <NavBar isLoggedIn={this.state.isLoggedIn}/>
         <div style={{margin: "30px"}}>
           <div>
               <Inventory 
@@ -62,6 +44,7 @@ class App extends React.Component {
               brands={this.state.brands}/>
             </div>
         </div>      
+
       </div>
       )
   }
