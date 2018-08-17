@@ -1,7 +1,7 @@
 const { InventoryType } = require('./gqlTypes.js');
 const { Item } = require('./schema.js');
 const { GraphQLNonNull, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } = require('graphql');
-const recommendationService = require('../servers/recommendations/service/imageTraits.js');
+
 /* == Submit image and return recommendations from inventory. == */
 /* Image to be sent to image server. */
 
@@ -18,25 +18,25 @@ const RootQuery = new GraphQLObjectType({
             }
           },
           resolve: (root, {imageUrl}) => {
-            let inventory = new Promise((resolve, reject) => { 
-              recommendationService.getRecommendationsForURL(imageUrl, (err, recommendations) => {
-                err ? reject(err) : resolve(recommendations)
-              })
+            /* TODO: Logic to save to image DB */
+            console.log(imageUrl)
+            /* TODO: Add Analysis logis for image url. */
+
+
+            /* TODO: Logic to pic inventory based on tags */
+            let inventory = new Promise((resolve, reject) => {
+              Item.find({}, (err, res) => {
+                    err ? reject(err) : resolve(res)
+                })
             })
             return inventory
           }
         }
      }
-})
+  })
 
 // add mutations
 module.exports = new GraphQLSchema({ query: RootQuery })
-
-            // let inventory = new Promise((resolve, reject) => {
-            //   Item.find({}, (err, res) => {
-            //         err ? reject(err) : resolve(res)
-            //     })
-            // })
 
    /* 
 NOTES: 
