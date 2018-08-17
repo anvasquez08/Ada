@@ -1,25 +1,25 @@
 import React from "react";
+import UploadComponent from "./UploadComponent.jsx";
 import inventory from "../../../databases/testData/asosWomen.json";
-import { Grid, Image, Menu, Form, Checkbox, Card, Icon, Button } from "semantic-ui-react";
+import {
+  Grid,
+  Image,
+  Menu,
+  Form,
+  Checkbox,
+  Card,
+  Icon,
+  Button
+} from "semantic-ui-react";
 
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       prices: ["$", "$$", "$$$", "$$$$"],
-      inventory: inventory,
-      totalInventory: inventory,
-      brands: [],
       filters: []
     };
     this.filterBrands = this.filterBrands.bind(this);
-  }
-
-  componentDidMount() {
-    let brands = inventory.map(item => {
-      return { [item.brandName]: false };
-    });
-    this.setState({ brands: [...new Set(brands)] });
   }
 
   filterBrands(name) {
@@ -37,17 +37,24 @@ class Inventory extends React.Component {
   render() {
     return (
       <div>
-        <div style={{overflow: "hidden", maxHeight:"300px"}}>
-        <Image src='https://i.imgur.com/nw6xJ3h.jpg' fluid/>
+          {/* HEADER IMAGE */}
+        <div style={{ overflow: "hidden", maxHeight: "300px" }}>
+          <Image src="https://i.imgur.com/nw6xJ3h.jpg" fluid />
         </div>
-        {/* INVENTORY FILTERS */}
-        <Grid  style={{margin: "10px"}}>
+
+        <Grid style={{ margin: "10px" }}>
+          {/* UPLOAD COMPONENT */}
+          <Grid.Row centered>
+            <UploadComponent handleStateChange={this.props.handleStateChange}/>
+          </Grid.Row>
+          
+          {/* INVENTORY FILTERS */}
           <Grid.Column width={3}>
             <Menu vertical>
               <Menu.Item>
                 <Menu.Header>Price</Menu.Header>
                 <Form>
-                  {this.state.prices.map(price => {
+                  { this.props.brands.length > 0 && this.state.prices.map(price => {
                     return (
                       <Form.Field key={price}>
                         <Checkbox
@@ -66,7 +73,7 @@ class Inventory extends React.Component {
               <Menu.Item>
                 <Menu.Header>Brands</Menu.Header>
                 <Form>
-                  {this.state.brands.map((singlebrand, ind) => {
+                  {this.props.brands && this.props.brands.map((singlebrand, ind) => {
                     let name = Object.keys(singlebrand)[0];
                     let isChecked = Object.values(singlebrand)[0];
                     return (
@@ -91,25 +98,25 @@ class Inventory extends React.Component {
           <Grid.Column width={12}>
             <div>
               <Card.Group itemsPerRow={4}>
-              {
-                this.state.inventory.map((item) => {
+                { this.props.inventory && this.props.inventory.map(item => {
                   return (
                     <Card key={item.id}>
-                        <Card.Content>
-                          <Image 
-                            src={item.imageUrl} 
-                            size='big' centered />
-                          <p style={{fontSize:"15px" , color: "#909090"}}>{item.brandName}</p>
-                          <p style={{fontWeight: "bold"}}>{item.name}</p>
-                          <p>${item.price}</p>
-                          <p style={{fontSize:"9px" , color: "#909090"}}>From {item.brandName}</p>
-                          <Button size='mini'>Buy</Button>
-                          <Button size='mini'>Details</Button>
-                        </Card.Content>
+                      <Card.Content>
+                        <Image src={item.imageUrl} size="big" centered />
+                        <p style={{ fontSize: "15px", color: "#909090" }}>
+                          {item.brandName}
+                        </p>
+                        <p style={{ fontWeight: "bold" }}>{item.name}</p>
+                        <p>${item.price}</p>
+                        <p style={{ fontSize: "9px", color: "#909090" }}>
+                          From {item.brandName}
+                        </p>
+                        <Button size="mini">Buy</Button>
+                        <Button size="mini">Details</Button>
+                      </Card.Content>
                     </Card>
-                  )
-                })
-              }
+                  );
+                })}
               </Card.Group>
             </div>
           </Grid.Column>
