@@ -39,7 +39,7 @@ class Inventory extends React.Component {
       <div>
           {/* HEADER IMAGE */}
         <div style={{ overflow: "hidden", maxHeight: "300px" }}>
-          <Image src="https://i.imgur.com/nw6xJ3h.jpg" fluid />
+          <Image src="../assets/banner.jpg" fluid />
         </div>
 
         <Grid style={{ margin: "10px" }}>
