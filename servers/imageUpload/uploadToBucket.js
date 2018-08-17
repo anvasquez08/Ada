@@ -1,5 +1,6 @@
 const path = require('path');
 const AWS = require('aws-sdk');
+const recService = require('../recommendations/service/imageTraits.js');
 
 
 AWS.config.update({region: 'us-west-2'});
@@ -10,15 +11,6 @@ s3 = new AWS.S3();
 let uploadImage = (imageFile, callback) => {
 
   var uploadParams = {Bucket: 'coding-jacks-awesome-bucket', Key: '', Body: ''};
-  
-  //var file = '/Users/jonathanizak/Downloads/bman.jpg';
-
-  // var fs = require('fs');
-  // var fileStream = fs.createReadStream(file);
-  // fileStream.on('error', function(err) {
-  //   console.log('File Error', err);
-  // });
-
   uploadParams.Body = imageFile.data;
   uploadParams.Key = imageFile.name;
 
@@ -27,7 +19,15 @@ let uploadImage = (imageFile, callback) => {
     if (err) {
       callback(err);
     } else {
-      callback(null, data.Location);
+      console.log('url sent to file upload', data.Location)
+      recService.getRecommendationsForURL(data.Location, (err, recommendations) => {
+        console.log('recs sent to fileUpload');
+        if (err) {
+          callback (err);
+        } else {
+          callback(null, recommendations);
+        }
+      })
     }
   });
 }

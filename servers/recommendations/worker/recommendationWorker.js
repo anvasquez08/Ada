@@ -1,20 +1,25 @@
 const helpers = require('./../../../databases/helpers.js');
 const googleVision = require('../helpers/googleVision.js');
+const async = require('async');
 
-let updateIndexDB = () => {
+let updateIndexDB = (callback) => {
     let now = Date.now();
+    console.log('hit updateIndex')
     helpers.getRecentTimestamp((err, recentTimstamp) => {
         if (err) {
             callback(err);
         } else {
             if (!recentTimstamp) {
+                console.log('no recent timestamp');
                 recentTimstamp = {timestamp: '1995-12-17T03:24:00'}
             }
             helpers.retrieveNewItems(recentTimstamp.timestamp, (err, newInventory) => {
+                console.log(newInventory);
                 if (err) {
                     console.log(err);
                 } else {
                     indexNewItems(newInventory);
+                    helpers.updateRecentTimestamp(now);
                 }
             })
         }
@@ -23,7 +28,6 @@ let updateIndexDB = () => {
 
 let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
     googleVision.getLabelsFromURL(imageURL, function(err, descriptions) {
-        //console.log('DESCRIPTIONS', descriptions)
         if (err) {
             callback(err);
         } else {
@@ -38,13 +42,17 @@ let saveItemRecommendation = (inventoryId, itemLabels) => {
 }
 
 let indexNewItems = (newItems) => {
-    console.log(newItems[0].imageUrl)
+    console.log('INDEXING NEW ITEMS')
     if (newItems) {
-        indexAnalyzeInventoryItem(newItems[0].id, 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png', (err) => {
-            if(err) {
-                console.log(err);
-            } else {
-                console.log('you did it');
+        async.each(newItems, (newItem) => {
+            if (newItems) {
+                indexAnalyzeInventoryItem(newItem.id, newItem.imageUrl, (err) => {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log('you did it');
+                    }
+                })
             }
         })
     }

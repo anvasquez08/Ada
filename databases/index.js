@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const async = require('async');
 const { DBInventoryURI, DBImageURI } = require("../config.js");
 
@@ -24,7 +23,7 @@ imageDB.on("error", err => {
 });
 
 imageDB.once("open", () => {
-  console.info("Connected to inventory database.");
+  console.info("Connected to image database.");
 });
 
 module.exports = { inventoryDB, imageDB };

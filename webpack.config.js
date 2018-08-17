@@ -23,16 +23,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
-        loader: 'file?name=fonts/[name].[ext]'
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i, 
-        include: SRC_DIR,
-        loader: "file-loader?name=assets/[name].[ext]"
-      },
+      }
     ]
   }
 };
