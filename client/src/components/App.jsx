@@ -52,7 +52,6 @@ class App extends React.Component {
         {/* <div><Inventory/></div> */}
         <div><UploadComponent/></div>
       </div>
-
       <Instagram photos={this.state.instagramResults}/>
       </div>
       )
