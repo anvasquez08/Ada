@@ -3,24 +3,48 @@ const googleVision = require('../helpers/googleVision.js')
 
 
 let getRecommendationsForURL = (url, callback) => {
-    console.log('url sent to get recommendations sercie'. url)
     googleVision.getLabelsFromURL(url, (err, labels) => {
-        console.log('labels received in rec service', labels);
         if (err) {
             callback(err);
         } else {
-            getRecommendationsFromLabels(labels, (err, recommendations) => {
-                console.log('recs from labels in sevice', recommendations);
+            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
                 if (err) {
                     callback(err);
                 } else {
+<<<<<<< HEAD
                     callback(null, recommendations)
+=======
+                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
+>>>>>>> dev
                 }
             })
         }
     })
 }
 
+<<<<<<< HEAD
+=======
+let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
+    DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
+        inventories = inventories.sort((a, b) => {
+            return occurenceObject[b._id] - occurenceObject[a._id];
+        })
+        inventories = inventories.slice(0, 16);
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, inventories);
+        }
+    })
+}
+
+>>>>>>> dev
 let getRecommendationsFromLabels = (labels, callback) => {
     recommendationDB.getKetwordEntries(labels, (err, inventoriesWithKeywords) => {
         if (err) {
@@ -28,13 +52,12 @@ let getRecommendationsFromLabels = (labels, callback) => {
         } else {
             let keywordOccurences = numKeywordsForInventory(inventoriesWithKeywords);
             let recommendations = idsSortedByKeywordMatch(keywordOccurences);
-            callback(null, recommendations);
+            callback(null, recommendations, keywordOccurences);
         }
     })
 }
 
 let idsSortedByKeywordMatch = (occurenceObject) => {
-    console.log(occurenceObject);
     let inventoryItems = Object.keys(occurenceObject);
     inventoryItems.sort((a, b) => {
         return occurenceObject[b] - occurenceObject[a];

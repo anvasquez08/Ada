@@ -38,15 +38,30 @@ class App extends React.Component {
     //   })
   }
 
+  handleLogin() {
+    this.setState({showLoginModal: !this.state.showLoginModal});
+  }
+
+  handleStateChange(key, val) {
+    let brands = val.map(item => {
+      return { [item.brandName]: false };
+    });
+    this.setState({[key]: val, brands: [...new Set(brands)]})
+  }
+
 
   render() {
     return (
       <div>
-      <NavBar user={this.state.user}/>
-      <div style={{margin: "30px"}}>
-        <div><UploadComponent/></div>
-      </div>
-      <Instagram photos={this.state.instagramResults}/>
+        <NavBar isLoggedIn={this.state.isLoggedIn}/>
+        <div style={{margin: "30px"}}>
+          <div>
+              <Inventory 
+              handleStateChange={this.handleStateChange} 
+              inventory={this.state.inventory} brands={this.props.brands}
+              brands={this.state.brands}/>
+            </div>
+        </div>      
       </div>
       )
   }

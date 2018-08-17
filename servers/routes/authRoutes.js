@@ -29,7 +29,6 @@ authRouter.get('/instagram',
   passport.authenticate('instagram'));
 
 authRouter.get('/instagram/callback',
-<<<<<<< HEAD
   passport.authenticate('instagram', {successRedirect: '/', failureRedirect: '/'}),
   (req, res) => {
     res.redirect('/')}
@@ -49,11 +48,6 @@ authRouter.get('/media', (req, res) => {
   .catch((err) => {console.log("Catching error", err)})
   // res.send('test');
 });
-=======
-  passport.authenticate('instagram', {failureRedirect: '/'}),
-  (req, res) => {res.redirect('/')}
-)
->>>>>>> master
 
 authRouter.get('/logout', (req, res) => {
   req.logout();
@@ -61,15 +55,9 @@ authRouter.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-<<<<<<< HEAD
 // authRouter.get('/current_user', (req, res) => {
 //   if(!req.user) return res.send()
 //   res.send(req.user.username);
 // });
-=======
-authRouter.get('/current_user', (req, res) => {
-  res.send(req.user.username);
-});
->>>>>>> master
 
 module.exports = authRouter;

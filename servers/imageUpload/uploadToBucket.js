@@ -21,7 +21,6 @@ let uploadImage = (imageFile, callback) => {
     } else {
       console.log('url sent to file upload', data.Location)
       recService.getRecommendationsForURL(data.Location, (err, recommendations) => {
-        console.log('recs sent to fileUpload');
         if (err) {
           callback (err);
         } else {

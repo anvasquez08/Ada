@@ -13,14 +13,10 @@ const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js');
-<<<<<<< HEAD
-const scraper = require('./services/scraper')
-=======
 // const AWS = require('aws-sdk');
 // AWS.config.update({region: 'us-west-2'});
 // const rekognition = new AWS.Rekognition();
 // const scraper = require('./services/scraper') // Fix
->>>>>>> master
 
 const app = express();
 app.use(fileUpload());
@@ -70,7 +66,6 @@ app.post('/upload', (req,res) => {
     let imageFile = req.files.file;
     
     imageUpload.uploadImage(imageFile, (err, recommendations) => {
-        console.log('recs sent as response', recommendations)
         if (err) {
             res.status(400).send(err);
         } else {
@@ -81,7 +76,6 @@ app.post('/upload', (req,res) => {
    })
 
 app.post('/update', function(req, res) {
-    console.log('HIT ENDPOINT')
     recWorker.updateIndexDB((err) => {
         if (err) {
             console.log(err);
