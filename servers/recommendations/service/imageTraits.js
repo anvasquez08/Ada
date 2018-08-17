@@ -30,7 +30,7 @@ let inventoryFromRecommendations = (recommendations, occurenceObject, callback) 
         inventories = inventories.sort((a, b) => {
             return occurenceObject[b._id] - occurenceObject[a._id];
         })
-        inventories = inventories.slice(0, 15);
+        inventories = inventories.slice(0, 16);
         if (err) {
             callback(err);
         } else {
