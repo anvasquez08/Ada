@@ -22,6 +22,10 @@ class UploadComponent extends Component {
     render() {
         return(
           <div>
+              {/* PICTURE BANNER */}
+              <div style={{overflow: "hidden", maxHeight:"300px"}}>
+                <Image src='../assets/banner.jpg' fluid/>
+              </div>          
               <Grid style={{margin: "10px"}}>
                   <Grid.Row centered columns={2}>
                     <Grid.Column>
@@ -36,7 +40,7 @@ class UploadComponent extends Component {
                     </div>
                     </Grid.Column>
                     <Grid.Column>
-                    <div><Input action='Search' size='large'  placeholder='Search by url...' /></div>
+                    <div><Input action='Upload' size='large'  placeholder='Upload with URL' /></div>
                     </Grid.Column>
                   </Grid.Row>
             </Grid>

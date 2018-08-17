@@ -28,7 +28,7 @@ class Instagram extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
         {this.props.photos.map((photo, idx) => {
           return <InstagramEntry photo={photo} key={idx} select={this.select}/>
           })
