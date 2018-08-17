@@ -17,7 +17,6 @@ let updateIndexDB = (callback) => {
             }
             //retrieve all items in the inventory DB added after most recent timestamp
             helpers.retrieveNewItems(recentTimstamp.timestamp, (err, newInventory) => {
-                console.log(newInventory);
                 if (err) {
                     console.log(err);
                 } else {
@@ -50,11 +49,9 @@ let indexNewItems = (newItems) => {
     if (newItems) {
         async.each(newItems, (newItem) => {
             if (newItems) {
-                indexAnalyzeInventoryItem(newItem.id, newItem.imageUrl, (err) => {
+                indexAnalyzeInventoryItem(newItem._id, newItem.imageUrl, (err) => {
                     if(err) {
                         console.log(err);
-                    } else {
-                        console.log('you did it');
                     }
                 })
             }

@@ -3,17 +3,37 @@ const detectLabels = require('../helpers/detectLabels.js')
 
 //Takes URL of image and returns array of inventoryId's to callback 
 let getRecommendationsForURL = (url, callback) => {
-    detectLabels.getLabelsFromURL(url, (err, labels) => {
+    googleVision.getLabelsFromURL(url, (err, labels) => {
         if (err) {
             callback(err);
         } else {
-            getRecommendationsFromLabels(labels, (err, recommendations) => {
+            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
                 if (err) {
                     callback(err);
                 } else {
-                    callback(null, recommendations)
+                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
                 }
             })
+        }
+    })
+}
+
+let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
+    DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
+        inventories = inventories.sort((a, b) => {
+            return occurenceObject[b._id] - occurenceObject[a._id];
+        })
+        inventories = inventories.slice(0, 16);
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, inventories);
         }
     })
 }
@@ -25,14 +45,13 @@ let getRecommendationsFromLabels = (labels, callback) => {
         } else {
             let keywordOccurences = numKeywordsForInventory(inventoriesWithKeywords);
             let recommendations = idsSortedByKeywordMatch(keywordOccurences);
-            callback(null, recommendations);
+            callback(null, recommendations, keywordOccurences);
         }
     })
 }
 
 //Takes an object of inventoryIds and their occurences, returns array of inventoryIds sorted by greatest occurences first
 let idsSortedByKeywordMatch = (occurenceObject) => {
-    console.log(occurenceObject);
     let inventoryItems = Object.keys(occurenceObject);
     inventoryItems.sort((a, b) => {
         return occurenceObject[b] - occurenceObject[a];

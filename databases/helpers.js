@@ -15,6 +15,16 @@ exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
     .catch(err => console.log("Error in database save function", err));
 };
 
+exports.inventoryItemsWithIds = (inventoryIds, callback) => {
+  Item.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
+    if (err) {
+      callabck(err);
+    } else {
+      callback(null, inventoryItems);
+    }
+  })
+}
+
 exports.indexItem = (id, itemLabels) => {
 
   async.each(itemLabels, (label) => {
@@ -51,7 +61,6 @@ exports.getKetwordEntries = (itemKeywords, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log('RESULTS', results);
       callback(null, results);
     }
   })
@@ -83,7 +92,6 @@ exports.updateRecentTimestamp = (timestamp) => {
 }
 
 exports.getRecentTimestamp = (callback) => {
-  console.log('hit timestamp');
   Timestamp.findOne({}, (err, latestTimestamp) => {
     if (err) {
       console.log('error getting recent timestamp', err);

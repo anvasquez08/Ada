@@ -1,21 +1,18 @@
 const express = require("express");
 const graph = require("express-graphql");
+const session = require("express-session");
 const morgan = require("morgan");
-const passport = require('passport')
-const cors = require('cors')
+const passport = require('passport');
+const cors = require('cors');
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 
-const authRouter = require('./routes/authRoutes')
+const authRouter = require('./routes/authRoutes');
 const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
-// const AWS = require('aws-sdk');
-// AWS.config.update({region: 'us-west-2'});
-// const rekognition = new AWS.Rekognition();
-// const scraper = require('./services/scraper') // Fix
 
 const app = express();
 app.use(fileUpload());
@@ -23,9 +20,11 @@ app.use(cors())
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "../../client/dist"));
+app.use(session({secret: 'jack', cookie: {maxAge: 1000*20*60}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter)
+
 
 /*============== Graph QL ============== */
 app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
@@ -123,7 +122,7 @@ app.post('/update', function(req, res) {
 app.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
     .then(({data})=>{
-      res.send(data)
+        res.send(data)
     })
 })
 
