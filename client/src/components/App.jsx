@@ -35,9 +35,7 @@ class App extends React.Component {
   }
 
   handleStateChange(key, val) {
-    let brands = val.map(item => {
-      return { [item.brandName]: false };
-    });
+    let brands = val.map(({brandName}) => brandName)
     this.setState({[key]: val, brands: [...new Set(brands)]})
   }
 
@@ -50,7 +48,7 @@ class App extends React.Component {
           <div>
               <Inventory 
               handleStateChange={this.handleStateChange} 
-              inventory={this.state.inventory} brands={this.props.brands}
+              inventory={this.state.inventory}
               brands={this.state.brands}/>
             </div>
         </div>      
