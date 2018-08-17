@@ -56,7 +56,7 @@ let idsSortedByKeywordMatch = (occurenceObject) => {
     inventoryItems.sort((a, b) => {
         return occurenceObject[b] - occurenceObject[a];
     });
-    return inventoryItems;
+    return inventoryItems.slice(0, 16);
 }
 
 let numKeywordsForInventory = (inventoriesWithKeywords) => {
