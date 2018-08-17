@@ -1,6 +1,4 @@
-const express = require('express');
 const passport = require('passport');
-const axios = require('axios');
 const authRouter = require('express').Router();
 const clientUrl = 'http://localhost:8080';
 const INSTAGRAM_CLIENT_ID = require('../../config').INSTAGRAM_CLIENT_ID;
@@ -14,22 +12,24 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
+// passport.deserializeUser((id,done)=>{
+//   user.deserialize(id,done);
+// })
 
 passport.use(new InstagramStrategy({
   clientID: INSTAGRAM_CLIENT_ID,
   clientSecret: INSTAGRAM_SECRET,
   callbackURL: 'http://localhost:8080/auth/instagram/callback'
-  }, (accessToken, refreshToken, profile, done) => {
-    process.nextTick(() => {
-      return done(null, {profile: profile, accessToken: accessToken})})
+}, (accessToken, refreshToken, profile, done) => {
+  process.nextTick(() => {return done(null, profile)})
   }
 ));
 
 authRouter.get('/instagram',
-  passport.authenticate('instagram')
-);
+  passport.authenticate('instagram'));
 
 authRouter.get('/instagram/callback',
+<<<<<<< HEAD
   passport.authenticate('instagram', {successRedirect: '/', failureRedirect: '/'}),
   (req, res) => {
     res.redirect('/')}
@@ -49,6 +49,11 @@ authRouter.get('/media', (req, res) => {
   .catch((err) => {console.log("Catching error", err)})
   // res.send('test');
 });
+=======
+  passport.authenticate('instagram', {failureRedirect: '/'}),
+  (req, res) => {res.redirect('/')}
+)
+>>>>>>> master
 
 authRouter.get('/logout', (req, res) => {
   req.logout();
@@ -56,9 +61,15 @@ authRouter.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+<<<<<<< HEAD
 // authRouter.get('/current_user', (req, res) => {
 //   if(!req.user) return res.send()
 //   res.send(req.user.username);
 // });
+=======
+authRouter.get('/current_user', (req, res) => {
+  res.send(req.user.username);
+});
+>>>>>>> master
 
 module.exports = authRouter;

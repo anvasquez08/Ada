@@ -23,7 +23,7 @@ imageDB.on("error", err => {
 });
 
 imageDB.once("open", () => {
-  console.info("Connected to image database.");
+  console.info("Connected to inventory database.");
 });
 
 module.exports = { inventoryDB, imageDB };

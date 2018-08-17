@@ -8,16 +8,6 @@ exports.saveItem = ({name, brandName, url, imageUrl, price, labels}, callback) =
     .catch(err => callback(err));
 };
 
-exports.inventoryItemsWithIds = (inventoryIds, callback) => {
-  Item.find({id: {$in: inventoryIds}}, (err, inventoryItems) => {
-    if (err) {
-      callabck(err);
-    } else {
-      callback(null, inventoryItems);
-    }
-  })
-}
-
 exports.indexItem = (id, itemLabels) => {
 
   async.each(itemLabels, (label) => {
