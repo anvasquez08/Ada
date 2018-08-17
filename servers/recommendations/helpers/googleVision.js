@@ -34,8 +34,10 @@ let getLabels = (imageFile, callback) => {
 
     rekognition.detectLabels(params, function (err, data) {
         if (err) {
+            console.log(err)
             callback(err.stack);
         } else {
+            console.log(data);
             callback(null, data);
         }
     });

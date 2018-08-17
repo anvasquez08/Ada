@@ -63,7 +63,6 @@ app.post('/upload', (req,res) => {
     let imageFile = req.files.file;
     
     imageUpload.uploadImage(imageFile, (err, recommendations) => {
-        console.log('recs sent as response', recommendations)
         if (err) {
             res.status(400).send(err);
         } else {
@@ -73,7 +72,6 @@ app.post('/upload', (req,res) => {
 })
 
 app.post('/update', function(req, res) {
-    console.log('HIT ENDPOINT')
     recWorker.updateIndexDB((err) => {
         if (err) {
             console.log(err);
