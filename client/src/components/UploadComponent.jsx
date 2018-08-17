@@ -21,11 +21,7 @@ class UploadComponent extends Component {
     
     render() {
         return(
-          <div>
-              {/* PICTURE BANNER */}
-              <div style={{overflow: "hidden", maxHeight:"300px"}}>
-                <Image src='../assets/banner.jpg' fluid/>
-              </div>          
+          <div>         
               <Grid style={{margin: "10px"}}>
                   <Grid.Row centered columns={2}>
                     <Grid.Column>
