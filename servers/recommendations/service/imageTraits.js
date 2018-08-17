@@ -11,9 +11,6 @@ let getRecommendationsForURL = (url, callback) => {
                 if (err) {
                     callback(err);
                 } else {
-<<<<<<< HEAD
-                    callback(null, recommendations)
-=======
                     inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
                         if (err) {
                             callback(err)
@@ -21,15 +18,12 @@ let getRecommendationsForURL = (url, callback) => {
                             callback(null, inventories);
                         }
                     })
->>>>>>> dev
                 }
             })
         }
     })
 }
 
-<<<<<<< HEAD
-=======
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
     DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
         inventories = inventories.sort((a, b) => {
@@ -44,7 +38,6 @@ let inventoryFromRecommendations = (recommendations, occurenceObject, callback) 
     })
 }
 
->>>>>>> dev
 let getRecommendationsFromLabels = (labels, callback) => {
     recommendationDB.getKetwordEntries(labels, (err, inventoriesWithKeywords) => {
         if (err) {

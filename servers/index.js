@@ -16,7 +16,7 @@ const recommendationService = require('./recommendations/service/imageTraits.js'
 // const AWS = require('aws-sdk');
 // AWS.config.update({region: 'us-west-2'});
 // const rekognition = new AWS.Rekognition();
-// const scraper = require('./services/scraper') // Fix
+const scraper = require('./services/scraper') // Fix
 
 const app = express();
 app.use(fileUpload());
