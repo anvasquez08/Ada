@@ -7,21 +7,21 @@ import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
-/*Create the httpLink that will connect your ApolloClient 
-    instance with the GraphQL API
-const httpLink = createHttpLink({
-  uri: "http://localhost:8080"
-});
+// Create the httpLink that will connect your ApolloClient 
+    // instance with the GraphQL API
+// const httpLink = createHttpLink({
+//   uri: "http://localhost:8080"
+// });
 
-instantiate ApolloClient by passing in the httpLink 
-    and a new instance of an InMemoryCache
-const client = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache()
-});
-  <ApolloProvider client={client}>
-    <App />
- </ApolloProvider>, */
-
+//instantiate ApolloClient by passing in the httpLink 
+    // and a new instance of an InMemoryCache
+// const client = new ApolloClient({
+//   link: httpLink,
+//   cache: new InMemoryCache()
+// });
 
 ReactDOM.render(<App />, document.getElementById("app"));
+
+  // <ApolloProvider client={client}>
+    //<App />
+  /* </ApolloProvider>, */
