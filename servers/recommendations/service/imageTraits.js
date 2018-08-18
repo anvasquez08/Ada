@@ -4,6 +4,7 @@ const DBHelpers = require('../../../databases/helpers');
 
 
 let getRecommendationsForURL = (url, callback) => {
+    console.log('get recommendations for URL START')
     googleVision.getLabelsFromURL(url, (err, labels) => {
         if (err) {
             callback(err);
@@ -23,10 +24,12 @@ let getRecommendationsForURL = (url, callback) => {
             })
         }
     })
+    console.log('get recommendations for URL STOP')
 }
 
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
     DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
+        console.log('Inventories with IDs START')
         inventories = inventories.sort((a, b) => {
             return occurenceObject[b._id] - occurenceObject[a._id];
         })
@@ -37,9 +40,11 @@ let inventoryFromRecommendations = (recommendations, occurenceObject, callback) 
             callback(null, inventories);
         }
     })
+    console.log('Inventories with IDs STOP')
 }
 
 let getRecommendationsFromLabels = (labels, callback) => {
+    console.log('getRecommendationsFromLabels with IDs START')
     recommendationDB.getKetwordEntries(labels, (err, inventoriesWithKeywords) => {
         if (err) {
             callback (err);
@@ -49,6 +54,7 @@ let getRecommendationsFromLabels = (labels, callback) => {
             callback(null, recommendations, keywordOccurences);
         }
     })
+    console.log('getRecommendationsFromLabels with IDs START')
 }
 
 let idsSortedByKeywordMatch = (occurenceObject) => {
