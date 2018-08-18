@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import NavBar from './NavBar.jsx';
 import Inventory from '../components/Inventory.jsx';
+import Instagram from '../components/Instagram.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,23 +12,24 @@ class App extends React.Component {
       isLoggedIn: false,
       user: '',
       inventory: [], 
-      brands: []
+      brands: [],
+      instagramResults: []
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
   }
 
   componentDidMount() {
-    // axios.get('/auth/current_user')
-    //   .then((result) => 
-    //   this.setState({user: result.data, isLoggedIn: true}))
-    //   .then(() => {
-    //     axios.get('/auth/media')
-    //     .then((result) => {
-    //       console.log('Getting back to client: ', result)
-    //       this.setState({instagramResults: result.data.data})
-    //     })
-    //   })
+    axios.get('/auth/current_user')
+      .then((result) => 
+      this.setState({user: result.data, isLoggedIn: true}))
+      .then(() => {
+        axios.get('/auth/media')
+        .then((result) => {
+          console.log('Getting back to client: ', result)
+          this.setState({instagramResults: result.data.data})
+        })
+      })
   }
 
   handleLogin() {
@@ -45,7 +47,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <NavBar isLoggedIn={this.state.isLoggedIn}/>
+      <NavBar user={this.state.user}/>
         <div style={{margin: "30px"}}>
           <div>
               <Inventory 
@@ -53,7 +55,8 @@ class App extends React.Component {
               inventory={this.state.inventory} brands={this.props.brands}
               brands={this.state.brands}/>
             </div>
-        </div>      
+      <Instagram photos={this.state.instagramResults}/>
+        </div>
       </div>
       )
   }
