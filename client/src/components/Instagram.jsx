@@ -33,12 +33,10 @@ class Instagram extends React.Component {
     return (
       <div style={{marginLeft: "auto", marginRight: "auto"}}>
       <Grid columns={4}>
-        {/* <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}> */}
           {this.props.photos.map((photo, idx) => {
             return <div style={{margin: "20px 1px 18px 18px"}}><Grid.Column width={8}><InstagramEntry photo={photo} key={idx} select={this.select}/></Grid.Column></div>
             })
           }
-        {/* </div> */}
       </Grid>
       </div>
     )
