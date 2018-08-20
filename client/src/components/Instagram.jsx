@@ -18,14 +18,12 @@ class Instagram extends React.Component {
       this.setState({
         selectedPictures: copy
       })
-      console.log("Array of selected Instagram photos: ", copy);
     } else {
       let copy = this.state.selectedPictures.slice()
       copy.push(url);
       this.setState({
         selectedPictures: copy
       })
-      console.log("Array of selected Instagram photos: ", copy);
     }
   }
 
@@ -33,12 +31,10 @@ class Instagram extends React.Component {
     return (
       <div style={{marginLeft: "auto", marginRight: "auto"}}>
       <Grid columns={4}>
-        {/* <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}> */}
           {this.props.photos.map((photo, idx) => {
-            return <div style={{margin: "20px 1px 18px 18px"}}><Grid.Column width={8}><InstagramEntry photo={photo} key={idx} select={this.select}/></Grid.Column></div>
+            return <div style={{margin: "20px 2px 18px 18px"}}><Grid.Column width={6}><InstagramEntry photo={photo} key={idx} select={this.select}/></Grid.Column></div>
             })
           }
-        {/* </div> */}
       </Grid>
       </div>
     )
