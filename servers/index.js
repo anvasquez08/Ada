@@ -46,27 +46,34 @@ app.post('/index', function(req, res) {
         }
     });
 });
+
 /* Will use graph ql route. */
+
 app.post('/recommend', function(req, res) {
-    let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
-    recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
+    let image64 = req.body.file.substring(23);
+
+    recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
         if (err) {
-            res.send(err)
+          console.log(err);
+          res.status(500).send();
         } else {
-            res.send(recommendations);
+            console.log(recommendations);
+            res.status(200).send(recommendations);
         }
-    });  
+      })
+
 });
 
 app.post('/upload', (req,res) => {
     
-    let imageFile = req.files.file;
+    let imageFile = req.files.image;
+    console.log(imageFile);
     
-    imageUpload.uploadImage(imageFile, (err, recommendations) => {
+    imageUpload.uploadImage(imageFile, (err, imageUrl) => {
         if (err) {
             res.status(400).send(err);
         } else {
-            res.status(200).send(recommendations);
+            res.status(200).send();
         }
     })
 })
@@ -82,7 +89,24 @@ app.post('/update', function(req, res) {
 app.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
     .then(({data})=>{
-        res.send(data)
+        label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        if (label === 't shirt') label = 'T-Shirt'
+        console.log({label})
+        recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
+            console.log({recommendations})
+            if (err) {
+                res.send(err);
+            } else {
+                recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send(inventories);
+                    }
+                })
+            }
+        })
+        // res.send(data)
     })
 })
 

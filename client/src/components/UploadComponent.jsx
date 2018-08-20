@@ -7,6 +7,7 @@ class UploadComponent extends Component {
     constructor(props) {
         super(props);
         this.handleUploadFile = this.handleUploadFile.bind(this);
+        this.handleImageUpload = this.handleImageUpload.bind(this);
     }
 
     handleUploadFile = (event) => {
@@ -19,6 +20,46 @@ class UploadComponent extends Component {
       });
     }
     
+    handleImageUpload(e){
+      e.preventDefault()
+      
+      //get recommendations
+      let input = document.getElementById('embedpollfileinput');
+      let imageFile = input.files[0];
+      console.log(imageFile);
+      this.encodeImage(imageFile);
+
+      //uploadImage
+      console.log(imageFile);
+      let data = new FormData()
+      data.append('image', imageFile)
+      data.append('name', 'image')
+      axios.post("/upload",data)
+      .then(({data})=>{
+        console.log('image uploaded')
+      })
+      .catch(err=>console.log(err))
+    }
+
+    //encode image to 64bit
+    encodeImage(file) {
+      var reader = new FileReader();
+      reader.onloadend = (e) => {
+          this.getRecommendations(e.target.result)
+      }
+      reader.readAsDataURL(file);
+  }
+
+  //post 64 bit image to get recommendations
+  getRecommendations(image64) {
+    var data = new FormData();
+    data.append('file', image64);
+    axios.post('/recommend', data)
+    .then(({data}) => {
+      this.props.handleStateChange('inventory', data)
+    });
+}
+    
     render() {
         return(
           <div>         
@@ -28,7 +69,7 @@ class UploadComponent extends Component {
                     <div>
                         <label htmlFor="embedpollfileinput" className="ui large red right floated button">
                           <input 
-                            type="file" onChange={this.handleUploadFile} className="inputfile" id="embedpollfileinput" 
+                            type="file" onChange={this.handleImageUpload} className="inputfile" id="embedpollfileinput" 
                             style={{width: "0.1px", height: "0.1px", opacity: "0", overflow: "hidden", position: "absolute", zIndex: "-1"}} />
                           <i className="ui upload icon"></i> 
                           Upload image
