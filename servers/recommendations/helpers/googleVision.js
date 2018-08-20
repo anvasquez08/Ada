@@ -23,6 +23,21 @@ let getLabelsFromURL = (imageURL, callback) => {
     });      
 }
 
+let getLabelsFromImage64 = (image64, callback) => {
+    if (image64) {
+        getLabels(image64, function(err, response) {
+            if (err) {
+                callback(err);
+            } else {
+                let traits = response.Labels.map(function(trait) {
+                    return trait.Name;
+                });
+                callback(null, traits);
+            }
+        });
+    }
+}
+
 let getLabels = (imageFile, callback) => {
     let params = {
         Image: {
@@ -44,5 +59,6 @@ let getLabels = (imageFile, callback) => {
 }
 
 module.exports = {
-    getLabelsFromURL
+    getLabelsFromURL,
+    getLabelsFromImage64
 }

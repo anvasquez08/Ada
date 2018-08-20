@@ -3,9 +3,8 @@ const googleVision = require('../helpers/googleVision.js')
 const DBHelpers = require('../../../databases/helpers');
 
 
-let getRecommendationsForURL = (url, callback) => {
-    console.log('get recommendations for URL START')
-    googleVision.getLabelsFromURL(url, (err, labels) => {
+let getRecommendationsForImage64 = (image64, callback) => {
+    googleVision.getLabelsFromImage64(image64, (err, labels) => {
         console.log(labels)
         if (err) {
             callback(err);
@@ -99,7 +98,7 @@ let numKeywordsForInventory = (inventoriesWithKeywords) => {
     return inventoryKeywordCount;
 }
 module.exports = {
-    getRecommendationsForURL,
+    getRecommendationsForImage64,
     getRecommendationsFromLabels,
     inventoryFromRecommendations
 };

@@ -9,7 +9,6 @@ AWS.config.update({region: 'us-west-2'});
 s3 = new AWS.S3();
 
 let uploadImage = (imageFile, callback) => {
-
   var uploadParams = {Bucket: 'coding-jacks-awesome-bucket', Key: '', Body: ''};
   uploadParams.Body = imageFile.data;
   uploadParams.Key = imageFile.name;
@@ -19,14 +18,14 @@ let uploadImage = (imageFile, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log('url sent to file upload', data.Location)
-      recService.getRecommendationsForURL(data.Location, (err, recommendations) => {
-        if (err) {
-          callback (err);
-        } else {
-          callback(null, recommendations);
-        }
-      })
+      callback(null, data.location);
+      // recService.getRecommendationsForURL(data.Location, (err, recommendations) => {
+      //   if (err) {
+      //     callback (err);
+      //   } else {
+      //     callback(null, recommendations);
+      //   }
+      // })
     }
   });
 }
