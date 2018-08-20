@@ -22,19 +22,43 @@ class UploadComponent extends Component {
     
     handleImageUpload(e){
       e.preventDefault()
-      console.log('uploading')
-      let input = document.getElementById('embedpollfileinput')
+      
+      //get recommendations
+      let input = document.getElementById('embedpollfileinput');
+      let imageFile = input.files[0];
+      console.log(imageFile);
+      this.encodeImage(imageFile);
+
+      //uploadImage
+      console.log(imageFile);
       let data = new FormData()
-      data.append('image', input.files[0])
+      data.append('image', imageFile)
       data.append('name', 'image')
-      axios.post("/send",data)
+      axios.post("/upload",data)
       .then(({data})=>{
-        //do something with the data-scores
-        console.log(data)
-        this.props.handleStateChange('inventory', data)
+        console.log('image uploaded')
       })
       .catch(err=>console.log(err))
     }
+
+    //encode image to 64bit
+    encodeImage(file) {
+      var reader = new FileReader();
+      reader.onloadend = (e) => {
+          this.getRecommendations(e.target.result)
+      }
+      reader.readAsDataURL(file);
+  }
+
+  //post 64 bit image to get recommendations
+  getRecommendations(image64) {
+    var data = new FormData();
+    data.append('file', image64);
+    axios.post('/recommend', data)
+    .then(({data}) => {
+      this.props.handleStateChange('inventory', data)
+    });
+}
     
     render() {
         return(
