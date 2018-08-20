@@ -5,10 +5,12 @@ const DBHelpers = require('../../../databases/helpers');
 
 let getRecommendationsForURL = (url, callback) => {
     googleVision.getLabelsFromURL(url, (err, labels) => {
+        console.log(labels)
         if (err) {
             callback(err);
         } else {
             getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+                console.log(recommendations)
                 if (err) {
                     callback(err);
                 } else {
@@ -24,8 +26,27 @@ let getRecommendationsForURL = (url, callback) => {
         }
     })
 }
+let getSample = (url, callback) => {
+            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+                console.log(recommendations)
+                if (err) {
+                    callback(err);
+                } else {
+                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
+                }
+            })
+        
+    
+}
 
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
+    console.log("TAG")
     DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
         inventories = inventories.sort((a, b) => {
             return occurenceObject[b._id] - occurenceObject[a._id];
@@ -40,6 +61,7 @@ let inventoryFromRecommendations = (recommendations, occurenceObject, callback) 
 }
 
 let getRecommendationsFromLabels = (labels, callback) => {
+    console.log(labels)
     recommendationDB.getKetwordEntries(labels, (err, inventoriesWithKeywords) => {
         if (err) {
             callback (err);
@@ -73,5 +95,7 @@ let numKeywordsForInventory = (inventoriesWithKeywords) => {
     return inventoryKeywordCount;
 }
 module.exports = {
-    getRecommendationsForURL
+    getRecommendationsForURL,
+    getRecommendationsFromLabels,
+    inventoryFromRecommendations
 };
