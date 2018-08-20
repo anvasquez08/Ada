@@ -6,10 +6,12 @@ const DBHelpers = require('../../../databases/helpers');
 let getRecommendationsForURL = (url, callback) => {
     console.log('get recommendations for URL START')
     googleVision.getLabelsFromURL(url, (err, labels) => {
+        console.log(labels)
         if (err) {
             callback(err);
         } else {
             getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+                console.log(recommendations)
                 if (err) {
                     callback(err);
                 } else {
@@ -26,8 +28,27 @@ let getRecommendationsForURL = (url, callback) => {
     })
     console.log('get recommendations for URL STOP')
 }
+let getSample = (url, callback) => {
+            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+                console.log(recommendations)
+                if (err) {
+                    callback(err);
+                } else {
+                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
+                }
+            })
+        
+    
+}
 
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
+    console.log("TAG")
     DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
         console.log('Inventories with IDs START')
         inventories = inventories.sort((a, b) => {
@@ -44,7 +65,6 @@ let inventoryFromRecommendations = (recommendations, occurenceObject, callback) 
 }
 
 let getRecommendationsFromLabels = (labels, callback) => {
-    console.log('getRecommendationsFromLabels with IDs START')
     recommendationDB.getKetwordEntries(labels, (err, inventoriesWithKeywords) => {
         if (err) {
             callback (err);
@@ -79,5 +99,7 @@ let numKeywordsForInventory = (inventoriesWithKeywords) => {
     return inventoryKeywordCount;
 }
 module.exports = {
-    getRecommendationsForURL
+    getRecommendationsForURL,
+    getRecommendationsFromLabels,
+    inventoryFromRecommendations
 };

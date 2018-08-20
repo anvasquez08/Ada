@@ -47,16 +47,17 @@ app.post('/index', function(req, res) {
     });
 });
 /* Will use graph ql route. */
-app.post('/recommend', function(req, res) {
-    let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
-    recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send(recommendations);
-        }
-    });  
-});
+// app.post('/recommend', function(req, res) {
+//     let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
+//     // recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
+//     //     if (err) {
+//     //         res.send(err)
+//     //     } else {
+//     //         res.send(recommendations);
+//     //     }
+//     // });  
+
+// });
 
 app.post('/upload', (req,res) => {
     
@@ -82,7 +83,24 @@ app.post('/update', function(req, res) {
 app.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
     .then(({data})=>{
-        res.send(data)
+        label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        if (label === 't shirt') label = 'T-Shirt'
+        console.log({label})
+        recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
+            console.log({recommendations})
+            if (err) {
+                res.send(err);
+            } else {
+                recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send(inventories);
+                    }
+                })
+            }
+        })
+        // res.send(data)
     })
 })
 

@@ -7,6 +7,7 @@ class UploadComponent extends Component {
     constructor(props) {
         super(props);
         this.handleUploadFile = this.handleUploadFile.bind(this);
+        this.handleImageUpload = this.handleImageUpload.bind(this);
     }
 
     handleUploadFile = (event) => {
@@ -19,6 +20,22 @@ class UploadComponent extends Component {
       });
     }
     
+    handleImageUpload(e){
+      e.preventDefault()
+      console.log('uploading')
+      let input = document.getElementById('embedpollfileinput')
+      let data = new FormData()
+      data.append('image', input.files[0])
+      data.append('name', 'image')
+      axios.post("/send",data)
+      .then(({data})=>{
+        //do something with the data-scores
+        console.log(data)
+        this.props.handleStateChange('inventory', data)
+      })
+      .catch(err=>console.log(err))
+    }
+    
     render() {
         return(
           <div>         
@@ -28,7 +45,7 @@ class UploadComponent extends Component {
                     <div>
                         <label htmlFor="embedpollfileinput" className="ui large red right floated button">
                           <input 
-                            type="file" onChange={this.handleUploadFile} className="inputfile" id="embedpollfileinput" 
+                            type="file" onChange={this.handleImageUpload} className="inputfile" id="embedpollfileinput" 
                             style={{width: "0.1px", height: "0.1px", opacity: "0", overflow: "hidden", position: "absolute", zIndex: "-1"}} />
                           <i className="ui upload icon"></i> 
                           Upload image
