@@ -6,7 +6,12 @@ import ApolloClient from "apollo-boost";
 import App from "./components/App.jsx";
 import gql from "graphql-tag";
 
-const client = new ApolloClient({
+const client = new ApolloClient({  
+  clientState: {
+    defaults: {},
+    resolvers:{},
+    typeDefs: {}
+  }
 });
 
 ReactDOM.render(  
@@ -26,8 +31,4 @@ client
   .then(result => console.log('this is the test result', result.data))
   .catch(err => console.error(err))
 
-
-  // type Mutation {
-  //   filterInventory(brandName: String): Inventory
-  // }    inventory: Inventory
-    // inventories(where: String): [Inventory]
+export default client;

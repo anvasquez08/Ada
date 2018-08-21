@@ -58,8 +58,10 @@ const resolvers = {
   Query: {
     hello: () => 'Hello world!',
     // inventories: (context, {where}) => where ? inventory.filter(elem => elem.brandName === where): inventory
-    inventories: (context, {where}) => where ? inventory.filter(elem => elem.brandName === where): inventory
-
+    inventories: (context, {where}) => {
+      where ? inventory.filter(elem => elem.brandName === where): inventory
+      
+    }
   },
 }
 

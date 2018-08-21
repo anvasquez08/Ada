@@ -20,10 +20,10 @@ let uploadImage = (username, imageFile, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log(username);
-      console.log(data.Location);
-      userDB.addHistoryToUser(username, data.Location);
-      callback(null, data.location);
+      if (username) {
+        userDB.addHistoryToUser(username, data.Location);
+        callback(null, data.location);
+      }
     }
   });
 }
