@@ -34,7 +34,13 @@ class UploadComponent extends Component {
       let data = new FormData()
       data.append('image', imageFile)
       data.append('name', 'image')
-      axios.post(`/upload/${this.props.username}`,data)
+
+      let endpoint = `/upload`;
+      if (this.props.username.length > 0) {
+        endpoint += `/${this.props.username}`
+      }
+
+      axios.post(endpoint, data)
       .then(({data})=>{
         console.log('image uploaded')
       })

@@ -16,7 +16,7 @@ class Style extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.userPhotos.length === 0) {
+    if (this.props.username.length > 0) {
         axios.get(`/history/${this.props.username}`)
         .then(({data}) => {
             console.log(data);
@@ -39,9 +39,9 @@ class Style extends React.Component {
           <Grid.Column width={12}>
             <div>
               <Card.Group itemsPerRow={4}>
-                { this.state.userPhotos.map(item => {
+                { this.state.userPhotos.map((item, index) => {
                   return (
-                    <Card>
+                    <Card key={index}>
                       <Card.Content>
                         <Image src={item} size="big" centered />
                       </Card.Content>
