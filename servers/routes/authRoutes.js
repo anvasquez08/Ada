@@ -32,24 +32,23 @@ authRouter.get('/instagram',
 
 authRouter.get('/instagram/callback',
   passport.authenticate('instagram', {successRedirect: '/', failureRedirect: '/'}),
-  (req, res) => {
-    res.redirect('/')}
+  (req, res) => {res.redirect('/')}
 );
 
 authRouter.get('/current_user', (req, res) => {
-  req.session.accessToken = req.user.accessToken;
-  userDB.saveUser(req.user.profile.username);
-  res.send(req.user.profile.username);
+  if (req.user !== undefined) {
+    req.session.accessToken = req.user.accessToken;
+    userDB.saveUser(req.user.profile.username);
+    res.send(req.user.profile.username);
+  }
 });
 
 authRouter.get('/media', (req, res) => {
   axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.session.accessToken}`)
-  // res.send(req.user.username);
   .then((result) => {
     res.send(result.data);
   })
-  .catch((err) => {console.log("Catching error", err)})
-  // res.send('test');
+  .catch((err) => {console.log("Cannot return /media because user is not logged in", err.data)})
 });
 
 authRouter.get('/logout', (req, res) => {

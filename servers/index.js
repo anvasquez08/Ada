@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const authRouter = require('./routes/authRoutes');
+// const recommendationRouter = require('./routes/recommendationRoutes');
 const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const userDB = require('../databases/Users')
@@ -25,6 +26,7 @@ app.use(session({secret: 'jack', cookie: {maxAge: 1000*20*60}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter)
+// app.use('/recommend', recommendationRouter);
 
 
 /*============== Graph QL ============== */
@@ -122,13 +124,13 @@ app.post('/recommend', function(req, res) {
 
     recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
         if (err) {
-          console.log(err);
-          res.status(500).send();
+            console.log(err);
+            res.status(500).send();
         } else {
             console.log(recommendations);
             res.status(200).send(recommendations);
         }
-      })
+    })
 
 });
 

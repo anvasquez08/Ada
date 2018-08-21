@@ -41,7 +41,7 @@ let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
 }
 
 let saveItemRecommendation = (inventoryId, itemLabels) => {
-  helpers.indexItem(inventoryId, itemLabels);
+    helpers.indexItem(inventoryId, itemLabels);
 }
 
 //Takes an array of Items, gets their tags and adds them to the recommendation DB
