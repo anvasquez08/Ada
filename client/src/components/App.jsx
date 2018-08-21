@@ -2,12 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 import NavBar from './NavBar.jsx';
-import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
-import Header from '../components/Header.jsx'
-import '../styles/css/main.css'
-import Modal from '@material-ui/core/Modal';
-import UploadComponent from './UploadComponent.jsx';
+import '../styles/css/main.css';
 
 import Instagram from '../components/Instagram.jsx';
 

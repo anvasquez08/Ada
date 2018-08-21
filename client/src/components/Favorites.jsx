@@ -1,8 +1,11 @@
 import React from 'react';
 
-class NavBar extends React.Component {
+class Favorites extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+
+    }
   }
   render() {
     return (
@@ -21,4 +24,4 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+export default Favorites;
