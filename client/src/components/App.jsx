@@ -23,11 +23,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    // check if there is an active user session
     axios.get('/auth/current_user')
       .then((result) => 
       this.setState({user: result.data, isLoggedIn: true}))
       .then(() => {
         if (this.state.user) {
+        // if active user session, pull user's instagram photos
         axios.get('/auth/media')
         .then((result) => {
           this.setState({instagramResults: result.data.data})

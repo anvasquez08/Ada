@@ -39,8 +39,6 @@ authRouter.get('/current_user', (req, res) => {
     req.session.accessToken = req.user.accessToken;
     res.send(req.user.profile.username);
   }
-
-
 });
 
 authRouter.get('/media', (req, res) => {
