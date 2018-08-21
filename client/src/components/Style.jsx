@@ -15,8 +15,8 @@ class Style extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.props.username.length > 0) {
+  componentDidMount() {
+    if (this.props.username.length > 0 && this.state.userPhotos.length === 0) {
         axios.get(`/history/${this.props.username}`)
         .then(({data}) => {
             console.log(data);
