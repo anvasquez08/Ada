@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Allende-HR/Allende-HR#readme",
   "dependencies": {
     "apollo-boost": "^0.1.13",
+    "apollo-server-express": "^2.0.4",
     "async": "^2.6.1",
     "aws-sdk": "^2.291.0",
     "axios": "^0.18.0",

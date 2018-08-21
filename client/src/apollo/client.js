@@ -1,4 +1,5 @@
 import ApolloClient from "apollo-boost";
+import typeDefs from './typeDefs.js';
 
 export const client = new ApolloClient({
   clientState: {

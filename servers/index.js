@@ -1,5 +1,5 @@
 const express = require("express");
-const graph = require("express-graphql");
+// const graph = require("express-graphql");
 const session = require("express-session");
 const morgan = require("morgan");
 const passport = require('passport');
@@ -28,7 +28,41 @@ app.use('/auth', authRouter)
 
 
 /*============== Graph QL ============== */
-app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
+const { ApolloServer, gql }= require('apollo-server-express')
+// app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
+
+const typeDefs = gql`
+  type Inventory {
+    id: ID! 
+    name: String
+    brandName: String
+    url: String
+    imageUrl: String
+    price: Float
+    createdAt: String
+    labels: [Label]
+  }
+
+  type Label{
+    id: ID
+    key: String
+  }
+
+  type Query {
+    hello: String
+    inventories(where: String): [Inventory]
+  }
+`;
+
+const resolvers = {
+  Query: {
+    hello: () => 'Hello world!',
+    inventories: (context, {where}) => where ? inventory.filter(elem => elem.brandName === where): inventory
+  },
+}
+
+const apolloServer = new ApolloServer({typeDefs, resolvers})
+apolloServer.applyMiddleware({ app });
 
 /*====================================== */
 
@@ -47,7 +81,6 @@ app.post('/index', function(req, res) {
     });
 });
 
-/* Will use graph ql route. */
 
 app.post('/recommend', function(req, res) {
     let image64 = req.body.file.substring(23);
@@ -110,4 +143,7 @@ app.post('/send', (req,res) => {
     })
 })
 
-app.listen(8080, () => console.log("Listening on port 8080"));
+app.listen(8080, () => console.log("RESTful server listening on port 8080"));
+app.listen(4000 , () =>
+  console.log(`🚀 GraphQL server ready at http://localhost:4000${apolloServer.graphqlPath}`)
+);
