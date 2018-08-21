@@ -73,7 +73,7 @@ class UploadComponent extends Component {
                   <Grid.Row centered columns={2}>
                     <Grid.Column>
                     <div>
-                        <label htmlFor="embedpollfileinput" className="ui large red right floated button">
+                        <label htmlFor="embedpollfileinput" className="ui large blue right floated button">
                           <input 
                             type="file" onChange={this.handleImageUpload} className="inputfile" id="embedpollfileinput" 
                             style={{width: "0.1px", height: "0.1px", opacity: "0", overflow: "hidden", position: "absolute", zIndex: "-1"}} />

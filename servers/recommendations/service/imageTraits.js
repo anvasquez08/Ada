@@ -22,23 +22,24 @@ let getRecommendationsForImage64 = (image64, callback) => {
         }
     })
 }
-let getSample = (url, callback) => {
-            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
-                if (err) {
-                    callback(err);
-                } else {
-                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
-                        if (err) {
-                            callback(err)
-                        } else {
-                            callback(null, inventories);
-                        }
-                    })
-                }
-            })
-        
-    
-}
+
+// let getSample = (url, callback) => {
+//     getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+//         console.log(recommendations)
+//         if (err) {
+//             callback(err);
+//         } else {
+//             inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+//             getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+//                 if (err) {
+//                     callback(err)
+//                 } else {
+//                     callback(null, inventories);
+//                 }
+//             })
+//         }
+//     })
+// }
 
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
     recommendationDB.inventoryItemsWithIds(recommendations, (err, inventories) => {
