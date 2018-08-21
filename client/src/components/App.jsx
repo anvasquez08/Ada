@@ -6,6 +6,7 @@ import '../styles/css/main.css'
 import Instagram from './Instagram.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
+import { Switch, Route } from 'react-router-dom'
 
 class App extends React.Component {
   constructor(props) {
@@ -78,26 +79,24 @@ class App extends React.Component {
       loadFavoritesPage={this.loadFavoritesPage}/>
         <div style={{margin: "30px"}}>
           <div>
-            <div style={(this.state.currentPage === 'home') ? {display: 'block'} : {display: 'none'}}>
-              <Inventory 
+            <Switch>
+              <Route exact path='/'
+              render={(props) => <Inventory {...props}
               handleStateChange={this.handleStateChange} 
               inventory={this.state.inventory}
               brands={this.state.brands}
-              username={this.state.user}/>
-            </div>
-            <div style={this.state.currentPage === 'style' ? {display: 'block'} : {display: 'none'}}>
-              <Style 
-              username={this.state.user}/>
-            </div>
-            <div style={this.state.currentPage === 'favorites' ? {display: 'block'} : {display: 'none'}}>
-              <Favorites 
-              username={this.state.user}/>
-            </div>
+              username={this.state.user}/>}/>
+              <Route exact path='/style'
+              render={(props) => <Style {...props}
+              username={this.state.user}/>}/>
+              <Route exact path='/favorites'
+              render={(props) => <Favorites {...props}
+              username={this.state.user}/>}/>
+              <Route exact path='/insta'
+              render={(props) => <Instagram {...props}
+              photos={this.state.instagramResults}/>}/>
+            </Switch>
           </div>
-        <div style={this.state.currentPage === 'insta' ? {display: 'block'} : {display: 'none'}}>
-          <Instagram 
-          photos={this.state.instagramResults}/>
-        </div>
       </div>
     </div>
       )
