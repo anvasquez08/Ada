@@ -85,7 +85,7 @@ class App extends React.Component {
               brands={this.state.brands}
               username={this.state.user}/>
             </div>
-            <div style={this.state.currentPage === 'style' ? {display: 'block'} : {display: 'none'}}>
+            {/* <div style={this.state.currentPage === 'style' ? {display: 'block'} : {display: 'none'}}>
               <Style 
               username={this.state.user}/>
             </div>
@@ -96,7 +96,7 @@ class App extends React.Component {
           </div>
         <div style={this.state.currentPage === 'insta' ? {display: 'block'} : {display: 'none'}}>
           <Instagram 
-          photos={this.state.instagramResults}/>
+          photos={this.state.instagramResults}/> */}
         </div>
       </div>
     </div>
