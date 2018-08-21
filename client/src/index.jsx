@@ -30,11 +30,11 @@ const typeDefs = gql`
 `;
 
 const client = new ApolloClient({
-  // clientState: {
+  clientState: {
   //   typeDefs,
-    // defaults: {
-    //   inventory: []
-    // }
+    defaults: {
+      inventory: []
+    }
     // resolvers: {
     //   Query: {
     //     filterInventory: (context, args, { cache, getCacheKey }) => {
@@ -42,7 +42,7 @@ const client = new ApolloClient({
     //     },
     //   }
     // }
-// }
+}
 });
 
 ReactDOM.render(  

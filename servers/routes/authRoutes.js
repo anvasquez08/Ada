@@ -6,6 +6,7 @@ const clientUrl = 'http://localhost:8080';
 const INSTAGRAM_CLIENT_ID = require('../../config').INSTAGRAM_CLIENT_ID;
 const INSTAGRAM_SECRET = require('../../config').INSTAGRAM_SECRET;
 const InstagramStrategy = require('passport-instagram').Strategy;
+const userDB = require('../../databases/Users.js');
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -37,6 +38,7 @@ authRouter.get('/instagram/callback',
 
 authRouter.get('/current_user', (req, res) => {
   req.session.accessToken = req.user.accessToken;
+  userDB.saveUser(req.user.profile.username);
   res.send(req.user.profile.username);
 });
 

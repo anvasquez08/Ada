@@ -9,7 +9,7 @@ const fileUpload = require('express-fileupload');
 const axios = require('axios')
 
 const authRouter = require('./routes/authRoutes');
-const gqlSchema = require('./../databases/gqlSchema.js');
+// const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
@@ -57,7 +57,9 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     hello: () => 'Hello world!',
+    // inventories: (context, {where}) => where ? inventory.filter(elem => elem.brandName === where): inventory
     inventories: (context, {where}) => where ? inventory.filter(elem => elem.brandName === where): inventory
+
   },
 }
 
