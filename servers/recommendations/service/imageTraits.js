@@ -1,16 +1,12 @@
 const recommendationDB = require('./../../../databases/helpers.js');
-const googleVision = require('../helpers/googleVision.js')
-const DBHelpers = require('../../../databases/helpers');
-
+const detectLabels = require('../helpers/detectLabels.js')
 
 let getRecommendationsForImage64 = (image64, callback) => {
-    googleVision.getLabelsFromImage64(image64, (err, labels) => {
-        console.log(labels)
+    detectLabels.getLabelsFromImage64(image64, (err, labels) => {
         if (err) {
             callback(err);
         } else {
             getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
-                console.log(recommendations)
                 if (err) {
                     callback(err);
                 } else {
@@ -25,29 +21,28 @@ let getRecommendationsForImage64 = (image64, callback) => {
             })
         }
     })
-    console.log('get recommendations for URL STOP')
-}
-let getSample = (url, callback) => {
-    getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
-        console.log(recommendations)
-        if (err) {
-            callback(err);
-        } else {
-            inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
-                if (err) {
-                    callback(err)
-                } else {
-                    callback(null, inventories);
-                }
-            })
-        }
-    })
 }
 
+// let getSample = (url, callback) => {
+//     getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+//         console.log(recommendations)
+//         if (err) {
+//             callback(err);
+//         } else {
+//             inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+//             getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+//                 if (err) {
+//                     callback(err)
+//                 } else {
+//                     callback(null, inventories);
+//                 }
+//             })
+//         }
+//     })
+// }
+
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
-    console.log("TAG")
-    DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
-        console.log('Inventories with IDs START')
+    recommendationDB.inventoryItemsWithIds(recommendations, (err, inventories) => {
         inventories = inventories.sort((a, b) => {
             return occurenceObject[b._id] - occurenceObject[a._id];
         })
@@ -58,7 +53,6 @@ let inventoryFromRecommendations = (recommendations, occurenceObject, callback) 
             callback(null, inventories);
         }
     })
-    console.log('Inventories with IDs STOP')
 }
 
 let getRecommendationsFromLabels = (labels, callback) => {
@@ -71,9 +65,9 @@ let getRecommendationsFromLabels = (labels, callback) => {
             callback(null, recommendations, keywordOccurences);
         }
     })
-    console.log('getRecommendationsFromLabels with IDs START')
 }
 
+//Takes an object of inventoryIds and their occurences, returns array of inventoryIds sorted by greatest occurences first
 let idsSortedByKeywordMatch = (occurenceObject) => {
     let inventoryItems = Object.keys(occurenceObject);
     inventoryItems.sort((a, b) => {
@@ -82,9 +76,10 @@ let idsSortedByKeywordMatch = (occurenceObject) => {
     return inventoryItems.slice(0, 16);
 }
 
-let numKeywordsForInventory = (inventoriesWithKeywords) => {
+//Checks the recommendations DB for tags in keywords, returns object containing the inventory ID's found with their occurences
+let numKeywordsForInventory = (keywords) => {
     let inventoryKeywordCount = {};
-    inventoriesWithKeywords.forEach(keyword => {
+    keywords.forEach(keyword => {
         keyword.inventoryIds.forEach((inventoryId) => {
             if (inventoryKeywordCount[inventoryId]) {
                 inventoryKeywordCount[inventoryId]++;

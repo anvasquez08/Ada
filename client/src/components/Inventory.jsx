@@ -1,6 +1,7 @@
 import React from "react";
 import UploadComponent from "./UploadComponent.jsx";
 import inventory from "../../../databases/testData/asosWomen.json";
+import axios from 'axios';
 import {
   Grid,
   Image,
@@ -35,6 +36,15 @@ class Inventory extends React.Component {
     this.setState({ brands: filtered });
   }
 
+  addFavorite(inventoryItem) {
+    axios.post(`/favorites/${this.props.username}/${inventoryItem._id}`)
+    .then(({data}) => {
+      console.log('favorite saved')
+    }).cathch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
     return (
       <div>
@@ -46,7 +56,9 @@ class Inventory extends React.Component {
         {/* UPLOAD COMPONENT */}
         <Grid style={{ margin: "10px" }}>
           <Grid.Row centered>
-            <UploadComponent handleStateChange={this.props.handleStateChange}/>
+            <UploadComponent
+            handleStateChange={this.props.handleStateChange}
+            username={this.props.username}/>
           </Grid.Row>
         </Grid>
         {/* INVENTORY FILTERS */}
@@ -57,9 +69,9 @@ class Inventory extends React.Component {
               <Menu.Item>
                 <Menu.Header>Price</Menu.Header>
                 <Form>
-                  { this.props.brands.length > 0 && this.state.prices.map(price => {
+                  { this.props.brands.length > 0 && this.state.prices.map((price, ind) => {
                     return (
-                      <Form.Field key={price}>
+                      <Form.Field key={ind}>
                         <Checkbox
                           radio
                           label={price}
@@ -103,7 +115,7 @@ class Inventory extends React.Component {
               <Card.Group itemsPerRow={4}>
                 { this.props.inventory && this.props.inventory.map(item => {
                   return (
-                    <Card key={item.id}>
+                    <Card key={item._id}>
                       <Card.Content>
                         <Image src={item.imageUrl} size="big" centered />
                         <p style={{ fontSize: "15px", color: "#909090" }}>
@@ -114,7 +126,7 @@ class Inventory extends React.Component {
                         <p style={{ fontSize: "9px", color: "#909090" }}>
                           From {item.brandName}
                         </p>
-                        <Button size="mini">Buy</Button>
+                        <Button size="mini" onClick={() => {this.addFavorite(item)}}>Buy</Button>
                         <Button size="mini">Details</Button>
                       </Card.Content>
                     </Card>
