@@ -11,32 +11,67 @@ db.once('open', function() {
 });
 
 let userSchema = mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true
+  username: {
+   type: String,
+   unique: true
   },
-  username: String,
-  password: String,
-  email: String
+  // password: String,
+  // email: String,
+  history: {type: [String], default: []},
+  favorites: {type: [String], default: []},
+  age: {type: Number, default: 0},
+  gender: {type: String, default: 'F'}
 });
 
 let User = mongoose.model('User', userSchema);
 
-let saveUser = (username, password, email) => {
+let saveUser = (username) => {
+  console.log('SAVING USER', username);
   let newUser = new User({
-    username: username,
-    password: password,
-    email: email
+    username: username
+    // password: password,
+    // email: email,
+    // age: age,
+    // gender: gender
   });
 
   newUser.save((err) => {
-    if (err) console.log('Error in database save function');
+    if (err) console.log('Error creating new user', err);
     else console.log('Successfully saved data');
   });
 }
 
+let addHistoryToUser = (username, history) => {
+  User.findOneAndUpdate({username: username}, {$push: {history: history}}, (err) => {
+    if (err) {
+      console.log('ERR ADDING HISTORY TO USER', err)
+    }
+  });
+}
+
+let addFavoriteToUser = (username, favorite) => {
+  User.findOneAndUpdate({username: username}, {$push: {favorites: favorite}}, (err) => {
+    if (err) {
+      console.log('ERR ADDING FAVORITE TO USER', err)
+    }
+  });
+}
+
+let getUser = (username, callback) => {
+  User.findOne({username: username}, (err, foundUser) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, foundUser);
+    }
+  })
+}
+
 module.exports = {
   db,
-  saveUser
+  saveUser,
+  addHistoryToUser,
+  addFavoriteToUser,
+  getUser
 }
 

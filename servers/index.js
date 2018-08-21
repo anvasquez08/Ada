@@ -7,13 +7,13 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
-
 const authRouter = require('./routes/authRoutes');
 const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
-const { inventoryDB, imageDB } = require('./../databases/index.js')
+const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
-const recommendationService = require('./recommendations/service/imageTraits.js');
+const recommendationService = require('./recommendations/service/imageTraits.js')
+const helpers = require('../databases/helpers.js');
 
 const app = express();
 app.use(fileUpload());
@@ -35,15 +35,65 @@ app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: tru
 // app.get('/scrape', scraper.googleScrape)
 // app.get('/tags', scraper.getByTags)
 
-app.post('/index', function(req, res) {
-    let url = 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png'
-    let testID = 999;
-    recWorker.indexAnalyzeInventoryItem(testID, url, (err) => {
+
+//User uploads image. Save's image, adds image to user's history
+app.post('/upload/:user', (req,res) => {
+    
+    let username = req.params.user;
+    let imageFile = req.files.image;
+    
+    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
         if (err) {
-            res.send(err)
+            res.status(500).send(err);
         } else {
-            res.send('success');
+            console.log(imageUrl);
+            res.status(200).send(imageUrl);
         }
+    })
+    
+})
+
+
+//Adds inventoryId to users favorites
+app.post('/favorites/:user/:inventoryId', (req,res) => {
+    let username = req.params.user;
+    let inventoryId = req.params.inventoryId;
+    userDB.addFavoriteToUser(username, inventoryId);
+})
+
+//returns user's favorites
+app.get('/favorites/:user', (req,res) => { 
+    let username = req.params.user;
+
+    userDB.getUser(username, (err, userProfile) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            if (userProfile === null) {
+                res.status(400).send('User not found');
+            }
+            helpers.inventoryItemsWithIds(userProfile.favorites, (err, favorites) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.status(200).send(favorites);
+                }
+            })
+           
+        }
+    })
+})
+
+//return user's image upload history
+app.get('/history/:user', (req,res) => { 
+    console.log('GETTING HISTORY')
+    let username = req.params.user;
+
+    userDB.getUser(username, (err, userProfile) => {
+        if (userProfile === null) {
+            res.status(400).send('User not found');
+        }
+        res.status(200).send(userProfile.history);
     });
 });
 
@@ -71,13 +121,15 @@ app.post('/upload', (req,res) => {
     
     imageUpload.uploadImage(imageFile, (err, imageUrl) => {
         if (err) {
-            res.status(400).send(err);
+            res.status(500).send(err);
         } else {
             res.status(200).send();
         }
     })
 })
 
+//using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
+//TODO: Run worker occasionally instead of running this test endpoint
 app.post('/update', function(req, res) {
     recWorker.updateIndexDB((err) => {
         if (err) {
@@ -85,6 +137,7 @@ app.post('/update', function(req, res) {
         }
     });
 });
+
 
 app.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
@@ -109,5 +162,11 @@ app.post('/send', (req,res) => {
         // res.send(data)
     })
 })
+
+//Test endpoint to add user to db
+app.get('/testuser', (req, res) => {
+    userDB.saveUser('testuser', 'testpassword', 'testemail', 1, 'F')
+    res.status(200).send('hopefully we created a test user');
+}) 
 
 app.listen(8080, () => console.log("Listening on port 8080"));

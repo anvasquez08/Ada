@@ -1,15 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-
 import NavBar from './NavBar.jsx';
-import Authentication from '../components/Authentication.jsx';
-import Inventory from '../components/Inventory.jsx';
-import Header from '../components/Header.jsx'
+import Inventory from './Inventory.jsx';
 import '../styles/css/main.css'
-import Modal from '@material-ui/core/Modal';
-import UploadComponent from './UploadComponent.jsx';
-
-import Instagram from '../components/Instagram.jsx';
+import Instagram from './Instagram.jsx';
+import Style from './Style.jsx';
+import Favorites from './Favorites.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,10 +16,14 @@ class App extends React.Component {
       user: '',
       inventory: [], 
       brands: [],
-      instagramResults: []
+      instagramResults: [],
+      currentPage: 'home'
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.loadStylePage = this.loadStylePage.bind(this);
+    this.loadHomePage = this.loadHomePage.bind(this);
+    this.loadFavoritesPage = this.loadFavoritesPage.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +36,8 @@ class App extends React.Component {
           console.log('Getting back to client: ', result)
           this.setState({instagramResults: result.data.data})
         })
+      }).catch((err) => {
+        console.log('auth error', err.data);
       })
   }
 
@@ -48,21 +50,56 @@ class App extends React.Component {
     this.setState({[key]: val, brands: [...new Set(brands)]})
   }
 
+  loadStylePage() {
+    this.setState({
+      currentPage: 'style'
+    })
+  }
+
+  loadHomePage() {
+    this.setState({
+      currentPage: 'home'
+    })
+  }
+
+  loadFavoritesPage() {
+    this.setState({
+      currentPage: 'favorites'
+    })
+  }
+
 
   render() {
     return (
       <div>
-      <NavBar user={this.state.user}/>
+      <NavBar user={this.state.user}
+      loadStylePage={this.loadStylePage}
+      loadHomePage={this.loadHomePage}
+      loadFavoritesPage={this.loadFavoritesPage}/>
         <div style={{margin: "30px"}}>
           <div>
+            <div style={(this.state.currentPage === 'home') ? {display: 'block'} : {display: 'none'}}>
               <Inventory 
               handleStateChange={this.handleStateChange} 
               inventory={this.state.inventory}
-              brands={this.state.brands}/>
+              brands={this.state.brands}
+              username={this.state.user}/>
             </div>
-      <Instagram photos={this.state.instagramResults}/>
+            <div style={this.state.currentPage === 'style' ? {display: 'block'} : {display: 'none'}}>
+              <Style 
+              username={this.state.user}/>
+            </div>
+            <div style={this.state.currentPage === 'favorites' ? {display: 'block'} : {display: 'none'}}>
+              <Favorites 
+              username={this.state.user}/>
+            </div>
+          </div>
+        <div style={this.state.currentPage === 'insta' ? {display: 'block'} : {display: 'none'}}>
+          <Instagram 
+          photos={this.state.instagramResults}/>
         </div>
       </div>
+    </div>
       )
   }
 }

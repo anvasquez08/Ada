@@ -6,19 +6,19 @@ class UploadComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.handleUploadFile = this.handleUploadFile.bind(this);
+        // this.handleUploadFile = this.handleUploadFile.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
     }
 
-    handleUploadFile = (event) => {
-        const data = new FormData();
-        data.append('file', event.target.files[0]);
-        // '/files' is your node.js route that triggers our middleware
-        axios.post('/upload', data).then((response) => {
-        console.log('Recommendations', response); // do something with the response
-        this.props.handleStateChange('inventory', response.data)
-      });
-    }
+    // handleUploadFile = (event) => {
+    //     const data = new FormData();
+    //     data.append('file', event.target.files[0]);
+    //     // '/files' is your node.js route that triggers our middleware
+    //     axios.post('/upload', data).then((response) => {
+    //     console.log('Recommendations', response); // do something with the response
+    //     this.props.handleStateChange('inventory', response.data)
+    //   });
+    // }
     
     handleImageUpload(e){
       e.preventDefault()
@@ -34,7 +34,7 @@ class UploadComponent extends Component {
       let data = new FormData()
       data.append('image', imageFile)
       data.append('name', 'image')
-      axios.post("/upload",data)
+      axios.post(`/upload/${this.props.username}`,data)
       .then(({data})=>{
         console.log('image uploaded')
       })
