@@ -1,5 +1,6 @@
 import React from 'react';
 import InstagramEntry from '../components/InstagramEntry.jsx';
+import { Grid } from "semantic-ui-react";
 
 class Instagram extends React.Component {
   constructor(props) {
@@ -28,11 +29,13 @@ class Instagram extends React.Component {
 
   render() {
     return (
-      <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-        {this.props.photos.map((photo, idx) => {
-          return <InstagramEntry photo={photo} key={idx} select={this.select}/>
-          })
-        }
+      <div style={{marginLeft: "auto", marginRight: "auto"}}>
+      <Grid columns={4}>
+          {this.props.photos.map((photo, idx) => {
+            return <div style={{margin: "20px 2px 18px 18px"}}><Grid.Column width={6}><InstagramEntry photo={photo} key={idx} select={this.select}/></Grid.Column></div>
+            })
+          }
+      </Grid>
       </div>
     )
   }

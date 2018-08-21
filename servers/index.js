@@ -7,12 +7,13 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
-
 const authRouter = require('./routes/authRoutes');
 const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
+const recommendationService = require('./recommendations/service/imageTraits.js')
+const helpers = require('../databases/helpers.js');
 
 const app = express();
 app.use(fileUpload());
@@ -38,36 +39,20 @@ app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: tru
 //User uploads image. Save's image, adds image to user's history
 app.post('/upload/:user', (req,res) => {
     
-    let imageFile = req.files.file;
     let username = req.params.user;
+    let imageFile = req.files.image;
     
-    imageUpload.uploadImage(username, imageFile, (err, recommendations) => {
-        console.log('recs sent as response', recommendations)
+    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
         if (err) {
-            res.status(400).send(err);
+            res.status(500).send(err);
         } else {
-            res.status(200).send(recommendations);
+            console.log(imageUrl);
+            res.status(200).send(imageUrl);
         }
     })
     
 })
 
-//DELETE ME LATER: This is just for testing uploads with user set to testuser
-// app.post('/upload', (req,res) => {
-    
-//     let imageFile = req.files.file;
-//     let username = 'testuser';
-    
-//     imageUpload.uploadImage(username, imageFile, (err, recommendations) => {
-//         console.log('recs sent as response', recommendations)
-//         if (err) {
-//             res.status(400).send(err);
-//         } else {
-//             res.status(200).send(recommendations);
-//         }
-//     })
-    
-// })
 
 //Adds inventoryId to users favorites
 app.post('/favorites/:user/:inventoryId', (req,res) => {
@@ -87,23 +72,58 @@ app.get('/favorites/:user', (req,res) => {
             if (userProfile === null) {
                 res.status(400).send('User not found');
             }
-            res.status(200).send(userProfile.favorites);
+            helpers.inventoryItemsWithIds(userProfile.favorites, (err, favorites) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.status(200).send(favorites);
+                }
+            })
+           
         }
     })
 })
 
 //return user's image upload history
 app.get('/history/:user', (req,res) => { 
+    console.log('GETTING HISTORY')
     let username = req.params.user;
 
     userDB.getUser(username, (err, userProfile) => {
+        if (userProfile === null) {
+            res.status(400).send('User not found');
+        }
+        res.status(200).send(userProfile.history);
+    });
+});
+
+/* Will use graph ql route. */
+
+app.post('/recommend', function(req, res) {
+    let image64 = req.body.file.substring(23);
+
+    recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send();
+        } else {
+            console.log(recommendations);
+            res.status(200).send(recommendations);
+        }
+      })
+
+});
+
+app.post('/upload', (req,res) => {
+    
+    let imageFile = req.files.image;
+    console.log(imageFile);
+    
+    imageUpload.uploadImage(imageFile, (err, imageUrl) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            if (userProfile === null) {
-                res.status(400).send('User not found');
-            }
-            res.status(200).send(userProfile.history);
+            res.status(200).send();
         }
     })
 })
@@ -122,7 +142,24 @@ app.post('/update', function(req, res) {
 app.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
     .then(({data})=>{
-        res.send(data)
+        label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        if (label === 't shirt') label = 'T-Shirt'
+        console.log({label})
+        recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
+            console.log({recommendations})
+            if (err) {
+                res.send(err);
+            } else {
+                recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send(inventories);
+                    }
+                })
+            }
+        })
+        // res.send(data)
     })
 })
 

@@ -11,13 +11,12 @@ db.once('open', function() {
 });
 
 let userSchema = mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true
+  username: {
+   type: String,
+   unique: true
   },
-  username: String,
-  password: String,
-  email: String,
+  // password: String,
+  // email: String,
   history: {type: [String], default: []},
   favorites: {type: [String], default: []},
   age: {type: Number, default: 0},
@@ -26,17 +25,18 @@ let userSchema = mongoose.Schema({
 
 let User = mongoose.model('User', userSchema);
 
-let saveUser = (username, password, email, age, gender) => {
+let saveUser = (username) => {
+  console.log('SAVING USER', username);
   let newUser = new User({
-    username: username,
-    password: password,
-    email: email,
-    age: age,
-    gender: gender
+    username: username
+    // password: password,
+    // email: email,
+    // age: age,
+    // gender: gender
   });
 
   newUser.save((err) => {
-    if (err) console.log('Error in database save function');
+    if (err) console.log('Error creating new user', err);
     else console.log('Successfully saved data');
   });
 }

@@ -1,9 +1,8 @@
 const recommendationDB = require('./../../../databases/helpers.js');
 const detectLabels = require('../helpers/detectLabels.js')
 
-//Takes URL of image and returns array of inventoryId's to callback 
-let getRecommendationsForURL = (url, callback) => {
-    googleVision.getLabelsFromURL(url, (err, labels) => {
+let getRecommendationsForImage64 = (image64, callback) => {
+    detectLabels.getLabelsFromImage64(image64, (err, labels) => {
         if (err) {
             callback(err);
         } else {
@@ -23,9 +22,26 @@ let getRecommendationsForURL = (url, callback) => {
         }
     })
 }
+let getSample = (url, callback) => {
+            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
+                }
+            })
+        
+    
+}
 
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
-    DBHelpers.inventoryItemsWithIds(recommendations, (err, inventories) => {
+    recommendationDB.inventoryItemsWithIds(recommendations, (err, inventories) => {
         inventories = inventories.sort((a, b) => {
             return occurenceObject[b._id] - occurenceObject[a._id];
         })
@@ -56,7 +72,7 @@ let idsSortedByKeywordMatch = (occurenceObject) => {
     inventoryItems.sort((a, b) => {
         return occurenceObject[b] - occurenceObject[a];
     });
-    return inventoryItems;
+    return inventoryItems.slice(0, 16);
 }
 
 //Checks the recommendations DB for tags in keywords, returns object containing the inventory ID's found with their occurences
@@ -74,5 +90,7 @@ let numKeywordsForInventory = (keywords) => {
     return inventoryKeywordCount;
 }
 module.exports = {
-    getRecommendationsForURL
+    getRecommendationsForImage64,
+    getRecommendationsFromLabels,
+    inventoryFromRecommendations
 };

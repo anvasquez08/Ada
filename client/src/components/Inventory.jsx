@@ -1,6 +1,7 @@
 import React from "react";
 import UploadComponent from "./UploadComponent.jsx";
 import inventory from "../../../databases/testData/asosWomen.json";
+import axios from 'axios';
 import {
   Grid,
   Image,
@@ -17,7 +18,8 @@ class Inventory extends React.Component {
     super(props);
     this.state = {
       prices: ["$", "$$", "$$$", "$$$$"],
-      filters: []
+      filters: [],
+      filteredBrands: []
     };
     this.filterBrands = this.filterBrands.bind(this);
   }
@@ -34,21 +36,34 @@ class Inventory extends React.Component {
     this.setState({ brands: filtered });
   }
 
+  addFavorite(inventoryItem) {
+    axios.post(`/favorites/${this.props.username}/${inventoryItem._id}`)
+    .then(({data}) => {
+      console.log('favorite saved')
+    }).cathch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
     return (
       <div>
           {/* HEADER IMAGE */}
         <div style={{ overflow: "hidden", maxHeight: "300px" }}>
-          <Image src="https://i.imgur.com/nw6xJ3h.jpg" fluid />
+          <Image src="../assets/banner.jpg" fluid />
         </div>
 
+        {/* UPLOAD COMPONENT */}
         <Grid style={{ margin: "10px" }}>
-          {/* UPLOAD COMPONENT */}
           <Grid.Row centered>
-            <UploadComponent handleStateChange={this.props.handleStateChange}/>
+            <UploadComponent
+            handleStateChange={this.props.handleStateChange}
+            username={this.props.username}/>
           </Grid.Row>
-          
-          {/* INVENTORY FILTERS */}
+        </Grid>
+        {/* INVENTORY FILTERS */}
+        {!!this.props.brands.length && (
+        <Grid style={{ margin: "10px" }}>
           <Grid.Column width={3}>
             <Menu vertical>
               <Menu.Item>
@@ -74,8 +89,8 @@ class Inventory extends React.Component {
                 <Menu.Header>Brands</Menu.Header>
                 <Form>
                   {this.props.brands && this.props.brands.map((singlebrand, ind) => {
-                    let name = Object.keys(singlebrand)[0];
-                    let isChecked = Object.values(singlebrand)[0];
+                    let name = singlebrand
+                    // let isChecked = Object.values(singlebrand)[0];
                     return (
                       <Form.Field key={ind}>
                         <Checkbox
@@ -111,7 +126,7 @@ class Inventory extends React.Component {
                         <p style={{ fontSize: "9px", color: "#909090" }}>
                           From {item.brandName}
                         </p>
-                        <Button size="mini">Buy</Button>
+                        <Button size="mini" onClick={() => {this.addFavorite(item)}}>Buy</Button>
                         <Button size="mini">Details</Button>
                       </Card.Content>
                     </Card>
@@ -120,7 +135,9 @@ class Inventory extends React.Component {
               </Card.Group>
             </div>
           </Grid.Column>
-        </Grid>
+        </Grid>)
+        }
+        
       </div>
     );
   }

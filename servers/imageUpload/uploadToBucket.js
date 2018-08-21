@@ -20,14 +20,10 @@ let uploadImage = (username, imageFile, callback) => {
     if (err) {
       callback(err);
     } else {
-      recService.getRecommendationsForURL(data.Location, (err, recommendations) => {
-        if (err) {
-          callback (err);
-        } else {
-          userDB.addHistoryToUser(username, data.Location);
-          callback(null, recommendations);
-        }
-      })
+      console.log(username);
+      console.log(data.Location);
+      userDB.addHistoryToUser(username, data.Location);
+      callback(null, data.location);
     }
   });
 }
