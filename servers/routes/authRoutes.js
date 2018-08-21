@@ -35,25 +35,20 @@ authRouter.get('/instagram/callback',
 );
 
 authRouter.get('/current_user', (req, res) => {
-
+  if (req.user !== undefined) {
     req.session.accessToken = req.user.accessToken;
-  if (req.user) {
     res.send(req.user.profile.username);
-  } else {
-    res.send('');
   }
+
+
 });
 
 authRouter.get('/media', (req, res) => {
-  console.log("Hitting /media endpoint");
   axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.session.accessToken}`)
-  // res.send(req.user.username);
   .then((result) => {
-    console.log("Getting back from Instagram")
     res.send(result.data);
   })
   .catch((err) => {console.log("Cannot return /media because user is not logged in", err.data)})
-  // res.send('test');
 });
 
 authRouter.get('/logout', (req, res) => {
