@@ -36,7 +36,7 @@ let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
 }
 
 let saveItemRecommendation = (inventoryId, itemLabels) => {
-  helpers.indexItem(inventoryId, itemLabels);
+    helpers.indexItem(inventoryId, itemLabels);
 }
 
 let indexNewItems = (newItems) => {

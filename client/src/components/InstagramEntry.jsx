@@ -23,7 +23,7 @@ class InstagramEntry extends React.Component {
         style={this.state.toggleStyle
           ? {objectFit: 'cover', opacity: 0.5, filter: 'grayscale(100%)', backgroundPosition: 'center top', width: '100%'}
           : {objectFit: 'cover', backgroundPosition: 'center top', width: '100%'}}
-        src={this.props.photo.images.low_resolution.url} />
+        src={this.props.photo.images.low_resolution.url}/>
       </div>
     )
   }

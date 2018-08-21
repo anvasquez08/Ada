@@ -28,22 +28,20 @@ let getRecommendationsForImage64 = (image64, callback) => {
     console.log('get recommendations for URL STOP')
 }
 let getSample = (url, callback) => {
-            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
-                console.log(recommendations)
+    getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+        console.log(recommendations)
+        if (err) {
+            callback(err);
+        } else {
+            inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
                 if (err) {
-                    callback(err);
+                    callback(err)
                 } else {
-                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
-                        if (err) {
-                            callback(err)
-                        } else {
-                            callback(null, inventories);
-                        }
-                    })
+                    callback(null, inventories);
                 }
             })
-        
-    
+        }
+    })
 }
 
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {

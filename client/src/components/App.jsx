@@ -26,12 +26,13 @@ class App extends React.Component {
     axios.get('/auth/current_user')
       .then((result) => 
       this.setState({user: result.data, isLoggedIn: true}))
+      .catch(() => {console.log("User is not logged in!")})
       .then(() => {
+        if (this.state.user) {
         axios.get('/auth/media')
         .then((result) => {
-          console.log('Getting back to client: ', result)
           this.setState({instagramResults: result.data.data})
-        })
+        })}
       })
   }
 
@@ -43,7 +44,6 @@ class App extends React.Component {
     let brands = val.map(({brandName}) => brandName)
     this.setState({[key]: val, brands: [...new Set(brands)]})
   }
-
 
   render() {
     return (

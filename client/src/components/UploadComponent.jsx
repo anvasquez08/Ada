@@ -14,9 +14,10 @@ class UploadComponent extends Component {
         const data = new FormData();
         data.append('file', event.target.files[0]);
         // '/files' is your node.js route that triggers our middleware
-        axios.post('/upload', data).then((response) => {
-        console.log('Recommendations', response); // do something with the response
-        this.props.handleStateChange('inventory', response.data)
+        axios.post('/upload', data)
+          .then((response) => {
+            console.log('Recommendations', response); // do something with the response
+            this.props.handleStateChange('inventory', response.data)
       });
     }
     
