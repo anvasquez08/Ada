@@ -4,9 +4,9 @@ import axios from 'axios';
 import NavBar from './NavBar.jsx';
 import Authentication from '../components/Authentication.jsx';
 import Inventory from '../components/Inventory.jsx';
-import Header from '../components/Header.jsx'
+// import Header from '../components/Header.jsx'
 import '../styles/css/main.css'
-import Modal from '@material-ui/core/Modal';
+// import Modal from '@material-ui/core/Modal';
 import UploadComponent from './UploadComponent.jsx';
 
 import Instagram from '../components/Instagram.jsx';
@@ -27,16 +27,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/auth/current_user')
-      .then((result) => 
-      this.setState({user: result.data, isLoggedIn: true}))
-      .then(() => {
-        axios.get('/auth/media')
-        .then((result) => {
-          console.log('Getting back to client: ', result)
-          this.setState({instagramResults: result.data.data})
-        })
-      })
+    // axios.get('/auth/current_user')
+    //   .then((result) => 
+    //   this.setState({user: result.data, isLoggedIn: true}))
+    //   .then(() => {
+    //     axios.get('/auth/media')
+    //     .then((result) => {
+    //       console.log('Getting back to client: ', result)
+    //       this.setState({instagramResults: result.data.data})
+    //     })
+    //   })
   }
 
   handleLogin() {
