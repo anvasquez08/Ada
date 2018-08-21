@@ -37,10 +37,13 @@ app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: tru
 
 
 //User uploads image. Save's image, adds image to user's history
+
 app.post('/upload/:user', (req,res) => {
     
     let username = req.params.user;
     let imageFile = req.files.image;
+
+    console.log(username);
     
     imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
         if (err) {
@@ -52,6 +55,21 @@ app.post('/upload/:user', (req,res) => {
     })
     
 })
+
+app.post('/upload', (req,res) => {
+    
+    let imageFile = req.files.image;
+    console.log(imageFile);
+    
+    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(imageUrl);
+        }
+    })
+})
+
 
 
 //Adds inventoryId to users favorites
@@ -113,20 +131,6 @@ app.post('/recommend', function(req, res) {
       })
 
 });
-
-app.post('/upload', (req,res) => {
-    
-    let imageFile = req.files.image;
-    console.log(imageFile);
-    
-    imageUpload.uploadImage(imageFile, (err, imageUrl) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send();
-        }
-    })
-})
 
 //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
 //TODO: Run worker occasionally instead of running this test endpoint

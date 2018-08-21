@@ -69,9 +69,9 @@ class Inventory extends React.Component {
               <Menu.Item>
                 <Menu.Header>Price</Menu.Header>
                 <Form>
-                  { this.props.brands.length > 0 && this.state.prices.map(price => {
+                  { this.props.brands.length > 0 && this.state.prices.map((price, ind) => {
                     return (
-                      <Form.Field key={price}>
+                      <Form.Field key={ind}>
                         <Checkbox
                           radio
                           label={price}
@@ -115,7 +115,7 @@ class Inventory extends React.Component {
               <Card.Group itemsPerRow={4}>
                 { this.props.inventory && this.props.inventory.map(item => {
                   return (
-                    <Card key={item.id}>
+                    <Card key={item._id}>
                       <Card.Content>
                         <Image src={item.imageUrl} size="big" centered />
                         <p style={{ fontSize: "15px", color: "#909090" }}>
