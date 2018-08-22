@@ -15,12 +15,14 @@ class Instagram extends React.Component {
     if (this.state.selectedPictures.indexOf(url) > -1) {
       let copy = this.state.selectedPictures.slice()
       copy.splice(copy.indexOf(url), 1)
+      console.log("Instagram selected photos: ", copy)
       this.setState({
         selectedPictures: copy
       })
     } else {
       let copy = this.state.selectedPictures.slice()
       copy.push(url);
+      console.log("Instagram selected photos: ", copy)
       this.setState({
         selectedPictures: copy
       })

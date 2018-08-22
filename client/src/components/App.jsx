@@ -32,7 +32,7 @@ class App extends React.Component {
     axios.get('/auth/current_user')
       .then((result) => this.setState({user: result.data, isLoggedIn: true}))
       .then(() => {
-        // if active user session, pull user's instagram photos
+        // if there is an active user session, pull user's instagram photos
         if (this.state.user) {
           axios.get('/auth/media')
           .then((result) => {this.setState({instagramResults: result.data.data})})

@@ -15,6 +15,7 @@ let getLabelsFromURL = (imageURL, callback) => {
                     let traits = response.Labels.map(function(trait) {
                         return trait.Name;
                     });
+                    console.log("Logging out traits from getLabelsFromURL: ", traits);
                     callback(null, traits);
                 }
             });
@@ -46,9 +47,10 @@ let getLabels = (imageFile, callback) => {
         }, 
         MaxLabels: 123, 
         MinConfidence: 70
-       };
+        };
 
     rekognition.detectLabels(params, function (err, data) {
+        console.log('Hitting AWS Rekognition');
         if (err) {
             console.log(err)
             callback(err.stack);

@@ -45,13 +45,13 @@ app.post('/upload/:user', (req,res) => {
     let username = req.params.user;
     let imageFile = req.files.image;
 
-    console.log(username);
+    console.log("Console logging username from /upload/:user ", username);
     
     imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            console.log(imageUrl);
+            console.log("Console logging imageUrl: ",imageUrl);
             res.status(200).send(imageUrl);
         }
     })
@@ -123,7 +123,7 @@ app.post('/recommend', function(req, res) {
             console.log(err);
             res.status(500).send();
         } else {
-            console.log(recommendations);
+            console.log("Console logging recommendations here: ", recommendations);
             res.status(200).send(recommendations);
         }
     })
