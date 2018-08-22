@@ -98,6 +98,7 @@ class App extends React.Component {
             </Switch>
           </div>
       </div>
+      <Instagram photos={this.state.instagramResults}/>
     </div>
       )
   }

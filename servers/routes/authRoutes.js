@@ -38,8 +38,15 @@ authRouter.get('/instagram/callback',
 authRouter.get('/current_user', (req, res) => {
   if (req.user !== undefined) {
     req.session.accessToken = req.user.accessToken;
-    userDB.saveUser(req.user.profile.username);
+    userDB.getUser(req.user.profile.username, (err, data) => {
+      if (err) {
+        console.log("User not found in DB, saving user to DB!")
+        userDB.saveUser(req.user.profile.username)
+      }
+    });
     res.send(req.user.profile.username);
+  } else {
+    res.send('');
   }
 });
 
@@ -48,7 +55,7 @@ authRouter.get('/media', (req, res) => {
   .then((result) => {
     res.send(result.data);
   })
-  .catch((err) => {console.log("Cannot return /media because user is not logged in", err.data)})
+  .catch((err) => {console.log("Log in to see your Instagram feed")})
 });
 
 authRouter.get('/logout', (req, res) => {
