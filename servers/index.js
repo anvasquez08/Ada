@@ -15,6 +15,7 @@ const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
+const path = require('path');
 
 const app = express();
 app.use(fileUpload());
@@ -79,7 +80,9 @@ app.post('/favorites/:user/:inventoryId', (req,res) => {
     let username = req.params.user;
     let inventoryId = req.params.inventoryId;
     userDB.addFavoriteToUser(username, inventoryId);
+    res.status(200).send('hope this saved. clean me up later');
 })
+
 
 //returns user's favorites
 app.get('/favorites/:user', (req,res) => { 
@@ -102,6 +105,18 @@ app.get('/favorites/:user', (req,res) => {
            
         }
     })
+})
+
+//Adds inventoryId to users favorites
+app.post('/instahistory/:user', (req,res) => {
+    let username = req.params.user;
+    let inventoryIDs = req.body.photos;
+    console.log('username', username);
+    console.log('inventoryIds', inventoryIDs);
+    inventoryIDs.forEach(photoUrl => {
+        userDB.addHistoryToUser(username, photoUrl);
+    });
+    res.status(200).send('hope these saved. clean me up later')
 })
 
 //return user's image upload history
@@ -169,10 +184,18 @@ app.post('/send', (req,res) => {
     })
 })
 
-//Test endpoint to add user to db
-app.get('/testuser', (req, res) => {
-    userDB.saveUser('testuser', 'testpassword', 'testemail', 1, 'F')
-    res.status(200).send('hopefully we created a test user');
-}) 
+
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+})
+
+// app.get('/favorites', (req, res) => {
+//     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+// })
+
+// app.get('/insta', (req, res) => {
+//     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+// })
 
 app.listen(8080, () => console.log("Listening on port 8080"));
