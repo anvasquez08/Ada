@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk');
 const userDB = require ('../../databases/Users.js')
 
-
 AWS.config.update({region: 'us-west-2'});
 
 // Create S3 service object

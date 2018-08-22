@@ -30,15 +30,13 @@ class App extends React.Component {
   componentDidMount() {
     // check if there is an active user session
     axios.get('/auth/current_user')
-      .then((result) => 
-      this.setState({user: result.data, isLoggedIn: true}))
+      .then((result) => this.setState({user: result.data, isLoggedIn: true}))
       .then(() => {
+        // if there is an active user session, pull user's instagram photos
         if (this.state.user) {
-        // if active user session, pull user's instagram photos
-        axios.get('/auth/media')
-        .then((result) => {
-          this.setState({instagramResults: result.data.data})
-        })}
+          axios.get('/auth/media')
+          .then((result) => {this.setState({instagramResults: result.data.data})})
+        }
       })
   }
 
@@ -69,7 +67,6 @@ class App extends React.Component {
     })
   }
 
-
   render() {
     return (
       <div>
@@ -81,27 +78,32 @@ class App extends React.Component {
           <div>
             <Switch>
               <Route exact path='/'
-              render={(props) => <Inventory {...props}
-              handleStateChange={this.handleStateChange} 
-              inventory={this.state.inventory}
-              brands={this.state.brands}
-              username={this.state.user}/>}/>
+                render={(props) => <Inventory {...props}
+                handleStateChange={this.handleStateChange} 
+                inventory={this.state.inventory}
+                brands={this.state.brands}
+                username={this.state.user}/>}/>
               <Route exact path='/style'
-              render={(props) => <Style {...props}
-              username={this.state.user}/>}/>
+                render={(props) => <Style {...props}
+                username={this.state.user}/>}/>
               <Route exact path='/favorites'
-              render={(props) => <Favorites {...props}
-              username={this.state.user}/>}/>
+                render={(props) => <Favorites {...props}
+                username={this.state.user}/>}/>
               <Route exact path='/insta'
+<<<<<<< HEAD
+                render={(props) => <Instagram {...props}
+                photos={this.state.instagramResults}/>}/>
+=======
               render={(props) => <Instagram {...props}
               photos={this.state.instagramResults}
               username={this.state.user}/>}/>
+>>>>>>> master
             </Switch>
           </div>
       </div>
-      <Instagram photos={this.state.instagramResults}/>
-    </div>
-      )
+        <Instagram photos={this.state.instagramResults}/>
+      </div>
+    )
   }
 }
 

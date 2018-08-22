@@ -56,7 +56,7 @@ exports.indexItem = (id, itemLabels) => {
   })
 }
 
-exports.getKetwordEntries = (itemKeywords, callback) => {
+exports.getKeywordEntries = (itemKeywords, callback) => {
   ItemKeywords.find({keyword: {$in: itemKeywords}}, (err, results) => {
     if (err) {
       callback(err);
@@ -105,11 +105,11 @@ exports.getRecentTimestamp = (callback) => {
 
 
 exports.retrieveNewItems = (timestamp, callback) => {
-    Item.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, newItems);
-      }
-    })
-  }
+  Item.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, newItems);
+    }
+  })
+}
