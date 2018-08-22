@@ -1,34 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
-import { ApolloProvider } from "react-apollo";
-import ApolloClient from "apollo-boost";
 import App from "./components/App.jsx";
-import gql from "graphql-tag";
 
-const client = new ApolloClient({  
-  clientState: {
-    defaults: {},
-    resolvers:{},
-    typeDefs: {}
-  }
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createUploadLink } from 'apollo-upload-client'
+import { ApolloProvider ,  createNetworkInterface } from "react-apollo";
+
+ const client = new ApolloClient({
+  link: createUploadLink({ uri: 'http://localhost:4000/graphql' }),
+  cache: new InMemoryCache()
 });
 
-ReactDOM.render(  
+ReactDOM.render( 
   <ApolloProvider client={client}> 
-    <App /> 
-  </ApolloProvider>, 
-  document.getElementById("app"));
-
-client
-  .query({
-    query: gql`
-    {
-      hello 
-    }
-  `
-  })
-  .then(result => console.log('this is the test result', result.data))
-  .catch(err => console.error(err))
+  <App />      
+  </ApolloProvider>, document.getElementById("app")
+);
 
 export default client;
+

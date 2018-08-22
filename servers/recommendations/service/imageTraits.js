@@ -15,6 +15,7 @@ let getRecommendationsForImage64 = (image64, callback) => {
                             callback(err)
                         } else {
                             callback(null, inventories);
+                            
                         }
                     })
                 }

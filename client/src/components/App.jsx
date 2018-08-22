@@ -7,6 +7,7 @@ import Instagram from './Instagram.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props)
