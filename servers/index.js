@@ -55,7 +55,6 @@ app.post('/upload/:user', (req,res) => {
             res.status(200).send(imageUrl);
         }
     })
-    
 })
 
 app.post('/upload', (req,res) => {
@@ -71,8 +70,6 @@ app.post('/upload', (req,res) => {
         }
     })
 })
-
-
 
 //Adds inventoryId to users favorites
 app.post('/favorites/:user/:inventoryId', (req,res) => {
@@ -99,7 +96,6 @@ app.get('/favorites/:user', (req,res) => {
                     res.status(200).send(favorites);
                 }
             })
-           
         }
     })
 })
@@ -131,7 +127,6 @@ app.post('/recommend', function(req, res) {
             res.status(200).send(recommendations);
         }
     })
-
 });
 
 //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
@@ -143,7 +138,6 @@ app.post('/update', function(req, res) {
         }
     });
 });
-
 
 app.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})

@@ -40,7 +40,7 @@ authRouter.get('/current_user', (req, res) => {
     req.session.accessToken = req.user.accessToken;
     userDB.getUser(req.user.profile.username, (err, data) => {
       if (err) {
-        console.log("User not found in DB, saving user to DB!")
+        console.log("User not found in DB - saving user to DB: ", req.user.profile.username)
         userDB.saveUser(req.user.profile.username)
       }
     });

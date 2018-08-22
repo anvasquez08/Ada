@@ -83,7 +83,7 @@ class UploadComponent extends Component {
                     </div>
                     </Grid.Column>
                     <Grid.Column>
-                    <div><Input action='Upload' size='large'  placeholder='Upload with URL' /></div>
+                    <div><Input action='Upload' size='large' placeholder='Upload with URL' /></div>
                     </Grid.Column>
                   </Grid.Row>
             </Grid>
@@ -91,6 +91,5 @@ class UploadComponent extends Component {
         )
     }
 }
-
 
 export default UploadComponent;
