@@ -1,6 +1,4 @@
-const path = require('path');
 const AWS = require('aws-sdk');
-const recService = require('../recommendations/service/imageTraits.js');
 const userDB = require ('../../databases/Users.js')
 
 AWS.config.update({region: 'us-west-2'});

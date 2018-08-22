@@ -90,8 +90,14 @@ class App extends React.Component {
                 render={(props) => <Favorites {...props}
                 username={this.state.user}/>}/>
               <Route exact path='/insta'
+<<<<<<< HEAD
                 render={(props) => <Instagram {...props}
                 photos={this.state.instagramResults}/>}/>
+=======
+              render={(props) => <Instagram {...props}
+              photos={this.state.instagramResults}
+              username={this.state.user}/>}/>
+>>>>>>> master
             </Switch>
           </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import InstagramEntry from '../components/InstagramEntry.jsx';
 import { Grid } from "semantic-ui-react";
+import axios from 'axios';
 
 class Instagram extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Instagram extends React.Component {
       selectedPictures: []
     }
     this.select = this.select.bind(this);
+    this.submitPhotos = this.submitPhotos.bind(this);
   }
 
   select(url) {
@@ -29,6 +31,16 @@ class Instagram extends React.Component {
     }
   }
 
+  submitPhotos(e) {
+    e.preventDefault();
+    axios.post(`instahistory/${this.props.username}`, {photos: this.state.selectedPictures})
+    .then(() => {
+      this.props.history.push('/style');
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
     return (
       <div>
@@ -41,6 +53,9 @@ class Instagram extends React.Component {
             </div>)
             })}
         </Grid>
+        <div>
+          <button type='Submit' onClick={this.submitPhotos}>Submit</button>
+        </div>
       </div>
     )
   }
