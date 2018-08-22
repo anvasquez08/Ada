@@ -94,7 +94,8 @@ class App extends React.Component {
               username={this.state.user}/>}/>
               <Route exact path='/insta'
               render={(props) => <Instagram {...props}
-              photos={this.state.instagramResults}/>}/>
+              photos={this.state.instagramResults}
+              username={this.state.user}/>}/>
             </Switch>
           </div>
       </div>

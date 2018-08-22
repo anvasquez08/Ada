@@ -31,7 +31,7 @@ authRouter.get('/instagram',
 );
 
 authRouter.get('/instagram/callback',
-  passport.authenticate('instagram', {successRedirect: '/', failureRedirect: '/'}),
+  passport.authenticate('instagram', {successRedirect: '/insta', failureRedirect: '/'}),
   (req, res) => {res.redirect('/')}
 );
 
