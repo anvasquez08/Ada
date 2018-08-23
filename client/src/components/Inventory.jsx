@@ -17,22 +17,36 @@ class Inventory extends React.Component {
     super(props);
     this.state = {
       prices: ["$", "$$", "$$$", "$$$$"],
-      filters: [],
+      filters: {},
       filteredBrands: []
     };
     this.filterBrands = this.filterBrands.bind(this);
   }
+  toggleFilter(field){
+    if(!this.state.filters[field]) this.setState({filters: Object.assign({},this.state.filters,{[field]: true})})
+    else this.setState({filters: Object.assign({},this.state.filters,{[field]: false})})
+    this.filterBrands()
+  }
 
-  filterBrands(name) {
-    let filtered = this.state.brands.slice();
+  filterBrands() {
+    console.log("filtering")
+    console.log(this.props.inventory)
+    let filtered = this.props.inventory.slice();
+    // filtered = filtered.filter((item)=>{
+    //   return true
+    // })
 
-    for (let i = 0; i < filtered.length; i++) {
-      if (Object.keys(filtered[i])[0] === name) {
-        let val = filtered[i][name];
-        filtered[i][name] = !val;
-      }
-    }
-    this.setState({ brands: filtered });
+    // for (let i = 0; i < filtered.length; i++) {
+    //   if (Object.keys(filtered[i])[0] === name) {
+    //     let val = filtered[i][name];
+    //     filtered[i][name] = !val;
+    //   }
+    // }
+    this.setState({ filtered });
+  }
+
+  componentDidMount(){
+    this.filterBrands()
   }
 
   render() {
@@ -61,12 +75,12 @@ class Inventory extends React.Component {
                     return (
                       <Form.Field key={price}>
                         <Checkbox
-                          radio
+                          
                           label={price}
                           name={price}
                           value={price}
-                          checked={this.state.value === "this"}
-                          onChange={this.handleChange}
+                          checked={this.state.filters[price]}
+                          onChange={()=>this.toggleFilter(price)}
                         />
                       </Form.Field>
                     );
@@ -82,12 +96,12 @@ class Inventory extends React.Component {
                     return (
                       <Form.Field key={ind}>
                         <Checkbox
-                          radio
+                          
                           label={name}
                           name={name}
                           value={name}
-                          checked={this.state.value === "this"}
-                          onChange={this.handleChange}
+                          checked={this.state.filters[name]}
+                          onChange={()=>this.toggleFilter(name)}
                         />
                       </Form.Field>
                     );
