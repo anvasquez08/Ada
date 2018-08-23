@@ -7,6 +7,7 @@ class UploadComponent extends Component {
   constructor(props) {
     super(props);
     // this.handleUploadFile = this.handleUploadFile.bind(this);
+    this.sendImageUrl = this.sendImageUrl.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
   }
 
@@ -30,7 +31,6 @@ class UploadComponent extends Component {
     this.encodeImage(imageFile);
 
     //uploadImage
-    console.log("Second console log from UploadComponent: ", imageFile);
     let data = new FormData()
     data.append('image', imageFile)
     data.append('name', 'image')
@@ -44,7 +44,7 @@ class UploadComponent extends Component {
     .then(({data})=>{
       console.log('Image sent to /upload')
     })
-    .catch(err=>console.log(err))
+    .catch(err=>console.log("Console logging error from /upload: ", err))
   }
 
   //encode image to 64bit
@@ -67,7 +67,10 @@ class UploadComponent extends Component {
   }
 
   sendImageUrl(){
-    console.log("Sending image URL!")
+    console.log("Sending image URL!", this.props.imageUrl)
+    axios.post('/recommend', {params: this.props.imageUrl})
+      .then((result) => console.log("Console logging return from sendImageUrl: ", result.data))
+
   }
   
   render() {

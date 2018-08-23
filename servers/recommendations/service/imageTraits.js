@@ -23,6 +23,28 @@ let getRecommendationsForImage64 = (image64, callback) => {
     })
 }
 
+let getRecommendationsForImageUrl = (image64, callback) => {
+    detectLabels.getLabelsFromUrl(image64, (err, labels) => {
+        if (err) {
+            callback(err);
+        } else {
+            getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            callback(null, inventories);
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
+
 let inventoryFromRecommendations = (recommendations, occurenceObject, callback) => {
     recommendationDB.inventoryItemsWithIds(recommendations, (err, inventories) => {
         inventories = inventories.sort((a, b) => {
@@ -75,6 +97,7 @@ let numKeywordsForInventory = (keywords) => {
 
 module.exports = {
     getRecommendationsForImage64,
+    getRecommendationsForImageUrl,
     getRecommendationsFromLabels,
     inventoryFromRecommendations
 };
