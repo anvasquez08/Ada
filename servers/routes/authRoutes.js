@@ -6,6 +6,7 @@ const clientUrl = 'http://localhost:8080';
 const INSTAGRAM_CLIENT_ID = require('../../config').INSTAGRAM_CLIENT_ID;
 const INSTAGRAM_SECRET = require('../../config').INSTAGRAM_SECRET;
 const InstagramStrategy = require('passport-instagram').Strategy;
+const userDB = require('../../databases/Users.js');
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -30,24 +31,31 @@ authRouter.get('/instagram',
 );
 
 authRouter.get('/instagram/callback',
-  passport.authenticate('instagram', {successRedirect: '/', failureRedirect: '/'}),
-  (req, res) => {
-    res.redirect('/')}
+  passport.authenticate('instagram', {successRedirect: '/insta', failureRedirect: '/'}),
+  (req, res) => {res.redirect('/')}
 );
 
 authRouter.get('/current_user', (req, res) => {
-  req.session.accessToken = req.user.accessToken;
-  res.send(req.user.profile.username);
+  if (req.user !== undefined) {
+    req.session.accessToken = req.user.accessToken;
+    userDB.getUser(req.user.profile.username, (err, data) => {
+      if (err) {
+        console.log("User not found in DB - saving user to DB: ", req.user.profile.username)
+        userDB.saveUser(req.user.profile.username)
+      }
+    });
+    res.send(req.user.profile.username);
+  } else {
+    res.send('');
+  }
 });
 
 authRouter.get('/media', (req, res) => {
   axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.session.accessToken}`)
-  // res.send(req.user.username);
   .then((result) => {
     res.send(result.data);
   })
-  .catch((err) => {console.log("Catching error", err)})
-  // res.send('test');
+  .catch((err) => {console.log("Log in to see your Instagram feed")})
 });
 
 authRouter.get('/logout', (req, res) => {

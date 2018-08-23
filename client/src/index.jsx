@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App.jsx";
+import { BrowserRouter } from 'react-router-dom'
 
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
@@ -24,4 +25,8 @@ const client = new ApolloClient({
  </ApolloProvider>, */
 
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render((
+  <BrowserRouter>
+    <App />
+</BrowserRouter>
+),document.getElementById("app"));

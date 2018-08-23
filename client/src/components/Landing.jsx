@@ -36,7 +36,7 @@ export default class Landing extends React.Component{
           <input id="file" name="image" type="file"/>
           <input type="submit" value="submit" id="submit" style={{background: '#0095ff'}}/>
           </div>
-       </form>
+        </form>
         </div>
       </div>
     )

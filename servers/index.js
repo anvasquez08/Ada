@@ -7,13 +7,15 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
-
 const authRouter = require('./routes/authRoutes');
+// const recommendationRouter = require('./routes/recommendationRoutes');
 const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
-const { inventoryDB, imageDB } = require('./../databases/index.js')
+const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
-const recommendationService = require('./recommendations/service/imageTraits.js');
+const recommendationService = require('./recommendations/service/imageTraits.js')
+const helpers = require('../databases/helpers.js');
+const path = require('path');
 
 const app = express();
 app.use(fileUpload());
@@ -25,6 +27,7 @@ app.use(session({secret: 'jack', cookie: {maxAge: 1000*20*60}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter)
+// app.use('/recommend', recommendationRouter);
 
 
 /*============== Graph QL ============== */
@@ -35,43 +38,114 @@ app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: tru
 // app.get('/scrape', scraper.googleScrape)
 // app.get('/tags', scraper.getByTags)
 
-app.post('/index', function(req, res) {
-    let url = 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png'
-    let testID = 999;
-    recWorker.indexAnalyzeInventoryItem(testID, url, (err) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send('success');
-        }
-    });
-});
-/* Will use graph ql route. */
-// app.post('/recommend', function(req, res) {
-//     let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
-//     // recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
-//     //     if (err) {
-//     //         res.send(err)
-//     //     } else {
-//     //         res.send(recommendations);
-//     //     }
-//     // });  
 
-// });
+//User uploads image. Save's image, adds image to user's history
 
-app.post('/upload', (req,res) => {
+app.post('/upload/:user', (req,res) => {
     
-    let imageFile = req.files.file;
+    let username = req.params.user;
+    let imageFile = req.files.image;
+
+    console.log("Console logging username from /upload/:user ", username);
     
-    imageUpload.uploadImage(imageFile, (err, recommendations) => {
+    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
         if (err) {
-            res.status(400).send(err);
+            res.status(500).send(err);
         } else {
-            res.status(200).send(recommendations);
+            console.log("Console logging imageUrl: ",imageUrl);
+            res.status(200).send(imageUrl);
         }
     })
 })
 
+app.post('/upload', (req,res) => {
+    
+    let imageFile = req.files.image;
+    console.log(imageFile);
+    
+    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(imageUrl);
+        }
+    })
+})
+
+//Adds inventoryId to users favorites
+app.post('/favorites/:user/:inventoryId', (req,res) => {
+    let username = req.params.user;
+    let inventoryId = req.params.inventoryId;
+    userDB.addFavoriteToUser(username, inventoryId);
+    res.status(200).send('hope this saved. clean me up later');
+})
+
+
+//returns user's favorites
+app.get('/favorites/:user', (req,res) => { 
+    let username = req.params.user;
+
+    userDB.getUser(username, (err, userProfile) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            if (userProfile === null) {
+                res.status(400).send('User not found');
+            }
+            helpers.inventoryItemsWithIds(userProfile.favorites, (err, favorites) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.status(200).send(favorites);
+                }
+            })
+        }
+    })
+})
+
+//Adds inventoryId to users favorites
+app.post('/instahistory/:user', (req,res) => {
+    let username = req.params.user;
+    let inventoryIDs = req.body.photos;
+    console.log('username', username);
+    console.log('inventoryIds', inventoryIDs);
+    inventoryIDs.forEach(photoUrl => {
+        userDB.addHistoryToUser(username, photoUrl);
+    });
+    res.status(200).send('hope these saved. clean me up later')
+})
+
+//return user's image upload history
+app.get('/history/:user', (req,res) => { 
+    console.log('GETTING HISTORY')
+    let username = req.params.user;
+
+    userDB.getUser(username, (err, userProfile) => {
+        if (userProfile === null) {
+            res.status(400).send('User not found');
+        }
+        res.status(200).send(userProfile.history);
+    });
+});
+
+/* Will use graph ql route. */
+
+app.post('/recommend', function(req, res) {
+    let image64 = req.body.file.substring(23);
+
+    recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send();
+        } else {
+            console.log("Console logging recommendations here: ", recommendations);
+            res.status(200).send(recommendations);
+        }
+    })
+});
+
+//using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
+//TODO: Run worker occasionally instead of running this test endpoint
 app.post('/update', function(req, res) {
     recWorker.updateIndexDB((err) => {
         if (err) {
@@ -103,5 +177,19 @@ app.post('/send', (req,res) => {
         // res.send(data)
     })
 })
+
+
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+})
+
+// app.get('/favorites', (req, res) => {
+//     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+// })
+
+// app.get('/insta', (req, res) => {
+//     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+// })
 
 app.listen(8080, () => console.log("Listening on port 8080"));
