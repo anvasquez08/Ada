@@ -1,5 +1,4 @@
 const express = require("express");
-const graph = require("express-graphql");
 const session = require("express-session");
 const morgan = require("morgan");
 const passport = require('passport');
@@ -7,15 +6,17 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
+const path = require('path');
+
 const authRouter = require('./routes/authRoutes');
 // const recommendationRouter = require('./routes/recommendationRoutes');
-const gqlSchema = require('./../databases/gqlSchema.js');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const userDB = require('../databases/Users')
+const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
-const path = require('path');
+
 
 const app = express();
 app.use(fileUpload());
@@ -27,42 +28,135 @@ app.use(session({secret: 'thecodingjack', cookie: {maxAge: 1000*20*60}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter)
-// app.use('/recommend', recommendationRouter);
 
 
 /*============== Graph QL ============== */
-app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
+
+const { GraphQLServer } = require('graphql-yoga')
+const typeDefs = `
+  scalar Upload
+  
+  type Inventory {
+    _id: ID
+    name: String
+    brandName: String
+    url: String
+    imageUrl: String
+    price: Float
+    timestamp: String
+  }
+
+  type Query {
+    test: String 
+  }
+
+  type Mutation {
+    uploadLargeFile(input: String!): [Inventory]
+    singleUpload(input: Upload!): Boolean!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    test: () => "hello", 
+  },
+  Mutation: {
+    uploadLargeFile: async (_, args) => {
+      let image64 = args.input.substring(23)
+      let result = await new Promise((resolve, reject) => {
+        recommendationService.getRecommendationsForImage64(image64, (err, recommendations)  => {
+          if (err) reject(err) 
+          else resolve(recommendations)       
+        })
+      })
+      return result
+    },
+    singleUpload: async (_, { input })  => {
+      const { stream, filename, mimetype, encoding } = await input;
+      console.log(filename)
+      return true;
+    }
+  },
+};
+
+const server = new GraphQLServer({
+  typeDefs: typeDefs,
+  resolvers
+})
+
+server.express.use(express.static(__dirname + "../../client/dist"))
+server.express.use(bodyParser.json({ limit: 1024 * 1024 * 2000, type: 'application/json' }));
+server.express.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
+server.express.use(fileUpload());
+server.express.use(cors())
+server.express.use(morgan("dev"));
+server.express.use(session({secret: 'thecodingjack', cookie: {maxAge: 1000*20*60}}));
+server.express.use(passport.initialize());
+server.express.use(passport.session());
+server.express.use('/auth', authRouter)
+
+
+const options = {
+  port: 4000,
+  endpoint: '/graphql',
+  playground: '/playground'
+}
+
+server.start(options, ({ port }) =>
+  console.log('Server is running on http://localhost:' + port)
+)
 
 /*====================================== */
 
-// app.get('/scrape', scraper.googleScrape)
-// app.get('/tags', scraper.getByTags)
+// server.express.get('/scrape', scraper.googleScrape)
+// server.express.get('/tags', scraper.getByTags)
 
-
-//User uploads image. Save's image, adds image to user's history
-
-app.post('/upload/:user', (req,res) => {
-    
-    let username = req.params.user;
-    let imageFile = req.files.image;
-
-    console.log("Console logging username from /upload/:user ", username);
-    
+server.express.post('/index', function(req, res) {
+  let url = 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png'
+  let testID = 999;
+  recWorker.indexAnalyzeInventoryItem(testID, url, (err) => {   
     imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
         if (err) {
-            res.status(500).send(err);
+            res.send(err)
         } else {
-            console.log("Console logging imageUrl: ",imageUrl);
+            res.send('success');
             res.status(200).send(imageUrl);
         }
-    })
+    });
+  })
+})
+    
+// //User uploads image. Save's image, adds image to user's history
+server.express.post('/upload/:user', (req,res) => {
+    
+  let username = req.params.user;
+  let imageFile = req.files.image;
+  imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
+      if (err) {
+          res.status(500).send(err);
+      } else {
+          console.log("Console logging imageUrl: ",imageUrl);
+          res.status(200).send(imageUrl);
+      }
+  })
 })
 
-app.post('/upload', (req,res) => {
-    
-    let imageFile = req.files.image;
-    console.log("Console logging imageFile from /upload: ", imageFile);
-    
+
+
+// //Adds inventoryId to users favorites
+
+server.express.post('/favorites/:user/:inventoryId', (req,res) => {
+    let username = req.params.user;
+    let inventoryId = req.params.inventoryId;
+    userDB.addFavoriteToUser(username, inventoryId);
+})
+
+// //returns user's favorites
+
+server.express.get('/favorites/:user', (req,res) => { 
+    let username = req.params.user;
+
+    userDB.getUser(username, (err, userProfile) => {
     imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
         if (err) {
             res.status(500).send(err);
@@ -71,9 +165,24 @@ app.post('/upload', (req,res) => {
         }
     })
 })
+})
 
-//Adds inventoryId to users favorites
-app.post('/favorites/:user/:inventoryId', (req,res) => {
+server.express.post('/upload', (req,res) => {
+    
+  let imageFile = req.files.image;
+  console.log("Console logging imageFile from /upload: ", imageFile);
+  
+  imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+      if (err) {
+          res.status(500).send(err);
+      } else {
+          res.status(200).send(imageUrl);
+      }
+  })
+})
+
+// //Adds inventoryId to users favorites
+server.express.post('/favorites/:user/:inventoryId', (req,res) => {
     let username = req.params.user;
     let inventoryId = req.params.inventoryId;
     userDB.addFavoriteToUser(username, inventoryId);
@@ -81,13 +190,13 @@ app.post('/favorites/:user/:inventoryId', (req,res) => {
 })
 
 
-//returns user's favorites
-app.get('/favorites/:user', (req,res) => { 
+// //returns user's favorites
+server.express.get('/favorites/:user', (req,res) => { 
     let username = req.params.user;
 
     userDB.getUser(username, (err, userProfile) => {
         if (err) {
-            res.status(500).send(err);
+            res.status(400).send(err);
         } else {
             if (userProfile === null) {
                 res.status(400).send('User not found');
@@ -103,8 +212,8 @@ app.get('/favorites/:user', (req,res) => {
     })
 })
 
-//Adds inventoryId to users favorites
-app.post('/instahistory/:user', (req,res) => {
+// //Adds inventoryId to users favorites
+server.express.post('/instahistory/:user', (req,res) => {
     let username = req.params.user;
     let inventoryIDs = req.body.photos;
     console.log('username', username);
@@ -116,7 +225,7 @@ app.post('/instahistory/:user', (req,res) => {
 })
 
 //return user's image upload history
-app.get('/history/:user', (req,res) => { 
+server.express.get('/history/:user', (req,res) => { 
     console.log('GETTING HISTORY')
     let username = req.params.user;
 
@@ -128,9 +237,7 @@ app.get('/history/:user', (req,res) => {
     });
 });
 
-/* Will use graph ql route. */
-
-app.post('/recommend', function(req, res) {
+server.express.post('/recommend', function(req, res) {
     console.log(req.body, req.params, req.query);
     if (typeof req.body.params === 'string') {
         console.log("Receiving URL")
@@ -158,9 +265,9 @@ app.post('/recommend', function(req, res) {
     }
 });
 
-//using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
-//TODO: Run worker occasionally instead of running this test endpoint
-app.post('/update', function(req, res) {
+// //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
+// //TODO: Run worker occasionally instead of running this test endpoint
+server.express.post('/update', function(req, res) {
     recWorker.updateIndexDB((err) => {
         if (err) {
             console.log("Console logging error in /update: ", err);
@@ -168,7 +275,7 @@ app.post('/update', function(req, res) {
     });
 });
 
-app.post('/send', (req,res) => {
+server.express.post('/send', (req,res) => {
     axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
     .then(({data})=>{
         label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
@@ -197,16 +304,14 @@ app.post('/send', (req,res) => {
 
 
 
-app.get('/*', (req, res) => {
+server.express.get('/*', (req, res) => {
     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
 })
 
-// app.get('/favorites', (req, res) => {
-//     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
-// })
+// // app.get('/favorites', (req, res) => {
+// //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+// // })
 
-// app.get('/insta', (req, res) => {
-//     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
-// })
-
-app.listen(8080, () => console.log("Listening on port 8080"));
+// // app.get('/insta', (req, res) => {
+// //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+// // })
