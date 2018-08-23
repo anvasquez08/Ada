@@ -14,6 +14,7 @@ class App extends React.Component {
     this.state = {
       showLoginModal: false,
       isLoggedIn: false,
+      imageUrl: '',
       user: '',
       inventory: [], 
       brands: [],
@@ -22,6 +23,7 @@ class App extends React.Component {
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleImageUrl = this.handleImageUrl.bind(this);
     this.loadStylePage = this.loadStylePage.bind(this);
     this.loadHomePage = this.loadHomePage.bind(this);
     this.loadFavoritesPage = this.loadFavoritesPage.bind(this);
@@ -49,6 +51,12 @@ class App extends React.Component {
     this.setState({[key]: val, brands: [...new Set(brands)]})
   }
 
+  handleImageUrl(e) {
+    this.setState({
+      imageUrl: e.target.value
+    })
+  }
+
   loadStylePage() {
     this.setState({
       currentPage: 'style'
@@ -71,6 +79,7 @@ class App extends React.Component {
     return (
       <div>
       <NavBar user={this.state.user}
+      currentPage={this.state.currentPage}
       loadStylePage={this.loadStylePage}
       loadHomePage={this.loadHomePage}
       loadFavoritesPage={this.loadFavoritesPage}/>
@@ -79,7 +88,9 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/'
                 render={(props) => <Inventory {...props}
-                handleStateChange={this.handleStateChange} 
+                handleStateChange={this.handleStateChange}
+                handleImageUrl={this.handleImageUrl}
+                imageUrl={this.state.imageUrl}
                 inventory={this.state.inventory}
                 brands={this.state.brands}
                 username={this.state.user}/>}/>

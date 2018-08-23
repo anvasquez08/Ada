@@ -147,7 +147,7 @@ app.post('/recommend', function(req, res) {
 //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
 //TODO: Run worker occasionally instead of running this test endpoint
 app.post('/update', function(req, res) {
-    recWorker.updateIndexDB((err) => {
+    recWorker.updateIndexDB((err) => {ee
         if (err) {
             console.log(err);
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Grid, Input } from "semantic-ui-react";
+import { Grid, Input, Button } from "semantic-ui-react";
 
 class UploadComponent extends Component {
 
@@ -65,12 +65,16 @@ class UploadComponent extends Component {
       this.props.handleStateChange('inventory', data)
     });
   }
+
+  sendImageUrl(){
+    console.log("Sending image URL!")
+  }
   
   render() {
     return (
       <div>         
-        <Grid style={{margin: "10px"}}>
-          <Grid.Row centered columns={1}>
+        <Grid>
+          <Grid.Row centered columns={2}>
             <Grid.Column>
               <div>
                 <label htmlFor="embedpollfileinput" className="ui large blue right floated button">
@@ -82,9 +86,15 @@ class UploadComponent extends Component {
                 </label> 
               </div>
             </Grid.Column>
-            {/* <Grid.Column>
-            <div><Input action='Upload' size='large' placeholder='Upload with URL' /></div>
-            </Grid.Column> */}
+            <Grid.Column>
+            <div><Input
+                    action={<Button className="ui left floated button" onClick={this.sendImageUrl}>Upload</Button>}
+                    size='large' 
+                    placeholder='Upload with URL' 
+                    value={this.props.imageUrl} 
+                    onChange={this.props.handleImageUrl}
+                    /></div>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </div>

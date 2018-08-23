@@ -53,9 +53,9 @@ class Instagram extends React.Component {
             </div>)
             })}
         </Grid>
-        <div>
+        {/* <div>
           <button type='Submit' onClick={this.submitPhotos}>Submit</button>
-        </div>
+        </div> */}
       </div>
     )
   }

@@ -30,6 +30,7 @@ class Style extends React.Component {
   render() {
     return (
       <div>
+        <h1>Testing view for Style.jsx component</h1>
           {/* HEADER IMAGE */}
         <div style={{ overflow: "hidden", maxHeight: "300px" }}>
           <Image src="../assets/banner.jpg" fluid />
