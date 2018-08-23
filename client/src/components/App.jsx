@@ -25,6 +25,7 @@ class App extends React.Component {
     this.loadStylePage = this.loadStylePage.bind(this);
     this.loadHomePage = this.loadHomePage.bind(this);
     this.loadFavoritesPage = this.loadFavoritesPage.bind(this);
+    this.handleAppBrandChange = this.handleAppBrandChange.bind(this);
   }
 
   componentDidMount() {
@@ -48,7 +49,17 @@ class App extends React.Component {
 
   handleStateChange(key, val) {
     let brands = val.map(({brandName}) => brandName)
-    this.setState({[key]: val, brands: [...new Set(brands)]})
+    let filteredBrands = [...new Set(brands)]
+    let arrOfObjs = filteredBrands.map((name) => {
+      return {brandName: name, isSelected: false}
+    })
+
+    this.setState({[key]: val, brands: arrOfObjs})
+  }
+
+  async handleAppBrandChange(val) {
+    console.log(val)
+    await this.setState({brands: val})
   }
 
   loadStylePage() {
@@ -84,7 +95,8 @@ class App extends React.Component {
               handleStateChange={this.handleStateChange} 
               inventory={this.state.inventory}
               brands={this.state.brands}
-              username={this.state.user}/>
+              username={this.state.user}
+              handleAppBrandChange={this.handleAppBrandChange}/>
             </div>
             {/* <div style={this.state.currentPage === 'style' ? {display: 'block'} : {display: 'none'}}>
               <Style 
