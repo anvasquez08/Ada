@@ -23,7 +23,7 @@ app.use(cors())
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "../../client/dist"));
-app.use(session({secret: 'jack', cookie: {maxAge: 1000*20*60}}));
+app.use(session({secret: 'thecodingjack', cookie: {maxAge: 1000*20*60}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter)
@@ -61,7 +61,7 @@ app.post('/upload/:user', (req,res) => {
 app.post('/upload', (req,res) => {
     
     let imageFile = req.files.image;
-    console.log(imageFile);
+    console.log("Console logging imageFile from /upload: ", imageFile);
     
     imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
         if (err) {
@@ -131,17 +131,31 @@ app.get('/history/:user', (req,res) => {
 /* Will use graph ql route. */
 
 app.post('/recommend', function(req, res) {
-    let image64 = req.body.file.substring(23);
-
-    recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send();
-        } else {
-            console.log("Console logging recommendations here: ", recommendations);
-            res.status(200).send(recommendations);
-        }
+    console.log(req.body, req.params, req.query);
+    if (typeof req.body.params === 'string') {
+        console.log("Receiving URL")
+        let imageUrl = req.body.params
+        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                res.status(200).send(recommendations);
+            }
+        })
+    } else {
+        let image64 = req.body.file.substring(23);
+        // console.log("Console logging image64 from /recommend: ", image64);
+        recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
+            if (err) {
+                console.log("Error in recommendations service: ", err);
+                res.status(500).send();
+            } else {
+                // console.log("Console logging recommendations here: ", recommendations);
+                res.status(200).send(recommendations);
+            }
     })
+    }
 });
 
 //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
@@ -149,7 +163,7 @@ app.post('/recommend', function(req, res) {
 app.post('/update', function(req, res) {
     recWorker.updateIndexDB((err) => {
         if (err) {
-            console.log(err);
+            console.log("Console logging error in /update: ", err);
         }
     });
 });
@@ -159,16 +173,19 @@ app.post('/send', (req,res) => {
     .then(({data})=>{
         label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
         if (label === 't shirt') label = 'T-Shirt'
-        console.log({label})
+        console.log("Console logging labels destructured from /send: ", {label})
         recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
-            console.log({recommendations})
+            console.log("Console logging recommendations destructured from /send: ", {recommendations})
             if (err) {
+                console.log("Err in /send")
                 res.send(err);
             } else {
                 recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
                     if (err) {
+                        console.log("Err in /send")
                         res.send(err)
                     } else {
+                        console.log("Err in /send")
                         res.send(inventories);
                     }
                 })

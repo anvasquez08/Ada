@@ -101,13 +101,13 @@ class App extends React.Component {
                 render={(props) => <Favorites {...props}
                 username={this.state.user}/>}/>
               <Route exact path='/insta'
-              render={(props) => <Instagram {...props}
-              photos={this.state.instagramResults}
-              username={this.state.user}/>}/>
+                render={(props) => <Instagram {...props}
+                photos={this.state.instagramResults}
+                username={this.state.user}/>}/>
             </Switch>
           </div>
       </div>
-        <Instagram photos={this.state.instagramResults}/>
+        {/* <Instagram photos={this.state.instagramResults}/> */}
       </div>
     )
   }

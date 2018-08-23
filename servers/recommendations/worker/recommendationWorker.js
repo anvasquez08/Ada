@@ -18,7 +18,7 @@ let updateIndexDB = (callback) => {
             //retrieve all items in the inventory DB added after most recent timestamp
             helpers.retrieveNewItems(recentTimstamp.timestamp, (err, newInventory) => {
                 if (err) {
-                    console.log(err);
+                    console.log("Error in rec worker: ", err);
                 } else {
                     indexNewItems(newInventory);
                     helpers.updateRecentTimestamp(now);
@@ -51,7 +51,7 @@ let indexNewItems = (newItems) => {
             if (newItems) {
                 indexAnalyzeInventoryItem(newItem._id, newItem.imageUrl, (err) => {
                     if(err) {
-                        console.log(err);
+                        console.log("Error in rec worker: ", err);
                     }
                 })
             }

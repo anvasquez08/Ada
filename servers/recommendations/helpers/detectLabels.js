@@ -4,7 +4,7 @@ AWS.config.update({region: 'us-west-2'});
 const rekognition = new AWS.Rekognition();
 
 
-let getLabelsFromURL = (imageURL, callback) => {
+let getLabelsFromUrl = (imageURL, callback) => {
     //Create base64 string from image
     i2b(imageURL, function(err, image64){
         if (image64) {
@@ -52,7 +52,7 @@ let getLabels = (imageFile, callback) => {
     rekognition.detectLabels(params, function (err, data) {
         console.log('Hitting AWS Rekognition');
         if (err) {
-            console.log(err)
+            console.log("Console logging error from rekognition: ", err)
             callback(err.stack);
         } else {
             callback(null, data);
@@ -61,6 +61,6 @@ let getLabels = (imageFile, callback) => {
 }
 
 module.exports = {
-    getLabelsFromURL,
+    getLabelsFromUrl,
     getLabelsFromImage64
 }
