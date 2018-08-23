@@ -20,6 +20,7 @@ const RootQuery = new GraphQLObjectType({
           resolve: (root, {imageUrl}) => {
             let inventory = new Promise((resolve, reject) => { 
               recommendationService.getRecommendationsForURL(imageUrl, (err, recommendations) => {
+                console.log('hitting')
                 err ? reject(err) : resolve(recommendations)
               })
             })
