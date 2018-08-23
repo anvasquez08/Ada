@@ -62,6 +62,7 @@ class UploadComponent extends Component {
     data.append('file', image64);
     axios.post('/recommend', data)
     .then(({data}) => {
+      console.log("Console logging recommendations: ", data)
       this.props.handleStateChange('inventory', data)
     });
   }
@@ -69,9 +70,12 @@ class UploadComponent extends Component {
   sendImageUrl(){
     console.log("Sending image URL!", this.props.imageUrl)
     axios.post('/recommend', {params: this.props.imageUrl})
-      .then((result) => console.log("Console logging return from sendImageUrl: ", result.data))
-
+      .then(({data}) => {
+        // console.log("Console logging return from sendImageUrl: ", result.data)
+        this.props.handleStateChange('inventory', data);
+      })
   }
+  
   
   render() {
     return (
@@ -100,6 +104,9 @@ class UploadComponent extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+
+        
+
       </div>
     )
   }
