@@ -14,8 +14,8 @@ class Favorites extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.props.username.length > 0) {
+  componentDidMount() {
+    if (this.props.username.length > 0 && this.state.userPhotos.length === 0) {
         axios.get(`/favorites/${this.props.username}`)
         .then(({data}) => {
             console.log(data);
@@ -29,6 +29,7 @@ class Favorites extends React.Component {
   render() {
     return (
       <div>
+        <h1>Testing view for Favorites.jsx component</h1>
           {/* HEADER IMAGE */}
         <div style={{ overflow: "hidden", maxHeight: "300px" }}>
           <Image src="../assets/banner.jpg" fluid />

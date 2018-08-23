@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Grid, Input } from "semantic-ui-react";
+
 import {
   graphql,
   Query,
@@ -12,6 +12,8 @@ import {
 import { gql } from "apollo-boost";
 import client from "../index.jsx";
 import "babel-polyfill";
+import { Grid, Input, Button } from "semantic-ui-react";
+
 
 class UploadComponent extends Component {
   constructor(props) {
