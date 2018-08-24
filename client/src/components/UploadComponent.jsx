@@ -60,6 +60,15 @@ class UploadComponent extends Component {
     };
   }
 
+  sendImageUrl(){
+    console.log("Sending image URL!", this.props.imageUrl)
+    axios.post('/recommend', {params: this.props.imageUrl})
+      .then(({data}) => {
+        // console.log("Console logging return from sendImageUrl: ", result.data)
+        this.props.handleStateChange('inventory', data);
+      })
+  }
+
   render() {
     return (
       <div>
@@ -70,7 +79,7 @@ class UploadComponent extends Component {
                 <div>
                   <label
                     htmlFor="embedpollfileinput"
-                    className="ui large red right floated button"
+                    className="ui large blue right floated button"
                   >
                     <input type="file"
                       onChange={this.handleImageUpload}
@@ -95,6 +104,9 @@ class UploadComponent extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+
+        
+
       </div>
     );
   }

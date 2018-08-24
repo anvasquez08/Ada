@@ -114,6 +114,9 @@ class Inventory extends React.Component {
                   />
                 </Grid.Row>
               </Grid>
+
+              <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid>
+
               {/* INVENTORY FILTERS */}
               {!!this.props.brands.length && (
                 <Grid style={{ margin: "10px" }}>
