@@ -26,20 +26,22 @@ class UploadComponent extends Component {
     e.preventDefault();
     let input = document.getElementById("embedpollfileinput");
     let imageFile = input.files[0];
-    let data = new FormData()
-    console.log("Console logging data from handleImageUpload: ", data)
-    data.append('image', imageFile)
-    data.append('name', 'image')
-    console.log("Console logging data from handleImageUpload after appends: ", data)    
+    this.encodeImage(imageFile);
 
-    this.encodeImage(imageFile, data);
+    let data = new FormData()
+    data.append('file', imageFile);
+    // console.log(imageFile)
+    // console.log(data)
+    this.props
+    .imageUpload({ variables: { input: data } })
+    .then(result => console.log('result', result))
+    .catch(error => console.log(error));
 
     /*
     let endpoint = `/upload`;
     if (this.props.username.length > 0) {
       endpoint += `/${this.props.username}`
     }
-
     axios.post(endpoint, data)
       .then(({data})=>{
         console.log('image uploaded')
@@ -47,16 +49,14 @@ class UploadComponent extends Component {
     .catch(err=>console.log(err))*/
   }
 
-  encodeImage(image, file) {
+  encodeImage(image) {
     var reader = new FileReader();
     reader.readAsDataURL(image);
     reader.onloadend = e => {
       this.props
-        .mutate({ variables: { input: e.target.result } })
+        .largeUpload({ variables: { input: e.target.result } })
         .then(result => this.props.handleStateChange("inventory", result.data.uploadLargeFile))
-        .catch(error =>
-          console.log(error)
-        );
+        .catch(error => console.log(error));
     };
   }
 
@@ -83,18 +83,10 @@ class UploadComponent extends Component {
                     htmlFor="embedpollfileinput"
                     className="ui large blue right floated button"
                   >
-                    <input
-                      type="file"
+                    <input type="file"
                       onChange={this.handleImageUpload}
-                      className="inputfile"
-                      id="embedpollfileinput"
-                      style={{
-                        width: "0.1px",
-                        height: "0.1px",
-                        opacity: "0",
-                        overflow: "hidden",
-                        position: "absolute",
-                        zIndex: "-1"
+                      className="inputfile" id="embedpollfileinput"
+                      style={{ width: "0.1px",   height: "0.1px",  opacity: "0", overflow: "hidden",  position: "absolute",    zIndex: "-1"
                       }}
                     />
                     <i className="ui upload icon" />
@@ -123,21 +115,28 @@ class UploadComponent extends Component {
   }
 }
 
-const uploadLargeFile = gql`
-mutation uploadLargeFile($input: String!) {
-  uploadLargeFile(input: $input) {
-    _id
-    name
-    brandName
-    timestamp
-    url
-    price
-    imageUrl
+
+const UPLOAD_FILE = gql`
+  mutation singleUpload($input: Upload!) {
+    singleUpload(input: $input) 
   }
-}
+`;
+
+const UPLOAD_LARGE_FILE = gql`
+  mutation uploadLargeFile($input: String!) {
+    uploadLargeFile(input: $input) {
+      _id
+      name
+      brandName
+      timestamp
+      url
+      price
+      imageUrl
+    }
+  }
 `
 
-export default graphql(
-  uploadLargeFile
+export default compose(
+  graphql( UPLOAD_LARGE_FILE, {name: "largeUpload"}),
+  graphql( UPLOAD_FILE , { name: "imageUpload" })
 )(UploadComponent);
-

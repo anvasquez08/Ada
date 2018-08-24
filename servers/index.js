@@ -17,19 +17,6 @@ const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
 
-
-const app = express();
-app.use(fileUpload());
-app.use(cors())
-app.use(morgan("dev"));
-app.use(bodyParser.json());
-app.use(express.static(__dirname + "../../client/dist"));
-app.use(session({secret: 'thecodingjack', cookie: {maxAge: 1000*20*60}}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use('/auth', authRouter)
-
-
 /*============== Graph QL ============== */
 
 const { GraphQLServer } = require('graphql-yoga')
@@ -55,7 +42,7 @@ const typeDefs = `
     singleUpload(input: Upload!): Boolean!
   }
 `;
-
+// singleUpload(input: Upload!): Boolean!
 const resolvers = {
   Query: {
     test: () => "hello", 
@@ -72,6 +59,7 @@ const resolvers = {
       return result
     },
     singleUpload: async (_, { input })  => {
+      console.log(input)
       const { stream, filename, mimetype, encoding } = await input;
       console.log(filename)
       return true;
