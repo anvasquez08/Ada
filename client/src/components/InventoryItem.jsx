@@ -14,7 +14,7 @@ const InventoryItem = ({item, addFavorite}) => (
         <p>${item.price}</p>
         <p style={{ fontSize: "9px", color: "#909090" }} >From {item.brandName}</p>
        <Button size="mini" onClick={() => {  addFavorite(item) }} >Buy</Button>
-        <Button size="mini"> <a href={item.url} className="button"> Details</a></Button>
+        <Button size="mini"> <a href={item.url} target="_blank" className="button"> Details</a></Button>
    </Card.Content>
   </Card>
 )
