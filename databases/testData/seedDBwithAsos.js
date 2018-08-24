@@ -1,3 +1,5 @@
+// A simple script for seeding our database with test data
+
 const inventory = require('../testData/asos.json');
 const saveItem = require('../helpers.js').saveItem;
 
