@@ -29,32 +29,33 @@ class UploadComponent extends Component {
     data.append('image', imageFile)
     data.append('name', 'image')
 
-    this.encodeImage(imageFile, data);
-
+    this.encodeImage(imageFile);
+    console.log(data)
     /*
     let endpoint = `/upload`;
     if (this.props.username.length > 0) {
       endpoint += `/${this.props.username}`
     }
-
     axios.post(endpoint, data)
       .then(({data})=>{
         console.log('image uploaded')
     })
     .catch(err=>console.log(err))*/
+    // this.props
+    // .imageUpload({ variables: { input: data } })
+    // .then(result => console.log('result', result))
+    // .catch(error => console.log(error));
   }
 
-  encodeImage(image, file) {
-    var reader = new FileReader();
-    reader.readAsDataURL(image);
-    reader.onloadend = e => {
-      this.props
-        .mutate({ variables: { input: e.target.result } })
-        .then(result => this.props.handleStateChange("inventory", result.data.uploadLargeFile))
-        .catch(error =>
-          console.log(error)
-        );
-    };
+  encodeImage(image) {
+    // var reader = new FileReader();
+    // reader.readAsDataURL(image);
+    // reader.onloadend = e => {
+    //   this.props
+    //     .largeUpload({ variables: { input: e.target.result } })
+    //     .then(result => this.props.handleStateChange("inventory", result.data.uploadLargeFile))
+    //     .catch(error => console.log(error));
+    // };
   }
 
   render() {
@@ -105,21 +106,33 @@ class UploadComponent extends Component {
   }
 }
 
-const uploadLargeFile = gql`
-mutation uploadLargeFile($input: String!) {
-  uploadLargeFile(input: $input) {
-    _id
-    name
-    brandName
-    timestamp
-    url
-    price
-    imageUrl
+
+const UPLOAD_FILE = gql`
+  mutation singleUpload($input: Upload!) {
+    singleUpload(input: $input) 
   }
-}
+`;
+
+const UPLOAD_LARGE_FILE = gql`
+  mutation uploadLargeFile($input: String!) {
+    uploadLargeFile(input: $input) {
+      _id
+      name
+      brandName
+      timestamp
+      url
+      price
+      imageUrl
+    }
+  }
 `
 
-export default graphql(
-  uploadLargeFile
-)(UploadComponent);
+// export default graphql(
+//   UPLOAD_LARGE_FILE
+// )(UploadComponent);
 
+
+export default compose(
+  graphql( UPLOAD_LARGE_FILE, {name: "largeUpload"}),
+  graphql( UPLOAD_FILE , { name: "imageUpload" })
+)(UploadComponent);
