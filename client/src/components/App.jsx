@@ -105,7 +105,8 @@ class App extends React.Component {
                 imageUrl={this.state.imageUrl}
                 inventory={this.state.inventory}
                 brands={this.state.brands}
-                username={this.state.user}/>}/>
+                username={this.state.user} 
+                handleAppBrandChange={this.handleAppBrandChange}/>}/>
               <Route exact path='/style'
                 render={(props) => <Style {...props}
                 username={this.state.user}/>}/>

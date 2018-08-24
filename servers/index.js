@@ -60,8 +60,8 @@ const resolvers = {
     },
     singleUpload: async (_, { input })  => {
       console.log(input)
-      const { stream, name, mimetype, encoding } = await input;
-      console.log(name)
+      const { stream, filename, mimetype, encoding } = await input;
+      console.log(filename)
       return true;
     }
   },
