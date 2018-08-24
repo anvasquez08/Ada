@@ -117,10 +117,10 @@ class Inventory extends React.Component {
 
               <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid>
 
-              {/* INVENTORY FILTERS */}
+              {/* INVENTORY FILTERS COMPONENT */}
               {!!this.props.brands.length && (
                 <Grid style={{ margin: "10px" }}>
-                  <Grid.Column width={3}>
+                  <Grid.Column width={2}>
                     <Menu vertical>
                       <Menu.Item>
                         <Menu.Header>Price</Menu.Header>

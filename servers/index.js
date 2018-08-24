@@ -238,9 +238,8 @@ server.express.get('/history/:user', (req,res) => {
 });
 
 server.express.post('/recommend', function(req, res) {
-    console.log(req.body, req.params, req.query);
     if (typeof req.body.params === 'string') {
-        console.log("Receiving URL")
+        console.log("Receiving URL, proceeding to get recommendations from Image URL")
         let imageUrl = req.body.params
         recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
             if (err) {
