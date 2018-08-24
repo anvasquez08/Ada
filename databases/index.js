@@ -26,4 +26,8 @@ imageDB.once("open", () => {
   console.info("Connected to image database.");
 });
 
+// const userDB = mongoose.createConnection
+// UserDB is being initialized in databases/Users.js
+
+
 module.exports = { inventoryDB, imageDB };
