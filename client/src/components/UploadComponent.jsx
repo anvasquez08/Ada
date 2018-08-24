@@ -54,7 +54,7 @@ class UploadComponent extends Component {
     reader.readAsDataURL(image);
     reader.onloadend = e => {
       this.props
-        .largeUpload({ variables: { input: e.target.result } })
+        .largeUpload({ variables: { input: e.target.result, name: this.props.username } })
         .then(result => this.props.handleStateChange("inventory", result.data.uploadLargeFile))
         .catch(error => console.log(error));
     };
@@ -123,8 +123,8 @@ const UPLOAD_FILE = gql`
 `;
 
 const UPLOAD_LARGE_FILE = gql`
-  mutation uploadLargeFile($input: String!) {
-    uploadLargeFile(input: $input) {
+  mutation uploadLargeFile($input: String!, $name: String) {
+    uploadLargeFile(input: $input, name: $name) {
       _id
       name
       brandName

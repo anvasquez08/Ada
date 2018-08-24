@@ -38,7 +38,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    uploadLargeFile(input: String!): [Inventory]
+    uploadLargeFile(input: String!, name: String): [Inventory]
     singleUpload(input: Upload!): Boolean!
   }
 `;
@@ -50,6 +50,7 @@ const resolvers = {
   Mutation: {
     uploadLargeFile: async (_, args) => {
       let image64 = args.input.substring(23)
+      console.log(args.name)
       let result = await new Promise((resolve, reject) => {
         recommendationService.getRecommendationsForImage64(image64, (err, recommendations)  => {
           if (err) reject(err) 
