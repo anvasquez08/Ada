@@ -1,6 +1,7 @@
 import React from "react";
 import UploadComponent from "./UploadComponent.jsx";
 import { ApolloConsumer } from "react-apollo";
+import InventoryItem from './InventoryItem.jsx';
 
 import axios from "axios";
 import {
@@ -29,6 +30,7 @@ class Inventory extends React.Component {
       filteredBrands: [],
       filteredInventory: []
     };
+    this.addFavorite = this.addFavorite.bind(this);
   }
 
   // Filter brands where "isSelected" = true 
@@ -173,41 +175,36 @@ class Inventory extends React.Component {
                       </Menu.Item>
                     </Menu>
                   </Grid.Column>
-
                   {/* INVENTORY RESULTS */}
-                  <Grid.Column width={12}>
-                    <div>
-                      <Card.Group itemsPerRow={4}>
-                        {this.props.inventory &&
-                          this.props.inventory.map(item => {
+                  {
+                  this.state.filteredInventory.length > 0 ? (
+                 
+                      <Grid.Column width={12}>
+                        <div>
+                          <Card.Group itemsPerRow={4}>
+                          {this.props.inventory &&
+                              this.state.filteredInventory.map((item, i) => {
+                                return (<InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>);
+                          })}
+                          </Card.Group>
+                         </div>
+                      </Grid.Column>
+                 ) : ( 
+                    <Grid.Column width={12}>
+                        <div>
+                          <Card.Group itemsPerRow={4}>
+                          {this.props.inventory &&
+                          this.props.inventory.map((item, i) => {
                             return (
-                              <Card key={item._id}>
-                                <Card.Content>
-                                  <Image src={item.imageUrl} size="big"  centered/>
-                                  <p style={{fontSize: "15px",color: "#909090" }} >
-                                    {item.brandName}
-                                  </p>
-                                  <p style={{ fontWeight: "bold" }}>
-                                    {item.name}
-                                  </p>
-                                  <p>${item.price}</p>
-                                  <p style={{ fontSize: "9px", color: "#909090" }} >
-                                    From {item.brandName}
-                                  </p>
-                                  <Button size="mini"
-                                    onClick={() => {  this.addFavorite(item) }} >
-                                    Buy
-                                  </Button>
-                                  <Button size="mini">
-                                    <a href={item.url} className="button"> Details</a></Button>
-                                </Card.Content>
-                              </Card>
+                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
                             );
                           })}
-                      </Card.Group>
-                    </div>
-                  </Grid.Column>
-                </Grid>
+                          </Card.Group>
+                         </div>
+                      </Grid.Column>
+                  )
+                  }  
+             </Grid>
               )}
             </div>
           );
@@ -218,3 +215,19 @@ class Inventory extends React.Component {
 }
 
 export default Inventory;
+
+/*
+               {this.props.inventory &&
+                          this.props.inventory.map((item, i) => {
+                            return (
+                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
+                            );
+                          })}
+
+                        {this.props.inventory &&
+                          this.props.inventory.map((item, i) => {
+                            return (
+                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
+                            );
+                          })}
+*/

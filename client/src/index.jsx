@@ -15,9 +15,9 @@ import { ApolloProvider ,  createNetworkInterface } from "react-apollo";
 
 ReactDOM.render( 
   <ApolloProvider client={client}> 
-   <BrowserRouter>
-  <App />      
-  </BrowserRouter>
+    <BrowserRouter>
+      <App />      
+    </BrowserRouter>
   </ApolloProvider>, document.getElementById("app")
 );
 
