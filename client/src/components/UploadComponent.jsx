@@ -26,6 +26,7 @@ class UploadComponent extends Component {
     let input = document.getElementById("embedpollfileinput");
     let imageFile = input.files[0];
     let data = new FormData()
+
     data.append('image', imageFile)
     data.append('name', 'image')
 
