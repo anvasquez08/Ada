@@ -51,7 +51,7 @@ class Instagram extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{marginTop: 100}}>
         <Button className="ui left floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
 
         <Grid centered>
