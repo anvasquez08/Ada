@@ -153,7 +153,7 @@ server.express.post('/upload', (req,res) => {
     })
 })
 
-// //User uploads image. Save's image, adds image to user's history
+// //User uploads image. Saves image, adds image to user's history
 server.express.post('/upload/:user', (req,res) => {
     
     let username = req.params.user;
@@ -166,7 +166,7 @@ server.express.post('/upload/:user', (req,res) => {
             res.status(200).send(imageUrl);
         }
     })
-  })
+})
 
 // //Adds inventoryId to users favorites
 server.express.post('/favorites/:user/:inventoryId', (req,res) => {
@@ -242,7 +242,6 @@ server.express.post('/recommend', function(req, res) {
 server.express.post('/recommend/:user', function(req, res) {
     let username = req.params.user;
     if (typeof req.body.params === 'string') {
-        console.log("Receiving URL")
         let imageUrl = req.body.params
         recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
             if (err) {
@@ -251,7 +250,7 @@ server.express.post('/recommend/:user', function(req, res) {
             } else {
                 if (username) {
                     userDB.addHistoryToUser(username, imageUrl);
-                  }
+                }
                 res.status(200).send(recommendations);
             }
         })
