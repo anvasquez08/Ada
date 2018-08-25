@@ -118,6 +118,9 @@ class App extends React.Component {
                 render={(props) => <Instagram {...props}
                 photos={this.state.instagramResults}
                 username={this.state.user}/>}/>
+              <Route exact path='/trending'
+                render={(props) => <Discover {...props}
+                username={this.state.user}/>}/>
             </Switch>
           </div>
       </div>

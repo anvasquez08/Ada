@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const path = require('path');
-
+var Twit = require('twit')
 const authRouter = require('./routes/authRoutes');
 // const recommendationRouter = require('./routes/recommendationRoutes');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
@@ -42,7 +42,7 @@ const typeDefs = `
     singleUpload(input: Upload!): Boolean!
   }
 `;
-// singleUpload(input: Upload!): Boolean!
+
 const resolvers = {
   Query: {
     test: () => "hello", 
@@ -304,3 +304,8 @@ server.express.get('/*', (req, res) => {
 // // app.get('/insta', (req, res) => {
 // //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
 // // })
+
+var T = new Twit({
+  consumer_key:         '...', 
+  consumer_secret:      '...', 
+  app_only_auth:        true})

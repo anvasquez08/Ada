@@ -111,8 +111,6 @@ class Inventory extends React.Component {
                   <UploadComponent
                     handleStateChange={this.props.handleStateChange}
                     username={this.props.username}
-                    handleImageUrl={this.props.handleImageUrl}
-                    imageUrl={this.props.imageUrl}
                   />
                 </Grid.Row>
               </Grid>
