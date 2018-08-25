@@ -60,8 +60,9 @@ class UploadComponent extends Component {
   }
 
   sendImageUrl(){
-    // Test with this url:
+    // Test with these urls:
     // https://images.asos-media.com/products/stradivarius-long-sleeve-shirt-in-white/10584462-1-white?$XL$
+    // https://static.theblacktux.com/products/tuxedos/grosgrain-bound-tuxedo/1_20160811_HolidayEcom_GrosgrainBoundTuxedo_1473_1812x1875.jpg?impolicy=PDPdesktop
     console.log("Sending image URL!", this.props.imageUrl)
     let endpoint = `/recommend`;
     if (this.props.username.length > 0) {
