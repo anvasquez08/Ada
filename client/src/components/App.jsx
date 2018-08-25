@@ -7,7 +7,9 @@ import '../styles/css/main.css'
 import Instagram from './Instagram.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
+import Discover from './Discover.jsx';
 import { Switch, Route } from 'react-router-dom'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +18,7 @@ class App extends React.Component {
       offSetY: 0,
       showLoginModal: false,
       isLoggedIn: false,
+      imageUrl: '',
       user: '',
       inventory: [],
       brands: [],
@@ -24,10 +27,12 @@ class App extends React.Component {
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleImageUrl = this.handleImageUrl.bind(this);
     this.loadStylePage = this.loadStylePage.bind(this);
     this.loadHomePage = this.loadHomePage.bind(this);
     this.loadFavoritesPage = this.loadFavoritesPage.bind(this);
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleAppBrandChange = this.handleAppBrandChange.bind(this);
   }
 
   componentDidMount() {
@@ -59,8 +64,30 @@ class App extends React.Component {
   }
 
   handleStateChange(key, val) {
-    let brands = val.map(({ brandName }) => brandName)
-    this.setState({ [key]: val, brands: [...new Set(brands)] })
+    let brands = val.map(({brandName}) => brandName)
+    let filteredBrands = [...new Set(brands)]
+    let arrOfObjs = filteredBrands.map((name) => {
+      return {brandName: name, isSelected: false}
+    })
+
+    this.setState({[key]: val, brands: arrOfObjs})
+  }
+
+  async handleAppBrandChange(val) {
+    console.log(val)
+    await this.setState({brands: val})
+  }
+
+  handleImageUrl(e) {
+    this.setState({
+      imageUrl: e.target.value
+    })
+  }
+
+  setCurrentPage(page){
+    this.setState({
+      currentPage: page
+    })
   }
 
   loadStylePage() {
@@ -96,21 +123,28 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/'
                 render={(props) => <Landing {...props}
+                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route path='/detect'
                 render={(props) => <Inventory {...props}
-                handleStateChange={this.handleStateChange} 
+                handleStateChange={this.handleStateChange}
+                handleImageUrl={this.handleImageUrl}
+                imageUrl={this.state.imageUrl}
                 inventory={this.state.inventory}
                 brands={this.state.brands}
-                username={this.state.user}/>}/>
-              <Route path='/style'
+                username={this.state.user} 
+                handleAppBrandChange={this.handleAppBrandChange}/>}/>
+              <Route exact path='/style'
                 render={(props) => <Style {...props}
+                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
-              <Route path='/favorites'
+              <Route exact path='/favorites'
                 render={(props) => <Favorites {...props}
+                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
-              <Route path='/insta'
+              <Route exact path='/insta'
                 render={(props) => <Instagram {...props}
+                setCurrentPage={this.setCurrentPage}
                 photos={this.state.instagramResults}
                 username={this.state.user}/>}/>
             </Switch>

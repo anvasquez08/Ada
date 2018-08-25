@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const axios = require('axios');
 const authRouter = require('express').Router();
-const clientUrl = 'http://localhost:8080';
+const clientUrl = 'http://localhost:4000'; // http://18.222.219.218:4000/
 const INSTAGRAM_CLIENT_ID = require('../../config').INSTAGRAM_CLIENT_ID;
 const INSTAGRAM_SECRET = require('../../config').INSTAGRAM_SECRET;
 const InstagramStrategy = require('passport-instagram').Strategy;
@@ -19,7 +19,7 @@ passport.deserializeUser((obj, done) => {
 passport.use(new InstagramStrategy({
   clientID: INSTAGRAM_CLIENT_ID,
   clientSecret: INSTAGRAM_SECRET,
-  callbackURL: 'http://localhost:8080/auth/instagram/callback'
+  callbackURL: 'http://localhost:4000/auth/instagram/callback'
   }, (accessToken, refreshToken, profile, done) => {
     process.nextTick(() => {
       return done(null, {profile: profile, accessToken: accessToken})})

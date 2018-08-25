@@ -1,6 +1,6 @@
 import React from 'react';
 import InstagramEntry from '../components/InstagramEntry.jsx';
-import { Grid } from "semantic-ui-react";
+import { Grid, Button, Input } from "semantic-ui-react";
 import axios from 'axios';
 
 class Instagram extends React.Component {
@@ -11,6 +11,7 @@ class Instagram extends React.Component {
     }
     this.select = this.select.bind(this);
     this.submitPhotos = this.submitPhotos.bind(this);
+    this.sendPhotosForRecommendations = this.sendPhotosForRecommendations.bind(this);
   }
 
   select(url) {
@@ -41,9 +42,22 @@ class Instagram extends React.Component {
     })
   }
 
+  sendPhotosForRecommendations() {
+    // console.log("Sending instagram recs to server: ", this.state.selectedPictures)
+    axios.post('/recommend/insta', {params: this.state.selectedPictures})
+      .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
+
+  }
+
   render() {
     return (
+<<<<<<< HEAD
       <div style={{marginTop: 100}}>
+=======
+      <div>
+        <Button className="ui left floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
+
+>>>>>>> dev
         <Grid centered>
           {this.props.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>
@@ -53,9 +67,9 @@ class Instagram extends React.Component {
             </div>)
             })}
         </Grid>
-        <div>
+        {/* <div>
           <button type='Submit' onClick={this.submitPhotos}>Submit</button>
-        </div>
+        </div> */}
       </div>
     )
   }
