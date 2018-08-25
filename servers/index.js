@@ -157,16 +157,16 @@ server.express.get('/favorites/:user', (req,res) => {
 
 server.express.post('/upload', (req,res) => {
     
-  let imageFile = req.files.image;
-  console.log("Console logging imageFile from /upload: ", imageFile);
-  
-  imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-      if (err) {
-          res.status(500).send(err);
-      } else {
-          res.status(200).send(imageUrl);
-      }
-  })
+    let imageFile = req.files.image;
+    console.log("Console logging imageFile from /upload: ", imageFile);
+
+    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(imageUrl);
+        }
+    })
 })
 
 // //Adds inventoryId to users favorites
@@ -249,6 +249,26 @@ server.express.post('/recommend', function(req, res) {
                 res.status(200).send(recommendations);
             }
     })
+    }
+});
+
+server.express.post('/recommend/insta', function(req, res) {
+    console.log("Receiving Instagram selected photos: ", req.body.params)
+    let aggregateTags = [];
+    let instagramPhotos = req.body.params;
+    for (var i=0; i<instagramPhotos.length; i++) {
+        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                aggregateTags.push(recommendations);
+                console.log("Console logging recommendations length: ", recommendations.length)
+                // res.status(200).send(recommendations);
+                console.log("Console logging aggregateTags length", aggregateTags.length )
+                res.status(200).send();
+            }
+        })
     }
 });
 
