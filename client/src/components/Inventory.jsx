@@ -116,9 +116,7 @@ class Inventory extends React.Component {
                   />
                 </Grid.Row>
               </Grid>
-
               <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid>
-
               {/* INVENTORY FILTERS COMPONENT */}
               {!!this.props.brands.length && (
                 <Grid style={{ margin: "10px" }}>
@@ -215,19 +213,3 @@ class Inventory extends React.Component {
 }
 
 export default Inventory;
-
-/*
-               {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-
-                        {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-*/

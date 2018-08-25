@@ -61,6 +61,7 @@ exports.getKeywordEntries = (itemKeywords, callback) => {
     if (err) {
       callback(err);
     } else {
+      console.log({results})
       callback(null, results);
     }
   })
