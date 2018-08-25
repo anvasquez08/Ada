@@ -51,13 +51,9 @@ class Instagram extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
       <div style={{marginTop: 100}}>
-=======
-      <div>
         <Button className="ui left floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
 
->>>>>>> dev
         <Grid centered>
           {this.props.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>

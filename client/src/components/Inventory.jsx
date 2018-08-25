@@ -20,11 +20,6 @@ class Inventory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      prices: ["$", "$$", "$$$", "$$$$"],
-      filters: {},
-      filteredBrands: []
-=======
       priceTiers: [
         { val: "$", isSelected: false, bracket: [0, 60] },
         { val: "$$", isSelected: false, bracket: [61, 130] },
@@ -34,7 +29,6 @@ class Inventory extends React.Component {
       filteredPrices: [],
       filteredBrands: [],
       filteredInventory: []
->>>>>>> dev
     };
     this.addFavorite = this.addFavorite.bind(this);
   }
@@ -56,33 +50,7 @@ class Inventory extends React.Component {
     this.setState({ filteredPrices: filtered}, 
       () => {this.filter()});
   }
-  toggleFilter(field){
-    if(!this.state.filters[field]) this.setState({filters: Object.assign({},this.state.filters,{[field]: true})})
-    else this.setState({filters: Object.assign({},this.state.filters,{[field]: false})})
-    this.filterBrands()
-  }
 
-  filterBrands() {
-    console.log("filtering")
-    console.log(this.props.inventory)
-    let filtered = this.props.inventory.slice();
-    // filtered = filtered.filter((item)=>{
-    //   return true
-    // })
-
-<<<<<<< HEAD
-    // for (let i = 0; i < filtered.length; i++) {
-    //   if (Object.keys(filtered[i])[0] === name) {
-    //     let val = filtered[i][name];
-    //     filtered[i][name] = !val;
-    //   }
-    // }
-    this.setState({ filtered });
-  }
-
-  componentDidMount(){
-    this.filterBrands()
-=======
   // Filter inventory by stores and price range 
   filter() {
     let temp = [], finalArr = [];
@@ -114,7 +82,6 @@ class Inventory extends React.Component {
     } 
     console.log('this is temp', temp)
     this.setState({filteredInventory: temp})
->>>>>>> dev
   }
 
   addFavorite(inventoryItem) {
@@ -149,67 +116,7 @@ class Inventory extends React.Component {
                   />
                 </Grid.Row>
               </Grid>
-
-<<<<<<< HEAD
-        {/* UPLOAD COMPONENT */}
-        <Grid style={{ margin: "10px" }}>
-          <Grid.Row centered>
-            <UploadComponent
-            handleStateChange={this.props.handleStateChange}
-            username={this.props.username}/>
-          </Grid.Row>
-        </Grid>
-        {/* INVENTORY FILTERS */}
-        {!!this.props.brands.length && (
-        <Grid style={{ margin: "10px" }}>
-          <Grid.Column width={3}>
-            <Menu vertical>
-              <Menu.Item>
-                <Menu.Header>Price</Menu.Header>
-                <Form>
-                  { this.props.brands.length > 0 && this.state.prices.map((price, ind) => {
-                    return (
-                      <Form.Field key={ind}>
-                        <Checkbox
-                          
-                          label={price}
-                          name={price}
-                          value={price}
-                          checked={this.state.filters[price]}
-                          onChange={()=>this.toggleFilter(price)}
-                        />
-                      </Form.Field>
-                    );
-                  })}
-                </Form>
-              </Menu.Item>
-              <Menu.Item>
-                <Menu.Header>Brands</Menu.Header>
-                <Form>
-                  {this.props.brands && this.props.brands.map((singlebrand, ind) => {
-                    let name = singlebrand
-                    // let isChecked = Object.values(singlebrand)[0];
-                    return (
-                      <Form.Field key={ind}>
-                        <Checkbox
-                          
-                          label={name}
-                          name={name}
-                          value={name}
-                          checked={this.state.filters[name]}
-                          onChange={()=>this.toggleFilter(name)}
-                        />
-                      </Form.Field>
-                    );
-                  })}
-                </Form>
-              </Menu.Item>
-            </Menu>
-          </Grid.Column>
-=======
               <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid>
->>>>>>> dev
-
               {/* INVENTORY FILTERS COMPONENT */}
               {!!this.props.brands.length && (
                 <Grid style={{ margin: "10px" }}>
@@ -306,19 +213,3 @@ class Inventory extends React.Component {
 }
 
 export default Inventory;
-
-/*
-               {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-
-                        {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-*/

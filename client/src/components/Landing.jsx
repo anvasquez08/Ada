@@ -3,7 +3,17 @@ import { Link } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import NavBar from './NavBar.jsx'
-// import Button from '@material-ui/core/Button';
+import {
+  Grid,
+  Image,
+  Menu,
+  Form,
+  Checkbox,
+  Card,
+  Icon,
+  Button
+} from "semantic-ui-react";
+
 // import '../assets/banner.jpg'
 export default class Landing extends React.Component {
   constructor(props) {
@@ -15,7 +25,7 @@ export default class Landing extends React.Component {
   render() {
     return (
       <div>
-        <div className="Main" style={{display:"flex"}}>
+        <div className="Main">
           <div id="4GDDQ91YIEgOiACSwmUKS4" class="jsx-416275461 wrapper">
             <div class="top-banner jsx-3126485111 HeaderSimple HeaderSimple--has-mobile-media" style={{position: "relative"}}>
               <div class="jsx-3126485111 HeaderSimple__Media" >
@@ -33,14 +43,34 @@ export default class Landing extends React.Component {
                   <h2 class="jsx-3126485111">
                     <p>Clothing made for you, just the way you want it.</p>
                   </h2>
-                  <Link to="/detect" class="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Shop Custom Now </Link>
+                  <Link to="/detect" class="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Try Out Now </Link>
                 </div>
               </div>
             </div>
-            <div className="Trend">
-              <h1 style={{marginLeft:"auto", marginRight:"auto"}}>
+            <div className="Trend" style={{marginTop:100}}>
+              <h1 style={{textAlign:"center"}}>
                 What's Trending
               </h1>
+              <Grid centered style={{marginTop:50}}>
+                <div style={{margin: "12px 5px 20px 0px"}}>
+                  <Grid.Column>
+                    <img src="https://builder.io/api/v1/image/assets%2F8vNMbZH3AvNtwzSXWef6QW77P102%2F348f1d9d44754191bc6cfd2cc3c74ec4?height=400&quality=75&width=400"></img>
+                    <h3>Summer Trend 2018</h3>
+                  </Grid.Column>
+                </div>
+                <div style={{margin: "12px 5px 20px 0px"}}>
+                  <Grid.Column>
+                    <img src="https://builder.io/api/v1/image/assets%2F8vNMbZH3AvNtwzSXWef6QW77P102%2F25154b733dac4a93ac146d7f9f63f24a?height=400&quality=75&width=400"></img>
+                    <h3>Top 10 Summer Kicks</h3>
+                  </Grid.Column>
+                </div>
+                <div style={{margin: "12px 5px 20px 0px"}}>
+                  <Grid.Column>
+                    <img src="https://builder.io/api/v1/image/assets%2F8vNMbZH3AvNtwzSXWef6QW77P102%2F41d8b95970904727ab5557610d2b90ad?height=400&quality=75&width=400"></img>
+                    <h3>The Ultimate Guide to Jumpsuits</h3>
+                  </Grid.Column>
+                </div>
+              </Grid>
             </div>
           </div >
         </div>

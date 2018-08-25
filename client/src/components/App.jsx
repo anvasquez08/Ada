@@ -111,13 +111,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      <NavBar 
-      currentPage={this.state.currentPage}
-      offSetY={this.state.offSetY}
-      user={this.state.user}
-      loadStylePage={this.loadStylePage}
-      loadHomePage={this.loadHomePage}
-      loadFavoritesPage={this.loadFavoritesPage}/>
+        <NavBar 
+        currentPage={this.state.currentPage}
+        offSetY={this.state.offSetY}
+        user={this.state.user}
+        loadStylePage={this.loadStylePage}
+        loadHomePage={this.loadHomePage}
+        loadFavoritesPage={this.loadFavoritesPage}/>
         <div className="Main">
           <div>
             <Switch>
@@ -150,7 +150,7 @@ class App extends React.Component {
             </Switch>
           </div>
         </div>
-        {/* <Instagram photos={this.state.instagramResults}/> */}
+        {/* <Footer/> */}
       </div>
     )
   }
