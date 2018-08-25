@@ -43,7 +43,7 @@ class Instagram extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{marginTop: 100}}>
         <Grid centered>
           {this.props.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>

@@ -1,4 +1,15 @@
 body {
 	margin: 0;
 	padding: 0;
+	background-color: #fff9f6;
+}
+
+.transparent{
+	color: white;
+	transition: color 200ms linear
+}
+
+.normal{
+	color: black;
+	transition: color 200ms linear
 }
