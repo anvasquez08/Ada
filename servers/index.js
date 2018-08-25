@@ -114,23 +114,6 @@ server.express.post('/index', function(req, res) {
     });
   })
 })
-    
-// //User uploads image. Save's image, adds image to user's history
-server.express.post('/upload/:user', (req,res) => {
-    
-  let username = req.params.user;
-  let imageFile = req.files.image;
-  imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
-      if (err) {
-          res.status(500).send(err);
-      } else {
-          console.log("Console logging imageUrl: ",imageUrl);
-          res.status(200).send(imageUrl);
-      }
-  })
-})
-
-
 
 // //Adds inventoryId to users favorites
 
@@ -158,6 +141,18 @@ server.express.get('/favorites/:user', (req,res) => {
 
 server.express.post('/upload', (req,res) => {
     
+<<<<<<< HEAD
+  let imageFile = req.files.file;
+  console.log("Console logging imageFile from /upload: ", imageFile);
+  
+  imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+      if (err) {
+          res.status(500).send(err);
+      } else {
+          res.status(200).send(imageUrl);
+      }
+  })
+=======
     let imageFile = req.files.image;
     console.log("Console logging imageFile from /upload: ", imageFile);
 
@@ -168,7 +163,23 @@ server.express.post('/upload', (req,res) => {
             res.status(200).send(imageUrl);
         }
     })
+>>>>>>> dev
 })
+
+// //User uploads image. Save's image, adds image to user's history
+server.express.post('/upload/:user', (req,res) => {
+    
+    let username = req.params.user;
+    let imageFile = req.files.file;
+    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            console.log("Console logging imageUrl: ",imageUrl);
+            res.status(200).send(imageUrl);
+        }
+    })
+  })
 
 // //Adds inventoryId to users favorites
 server.express.post('/favorites/:user/:inventoryId', (req,res) => {
@@ -238,19 +249,26 @@ server.express.post('/recommend', function(req, res) {
                 res.status(200).send(recommendations);
             }
         })
-    } else {
-        let image64 = req.body.file.substring(23);
-        // console.log("Console logging image64 from /recommend: ", image64);
-        recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
+    } 
+});
+
+server.express.post('/recommend/:user', function(req, res) {
+    let username = req.params.user;
+    if (typeof req.body.params === 'string') {
+        console.log("Receiving URL")
+        let imageUrl = req.body.params
+        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
             if (err) {
-                console.log("Error in recommendations service: ", err);
+                console.log("Error getting recommendations using image URL", err)
                 res.status(500).send();
             } else {
-                // console.log("Console logging recommendations here: ", recommendations);
+                if (username) {
+                    userDB.addHistoryToUser(username, imageUrl);
+                  }
                 res.status(200).send(recommendations);
             }
-    })
-    }
+        })
+    } 
 });
 
 server.express.post('/recommend/insta', function(req, res) {
