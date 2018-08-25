@@ -6,6 +6,7 @@ import '../styles/css/main.css'
 import Instagram from './Instagram.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
+import Discover from './Discover.jsx';
 import { Switch, Route } from 'react-router-dom'
 
 
