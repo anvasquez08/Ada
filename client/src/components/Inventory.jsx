@@ -176,9 +176,8 @@ class Inventory extends React.Component {
                     </Menu>
                   </Grid.Column>
                   {/* INVENTORY RESULTS */}
-                  {
-                  this.state.filteredInventory.length > 0 ? (
-                 
+                  {this.state.filteredInventory.length > 0 ? (
+                  
                       <Grid.Column width={12}>
                         <div>
                           <Card.Group itemsPerRow={4}>
@@ -187,10 +186,9 @@ class Inventory extends React.Component {
                                 return (<InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>);
                           })}
                           </Card.Group>
-                         </div>
-                      </Grid.Column>
-                 ) : ( 
-                    <Grid.Column width={12}>
+                        </div>
+                      </Grid.Column>)
+                    : (<Grid.Column width={12}>
                         <div>
                           <Card.Group itemsPerRow={4}>
                           {this.props.inventory &&
@@ -200,11 +198,11 @@ class Inventory extends React.Component {
                             );
                           })}
                           </Card.Group>
-                         </div>
+                        </div>
                       </Grid.Column>
                   )
                   }  
-             </Grid>
+              </Grid>
               )}
             </div>
           );
