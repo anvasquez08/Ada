@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Landing from './Landing.jsx';
 import NavBar from './NavBar.jsx';
+import Footer from './Footer.jsx';
 import Inventory from './Inventory.jsx';
 import '../styles/css/main.css'
 import Instagram from './Instagram.jsx';
@@ -150,7 +151,7 @@ class App extends React.Component {
             </Switch>
           </div>
         </div>
-        {/* <Footer/> */}
+        <Footer/>
       </div>
     )
   }
