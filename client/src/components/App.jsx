@@ -5,7 +5,7 @@ import NavBar from './NavBar.jsx';
 import Footer from './Footer.jsx';
 import Inventory from './Inventory.jsx';
 import '../styles/css/main.css'
-import Instagram from './Instagram.jsx';
+import PhotoSelector from './PhotoSelector.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
 import Discover from './Discover.jsx';
@@ -24,8 +24,8 @@ class App extends React.Component {
       user: '',
       inventory: [],
       brands: [],
-      instagramResults: [],
-      currentPage: 'home'
+      currentPage: 'home',
+      loginType: ''
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
@@ -41,13 +41,9 @@ class App extends React.Component {
     window.addEventListener('scroll', this.handleScroll, { passive: true })
     // check if there is an active user session
     axios.get('/auth/current_user')
-      .then((result) => this.setState({ user: result.data, isLoggedIn: true }))
-      .then(() => {
-        // if there is an active user session, pull user's instagram photos
-        if (this.state.user) {
-          axios.get('/auth/media')
-            .then((result) => { this.setState({ instagramResults: result.data.data }) })
-        }
+      .then((result) => this.setState({user: result.data, isLoggedIn: true}))
+      .catch((err) => {
+        console.log(err);
       })
   }
 
@@ -136,8 +132,10 @@ class App extends React.Component {
                 render={(props) => <Favorites {...props}
                 username={this.state.user}/>}/>
               <Route exact path='/insta'
-                render={(props) => <Instagram {...props}
-                photos={this.state.instagramResults}
+                render={(props) => <PhotoSelector {...props}
+                username={this.state.user}/>}/>
+              <Route exact path='/fb'
+                render={(props) => <PhotoSelector {...props}
                 username={this.state.user}/>}/>
             </Switch>
           </div>

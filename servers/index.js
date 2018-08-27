@@ -141,16 +141,16 @@ server.express.get('/favorites/:user', (req,res) => {
 
 server.express.post('/upload', (req,res) => {
     
-    let imageFile = req.files.image;
-    console.log("Console logging imageFile from /upload: ", imageFile);
-
-    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send(imageUrl);
-        }
-    })
+  let imageFile = req.files.file;
+  console.log("Console logging imageFile from /upload: ", imageFile);
+  
+  imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+      if (err) {
+          res.status(500).send(err);
+      } else {
+          res.status(200).send(imageUrl);
+      }
+  })
 })
 
 // User uploads image. Saves image, adds image to user's history
