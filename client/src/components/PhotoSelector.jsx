@@ -1,13 +1,14 @@
 import React from 'react';
-import InstagramEntry from '../components/InstagramEntry.jsx';
+import PhotoCard from '../components/PhotoCard.jsx';
 import { Grid, Button, Input } from "semantic-ui-react";
 import axios from 'axios';
 
-class Instagram extends React.Component {
+class PhotoSelector extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPictures: []
+      selectedPictures: [],
+      photos:[]
     }
     this.select = this.select.bind(this);
     this.submitPhotos = this.submitPhotos.bind(this);
@@ -18,14 +19,12 @@ class Instagram extends React.Component {
     if (this.state.selectedPictures.indexOf(url) > -1) {
       let copy = this.state.selectedPictures.slice()
       copy.splice(copy.indexOf(url), 1)
-      console.log("Instagram selected photos: ", copy)
       this.setState({
         selectedPictures: copy
       })
     } else {
       let copy = this.state.selectedPictures.slice()
       copy.push(url);
-      console.log("Instagram selected photos: ", copy)
       this.setState({
         selectedPictures: copy
       })
@@ -43,33 +42,47 @@ class Instagram extends React.Component {
   }
 
   sendPhotosForRecommendations() {
-    // console.log("Sending instagram recs to server: ", this.state.selectedPictures)
     axios.post('/recommend/insta', {params: this.state.selectedPictures})
       .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
+  }
 
+  componentDidMount() {
+    if (this.state.photos.length === 0){
+      let currentLocation = this.props.location.pathname
+      console.log('current location', currentLocation);
+      if (currentLocation === '/insta') {
+        console.log('INSTA AUTH');
+        axios.get('/auth/media')
+        .then((result) => {this.setState({photos: result.data})})
+      } else if (currentLocation === '/fb') {
+        console.log('FACEBOOK AUTH');
+        axios.get('/auth/fbmedia')
+        .then(
+          (result) => {this.setState({photos: result.data}
+        )}).catch((err) => {
+          console.log(err);
+        })
+      }
+    }
   }
 
   render() {
     return (
       <div>
         <Button className="ui left floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
-
         <Grid centered>
-          {this.props.photos.map((photo, idx) => {
+          {this.state.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>
               <Grid.Column>
-              <InstagramEntry photo={photo} select={this.select}/>
+              <PhotoCard photo={photo} select={this.select}/>
               </Grid.Column>
             </div>)
             })}
         </Grid>
-        {/* <div>
-          <button type='Submit' onClick={this.submitPhotos}>Submit</button>
-        </div> */}
       </div>
     )
   }
 }
 
 
-export default Instagram;
+export default PhotoSelector;
