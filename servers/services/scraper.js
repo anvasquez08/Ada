@@ -179,3 +179,12 @@ module.exports = {
   // macyScrape,
   // getByTags
 };
+
+async function test(url) {
+  let arr = [0,1,2,3,4]
+  let total = 0
+  arr.forEach(el=>{
+    return setTimeout(()=>total+=el, 1000)
+  })
+  console.log({total})
+}

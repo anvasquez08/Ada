@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App.jsx";
-import { BrowserRouter } from 'react-router-dom'
+import { Route, BrowserRouter } from 'react-router-dom'
+import './styles/css/main.css'
 
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -16,7 +17,7 @@ import { ApolloProvider ,  createNetworkInterface } from "react-apollo";
 ReactDOM.render( 
   <ApolloProvider client={client}> 
     <BrowserRouter>
-      <App />      
+      <Route path="/" render={({history})=> <App history={history}/>}/>
     </BrowserRouter>
   </ApolloProvider>, document.getElementById("app")
 );

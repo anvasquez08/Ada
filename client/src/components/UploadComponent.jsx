@@ -32,7 +32,7 @@ class UploadComponent extends Component {
     data.append('file', imageFile);
     this.props
     .imageUpload({ variables: { input: data } })
-    .then(result => console.log('result', result))
+    .then(result => console.log('Console logging result from handleImageUpload: ', result))
     .catch(error => console.log(error));
 
     
@@ -40,12 +40,12 @@ class UploadComponent extends Component {
     if (this.props.username.length > 0) {
       endpoint += `/${this.props.username}`
     }
-    console.log('UPLOADING WITH ENDPOINT', endpoint)
+    // console.log('UPLOADING WITH ENDPOINT', endpoint)
     axios.post(endpoint, data)
       .then(({data})=>{
         console.log('image uploaded')
     })
-    .catch(err=>console.log(err))
+    .catch(err=>console.log("Console logging error from axios post: ", err))
   }
 
   encodeImage(image) {
