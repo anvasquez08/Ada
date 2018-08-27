@@ -153,7 +153,7 @@ server.express.post('/upload', (req,res) => {
     })
 })
 
-// //User uploads image. Saves image, adds image to user's history
+// User uploads image. Saves image, adds image to user's history
 server.express.post('/upload/:user', (req,res) => {
     
     let username = req.params.user;
@@ -239,6 +239,27 @@ server.express.post('/recommend', function(req, res) {
     } 
 });
 
+server.express.post('/recommendinsta', (req, res) => {
+    console.log("Anybody out there?")
+    console.log("Receiving Instagram selected photos: ", req.body.params)
+    let aggregateLabels = []; // using this later, when aggregating labels
+    let instagramPhotos = req.body.params;
+    for (var i = 0; i < instagramPhotos.length; i++) {
+        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                aggregateLabels.push(recommendations);
+                console.log("Console logging recommendations length: ", recommendations.length)
+                // res.status(200).send(recommendations);
+                console.log("Console logging aggregateLabels length", aggregateLabels.length )
+                res.status(200).send();
+            }
+        })
+    }
+});
+
 server.express.post('/recommend/:user', function(req, res) {
     let username = req.params.user;
     if (typeof req.body.params === 'string') {
@@ -255,26 +276,6 @@ server.express.post('/recommend/:user', function(req, res) {
             }
         })
     } 
-});
-
-server.express.post('/recommend/insta', function(req, res) {
-    console.log("Receiving Instagram selected photos: ", req.body.params)
-    let aggregateTags = []; // using this later
-    let instagramPhotos = req.body.params;
-    for (var i = 0; i < instagramPhotos.length; i++) {
-        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
-            if (err) {
-                console.log("Error getting recommendations using image URL", err)
-                res.status(500).send();
-            } else {
-                aggregateTags.push(recommendations);
-                console.log("Console logging recommendations length: ", recommendations.length)
-                // res.status(200).send(recommendations);
-                console.log("Console logging aggregateTags length", aggregateTags.length )
-                res.status(200).send();
-            }
-        })
-    }
 });
 
 // //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.

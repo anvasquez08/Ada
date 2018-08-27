@@ -1,6 +1,6 @@
 import React from 'react';
 import InstagramEntry from '../components/InstagramEntry.jsx';
-import { Grid, Button, Input } from "semantic-ui-react";
+import { Grid, Button, Icon } from "semantic-ui-react";
 import axios from 'axios';
 
 class Instagram extends React.Component {
@@ -43,11 +43,9 @@ class Instagram extends React.Component {
   }
 
   sendPhotosForRecommendations() {
-    // console.log("Sending instagram recs to server: ", this.state.selectedPictures)
-    console.log("Firing send photos array")
-    axios.post('/recommend/insta', {params: this.state.selectedPictures})
+    console.log("Sending instagram recs to server: ", this.state.selectedPictures)
+    axios.post('/recommendinsta', {params: this.state.selectedPictures})
       .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
-
   }
 
   render() {
@@ -68,11 +66,8 @@ class Instagram extends React.Component {
             </div>)
             })}
         </Grid></div>
-        : <center>Sign in with Instagram</center>
+        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram <Icon name='arrow alternate circle up outline'/></h1>
       }
-        {/* <div>
-          <button type='Submit' onClick={this.submitPhotos}>Submit</button>
-        </div> */}
       </div>
     )
   }

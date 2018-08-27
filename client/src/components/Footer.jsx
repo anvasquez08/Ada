@@ -15,7 +15,7 @@ export default class Footer extends React.Component {
           <div class="row1 jsx-2851940331" style={{display:"flex", flexDirection: "row"}}>
             <div class="jsx-2325222291 input-wrapper" style={{flexGrow:7, maxWidth:450}}>
               <div class="jsx-2325222291" style={{marginBottom: 16}}>
-                <span>Try custom for the first time with $25 off</span>
+                <span>Sign up for discounts from our partners</span>
               </div>
               <div class="jsx-1213838683 EmailCapture EmailCapture--slim">
                 <form novalidate="" class="jsx-1213838683" style={{display:"flex"}}>
