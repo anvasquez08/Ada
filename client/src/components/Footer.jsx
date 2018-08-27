@@ -46,15 +46,10 @@ export default class Footer extends React.Component {
           <div className="row2" style={{display:"flex", flexDirection: "row"}}>
             <div class="jsx-3212225829 NavigationLinks" style={{display:"flex", flexDirection: "row", width: "calc(100% / 12 * 6 - 0.1px)", marginTop: "40px", flexWrap: "wrap"}}>
               <a href="/about" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>About Us</a>
-              <a href="/contact" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Contact Us</a>
               <a href="/faqs" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>FAQs</a>
-              <a href="/size-guide" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Size Guide</a>
-              <a href="/privacy" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Privacy Policy</a>
-              <a href="/terms" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Terms</a>
-              <a href="/faqs#collapse-returns-policy" class="jsx-927076563 no-underline">Returns Policy</a>
             </div>
             <div class="jsx-2851940331 copyright text-secondary" style={{textAlign:"end", flexGrow:1, alignSelf:'flex-end'}}>
-              <span class="jsx-2851940331">© 2018 AWESOME INC</span>
+              <span class="jsx-2851940331">© 2018 ALLENDE INC</span>
             </div>
           </div>
         </div >

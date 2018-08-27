@@ -44,6 +44,7 @@ class Instagram extends React.Component {
 
   sendPhotosForRecommendations() {
     // console.log("Sending instagram recs to server: ", this.state.selectedPictures)
+    console.log("Firing send photos array")
     axios.post('/recommend/insta', {params: this.state.selectedPictures})
       .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
 
@@ -52,17 +53,23 @@ class Instagram extends React.Component {
   render() {
     return (
       <div style={{marginTop: 100}}>
-        <Button className="ui left floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
 
-        <Grid centered>
+      {this.props.username
+        ?
+        <div><Grid centered>
+        <Grid.Row>
+          <Button className="ui large blue floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
+        </Grid.Row>
           {this.props.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>
               <Grid.Column>
-              <InstagramEntry photo={photo} select={this.select}/>
+                <InstagramEntry photo={photo} select={this.select}/>
               </Grid.Column>
             </div>)
             })}
-        </Grid>
+        </Grid></div>
+        : <center>Sign in with Instagram</center>
+      }
         {/* <div>
           <button type='Submit' onClick={this.submitPhotos}>Submit</button>
         </div> */}

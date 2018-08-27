@@ -259,9 +259,9 @@ server.express.post('/recommend/:user', function(req, res) {
 
 server.express.post('/recommend/insta', function(req, res) {
     console.log("Receiving Instagram selected photos: ", req.body.params)
-    let aggregateTags = [];
+    let aggregateTags = []; // using this later
     let instagramPhotos = req.body.params;
-    for (var i=0; i<instagramPhotos.length; i++) {
+    for (var i = 0; i < instagramPhotos.length; i++) {
         recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
             if (err) {
                 console.log("Error getting recommendations using image URL", err)

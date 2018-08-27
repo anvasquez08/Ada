@@ -85,14 +85,18 @@ class Inventory extends React.Component {
   }
 
   addFavorite(inventoryItem) {
-    axios
-      .post(`/favorites/${this.props.username}/${inventoryItem._id}`)
-      .then(({ data }) => {
-        console.log("favorite saved");
-      })
-      .cathch(err => {
-        console.log(err);
-      });
+    if (this.props.username.length === 0) {
+      console.log("User not logged in")
+    } else {
+      axios
+        .post(`/favorites/${this.props.username}/${inventoryItem._id}`)
+        .then(({ data }) => {
+          console.log("favorite saved, here's the data: ", data);
+        })
+        .catch(err => {
+          console.log("Error adding favorite!: ", err);
+        });
+    }
   }
 
   render() {
@@ -116,12 +120,17 @@ class Inventory extends React.Component {
                   />
                 </Grid.Row>
               </Grid>
-              <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid>
+
+              {/* <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid> */}
+
               {/* INVENTORY FILTERS COMPONENT */}
               {!!this.props.brands.length && (
                 <Grid style={{ margin: "10px" }}>
-                  <Grid.Column width={2}>
+                  <div><Grid.Column width={2}>
                     <Menu vertical>
+                      <Menu.Item>
+                        {!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}
+                      </Menu.Item>
                       <Menu.Item>
                         <Menu.Header>Price</Menu.Header>
                         <Form>
@@ -172,32 +181,31 @@ class Inventory extends React.Component {
                         </Form>
                       </Menu.Item>
                     </Menu>
-                  </Grid.Column>
+                  </Grid.Column></div>
                   {/* INVENTORY RESULTS */}
                   {this.state.filteredInventory.length > 0 ? (
                   
-                      <Grid.Column width={12}>
+                      <div><Grid.Column width={12}>
                         <div>
-                          <Card.Group itemsPerRow={4}>
+                          <Card.Group>
                           {this.props.inventory &&
                               this.state.filteredInventory.map((item, i) => {
                                 return (<InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>);
                           })}
                           </Card.Group>
                         </div>
-                      </Grid.Column>)
-                    : (<Grid.Column width={12}>
+                      </Grid.Column></div>)
+                    : (<div><Grid.Column width={12}>
                         <div>
-                          <Card.Group itemsPerRow={4}>
-                          {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
+                          <Card.Group>
+                          {this.props.inventory && this.props.inventory.map((item, i) => {
                             return (
                               <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
                             );
                           })}
                           </Card.Group>
                         </div>
-                      </Grid.Column>
+                      </Grid.Column></div>
                   )
                   }  
               </Grid>
@@ -211,3 +219,19 @@ class Inventory extends React.Component {
 }
 
 export default Inventory;
+
+/*
+               {this.props.inventory &&
+                          this.props.inventory.map((item, i) => {
+                            return (
+                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
+                            );
+                          })}
+
+                        {this.props.inventory &&
+                          this.props.inventory.map((item, i) => {
+                            return (
+                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
+                            );
+                          })}
+*/
