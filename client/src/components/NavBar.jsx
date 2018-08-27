@@ -23,7 +23,6 @@ class NavBar extends React.Component {
           <span className="item">
             {this.props.user ? <a href="/auth/logout">Logout</a> : <a href="/auth/instagram">Sign in with Instagram</a>}
           </span>
-
         </div>
           
       </div>

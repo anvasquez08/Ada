@@ -90,7 +90,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: "#FFF5EE"}}>
       <NavBar user={this.state.user}
       currentPage={this.state.currentPage}
       loadStylePage={this.loadStylePage}
