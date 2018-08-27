@@ -30,6 +30,11 @@ class NavBar extends React.Component {
             ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
             : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/instagram">Sign in with Instagram</a>}
           </span>
+          <span className="item">
+            {this.props.user 
+            ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
+            : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/facebook">Sign in with Facebook</a>}
+          </span>
         </div>
       </div>
     )
