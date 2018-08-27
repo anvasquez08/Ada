@@ -84,11 +84,8 @@ class PhotoSelector extends React.Component {
             </div>)
             })}
         </Grid></div>
-        : <center>Sign in with Instagram or Facebook</center>
+        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram or Facebook<Icon name='arrow alternate circle up outline'/></h1>
       }
-        {/* <div>
-          <button type='Submit' onClick={this.submitPhotos}>Submit</button>
-        </div> */}
       </div>
     )
   }

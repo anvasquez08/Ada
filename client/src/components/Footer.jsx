@@ -10,12 +10,12 @@ export default class Footer extends React.Component {
 
   render() {
     return (
-      <footer className="jsx-2851940331" style={{marginTop:"100px"}}>
-        <div className="jsx-2851940331 inner" style={{padding: "0 16px"}}>
-          <div className="row1 jsx-2851940331" style={{display:"flex", flexDirection: "row"}}>
-            <div className="jsx-2325222291 input-wrapper" style={{flexGrow:7, maxWidth:450}}>
-              <div className="jsx-2325222291" style={{marginBottom: 16}}>
-                <span>Try custom for the first time with $25 off</span>
+      <footer class="jsx-2851940331" style={{marginTop:"100px"}}>
+        <div class="jsx-2851940331 inner" style={{padding: "0 16px"}}>
+          <div class="row1 jsx-2851940331" style={{display:"flex", flexDirection: "row"}}>
+            <div class="jsx-2325222291 input-wrapper" style={{flexGrow:7, maxWidth:450}}>
+              <div class="jsx-2325222291" style={{marginBottom: 16}}>
+                <span>Sign up for discounts from our partners</span>
               </div>
               <div className="jsx-1213838683 EmailCapture EmailCapture--slim">
                 <form noValidate="" className="jsx-1213838683" style={{display:"flex"}}>
