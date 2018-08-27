@@ -10,6 +10,7 @@ import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
 import Discover from './Discover.jsx';
 import { Switch, Route } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
 
 class App extends React.Component {
@@ -85,12 +86,6 @@ class App extends React.Component {
     })
   }
 
-  setCurrentPage(page){
-    this.setState({
-      currentPage: page
-    })
-  }
-
   loadStylePage() {
     this.setState({
       currentPage: 'style'
@@ -113,7 +108,7 @@ class App extends React.Component {
     return (
       <div>
         <NavBar 
-        currentPage={this.state.currentPage}
+        currentPage={this.props.history.location.pathname}
         offSetY={this.state.offSetY}
         user={this.state.user}
         loadStylePage={this.loadStylePage}
@@ -124,7 +119,6 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/'
                 render={(props) => <Landing {...props}
-                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route path='/detect'
                 render={(props) => <Inventory {...props}
@@ -137,15 +131,12 @@ class App extends React.Component {
                 handleAppBrandChange={this.handleAppBrandChange}/>}/>
               <Route exact path='/style'
                 render={(props) => <Style {...props}
-                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route exact path='/favorites'
                 render={(props) => <Favorites {...props}
-                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route exact path='/insta'
                 render={(props) => <Instagram {...props}
-                setCurrentPage={this.setCurrentPage}
                 photos={this.state.instagramResults}
                 username={this.state.user}/>}/>
             </Switch>
@@ -156,5 +147,6 @@ class App extends React.Component {
     )
   }
 }
-
+const ShowTheLocationWithRouter = withRouter(App)
+// withRouter(connect(...)(App))
 export default App

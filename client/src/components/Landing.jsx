@@ -21,7 +21,6 @@ export default class Landing extends React.Component {
     this.state = {}
   }
 
-
   render() {
     return (
       <div>
