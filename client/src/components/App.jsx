@@ -8,9 +8,8 @@ import '../styles/css/main.css'
 import PhotoSelector from './PhotoSelector.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
-import Discover from './Discover.jsx';
 import { Switch, Route } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import LoginModal from './LoginModal.jsx';
 
 
 class App extends React.Component {
@@ -25,16 +24,15 @@ class App extends React.Component {
       inventory: [],
       brands: [],
       currentPage: 'home',
-      loginType: ''
+      loginType: '',
+      modalActive: false
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleImageUrl = this.handleImageUrl.bind(this);
-    this.loadStylePage = this.loadStylePage.bind(this);
-    this.loadHomePage = this.loadHomePage.bind(this);
-    this.loadFavoritesPage = this.loadFavoritesPage.bind(this);
     this.handleScroll = this.handleScroll.bind(this)
     this.handleAppBrandChange = this.handleAppBrandChange.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -82,21 +80,9 @@ class App extends React.Component {
     })
   }
 
-  loadStylePage() {
+  toggleModal() {
     this.setState({
-      currentPage: 'style'
-    })
-  }
-
-  loadHomePage() {
-    this.setState({
-      currentPage: 'home'
-    })
-  }
-
-  loadFavoritesPage() {
-    this.setState({
-      currentPage: 'favorites'
+      modalActive: !(this.state.modalActive)
     })
   }
 
@@ -107,9 +93,10 @@ class App extends React.Component {
         currentPage={this.props.history.location.pathname}
         offSetY={this.state.offSetY}
         user={this.state.user}
-        loadStylePage={this.loadStylePage}
-        loadHomePage={this.loadHomePage}
-        loadFavoritesPage={this.loadFavoritesPage}/>
+        toggleModal={this.toggleModal}/>
+        <LoginModal
+        toggleModal={this.toggleModal}
+        modalActive={this.state.modalActive}/>
         <div className="Main">
           <div>
             <Switch>
@@ -145,6 +132,6 @@ class App extends React.Component {
     )
   }
 }
-const ShowTheLocationWithRouter = withRouter(App)
-// withRouter(connect(...)(App))
+// const ShowTheLocationWithRouter = withRouter(App)
+// // withRouter(connect(...)(App))
 export default App

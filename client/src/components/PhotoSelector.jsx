@@ -1,6 +1,6 @@
 import React from 'react';
 import PhotoCard from '../components/PhotoCard.jsx';
-import { Grid, Button, Input } from "semantic-ui-react";
+import { Grid, Button, Icon } from "semantic-ui-react";
 import axios from 'axios';
 
 class PhotoSelector extends React.Component {
