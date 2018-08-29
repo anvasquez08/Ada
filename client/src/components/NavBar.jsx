@@ -20,7 +20,7 @@ class NavBar extends React.Component {
           <span className={this.props.currentPage === 'style' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
           <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/favorites'>Favorites</Link></span>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/favorites'>Wish List</Link></span>
             <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/trending'>Trending Styles</Link></span>
           <span className="item">
