@@ -242,7 +242,6 @@ primaryRouter.post('/index', function(req, res) {
     // 1) get images from stories
     // 2) get analysis of photos 
     // 3) get recommendations 
-    console.log('here')
     getSavedEditorial((err, response)=> {
       if (response !== null) {
         res.send(response)

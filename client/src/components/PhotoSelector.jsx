@@ -45,20 +45,20 @@ class PhotoSelector extends React.Component {
   }
 
   sendPhotosForRecommendations() {
-    axios.post('/recommend/insta', {params: this.state.selectedPictures})
+    axios.post('/recommendinsta', {params: this.state.selectedPictures})
       .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
   }
 
   componentDidMount() {
     if (this.state.photos.length === 0){
       let currentLocation = this.props.location.pathname
-      console.log('current location', currentLocation);
+      // console.log('current location', currentLocation);
       if (currentLocation === '/insta') {
-        console.log('INSTA AUTH');
+        // console.log('INSTA AUTH');
         axios.get('/auth/media')
         .then((result) => {this.setState({photos: result.data})})
       } else if (currentLocation === '/fb') {
-        console.log('FACEBOOK AUTH');
+        // console.log('FACEBOOK AUTH');
         axios.get('/auth/fbmedia')
         .then(
           (result) => {this.setState({photos: result.data}
@@ -87,7 +87,7 @@ class PhotoSelector extends React.Component {
             </div>)
             })}
         </Grid></div>
-        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram or Facebook<Icon name='arrow alternate circle up outline'/></h1>
+        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram <Icon name='arrow alternate circle up outline'/></h1>
       }
       </div>
     )
