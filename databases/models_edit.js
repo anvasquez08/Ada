@@ -5,7 +5,7 @@ const saveScrapedEditorial = (args, publication) => {
   const {title} = args[0]
   const {paragraph} = args[1]
   const {images} = args[2]
-
+  console.log(args)
   new Editorial({
     publicationName: publication,
     title: title,
@@ -28,4 +28,4 @@ const getSavedEditorial = (callback) => {
   })
 }
 
-module.exports = {getSavedEditorial}
+module.exports = {getSavedEditorial, saveScrapedEditorial}
