@@ -31,7 +31,10 @@ class Discover extends React.Component {
 
   fetchCarouselStyles() {
     axios.get('/trends')
-    .then(res => { this.setState({children: res.data})})
+
+    .then(res => { 
+      console.log(res)
+      this.setState({children: res.data})})
     .catch(err => console.log(err))
   }
 
@@ -52,41 +55,46 @@ class Discover extends React.Component {
 
   render() {
     return (
-      <Container>
-        <div style={{ overflow: "hidden", maxHeight: "300px" }}>
-          <Image src="../assets/banner.jpg" fluid />
-        </div>
-        <Header as='h2' dividing>NYT Street Style</Header>
-        <Grid columns={3} relaxed>
-          <Grid.Column>
-          <Segment style={{height: "100%"}}>
-          <Image src={'https://i.imgur.com/hOq4pFe.jpg'} size='medium' />
-              <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-              <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
-              <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
-          </Segment>
-          </Grid.Column>
+<div>
+<h1>Testing view for Style.jsx component</h1>
+  {/* HEADER IMAGE */}
+<div style={{ overflow: "hidden", maxHeight: "300px" }}>
+  <Image src="../assets/banner.jpg" fluid />
+</div>
 
-          <Grid.Column>
-          <Segment>
-          <Image src={'https://i.imgur.com/RntHgBy.jpg'} size='medium' />
-           <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-           <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
-              <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
-          </Segment>
-          </Grid.Column>
-          <Grid.Column>
-          <Segment>
-          <Image src={'https://i.imgur.com/0JL4fc7.jpg'} size='medium' />
-              <Header as='h2'>Street Style: Copenhagen</Header>
-              <div>In Denmark’s capital, bicycles are the most common accessory..</div>
-              <h5>Søren Jepsen</h5>
-          </Segment>
-          </Grid.Column>
-        </Grid>
-        <Header as='h2' dividing> Trending Styles</Header>
-        <div>
-      <AliceCarousel 
+  {/* MY STYLE PHOTOS */}
+<Container>
+<Header as='h2' dividing>NYT Street Style</Header>
+<Grid columns={3} relaxed>
+  <Grid.Column>
+  <Segment style={{height: "100%"}}>
+  <Image src={'https://i.imgur.com/hOq4pFe.jpg'} size='medium' />
+      <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
+      <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
+      <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
+  </Segment>
+  </Grid.Column>
+
+  <Grid.Column>
+  <Segment>
+  <Image src={'https://i.imgur.com/RntHgBy.jpg'} size='medium' />
+   <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
+   <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
+      <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
+  </Segment>
+  </Grid.Column>
+  <Grid.Column>
+  <Segment>
+  <Image src={'https://i.imgur.com/0JL4fc7.jpg'} size='medium' />
+      <Header as='h2'>Street Style: Copenhagen</Header>
+      <div>In Denmark’s capital, bicycles are the most common accessory..</div>
+      <h5>Søren Jepsen</h5>
+  </Segment>
+  </Grid.Column>
+</Grid>
+<Header as='h2' dividing> Trending Styles</Header>
+<div>
+<AliceCarousel 
         items={this.galleryItems()}
         style={{border: "none !important"}}
         mouseDragEnabled 
@@ -97,9 +105,12 @@ class Discover extends React.Component {
         fadeOutAnimation={true}/>
       </div>
       </Container>
-    )
+
+
+
+</div>)
   }
 }
 
 export default Discover;
-// AIzaSyCgU8c3xXbJn-wxAoxHAwzNbAYvtvzm1FI
+

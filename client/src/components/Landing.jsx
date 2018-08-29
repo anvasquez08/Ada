@@ -14,7 +14,6 @@ import {
   Button
 } from "semantic-ui-react";
 
-// import '../assets/banner.jpg'
 export default class Landing extends React.Component {
   constructor(props) {
     super(props)
