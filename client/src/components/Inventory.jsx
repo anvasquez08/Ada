@@ -112,24 +112,22 @@ class Inventory extends React.Component {
               <Grid style={{ margin: "10px" }}>
                 <Grid.Row centered>
                   <UploadComponent
+                    handleImageUrl={this.props.handleImageUrl}
                     handleStateChange={this.props.handleStateChange}
                     username={this.props.username}
                     imageUrl={this.props.imageUrl}
-                    handleImageUrl={this.props.handleImageUrl}
                   />
                 </Grid.Row>
               </Grid>
 
-              {/* <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid> */}
-
               {/* INVENTORY FILTERS COMPONENT */}
               {!!this.props.brands.length && (
-                <Grid style={{ margin: "10px" }}>
-                  <div><Grid.Column width={2}>
+                <div>
+                  <Grid style={{ margin: "10px", display: "table" }} divided='vertically' columns='equal'>
+                  <Grid.Row columns={2}>
+                  <Grid.Column width={3}>
                     <Menu vertical>
-                      <Menu.Item>
-                        {!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}
-                      </Menu.Item>
+                        {!!this.props.inventory.length ? <Menu.Item><img src={this.props.imageUrl}></img></Menu.Item> : null}
                       <Menu.Item>
                         <Menu.Header>Price</Menu.Header>
                         <Form>
@@ -172,44 +170,51 @@ class Inventory extends React.Component {
                                       newState[i].isSelected = !brand.isSelected;
                                       this.props.handleAppBrandChange(newState)
                                       this.handleBrandChange()
-                                    }}
-                                  />
+                                    }}/>
                                 </Form.Field>
-                              );
+                              )
                             })}
                         </Form>
                       </Menu.Item>
                     </Menu>
-                  </Grid.Column></div>
+                    </Grid.Column>
+                    {/* </Grid.Row> */}
+
                   {/* INVENTORY RESULTS */}
-                  {this.state.filteredInventory.length > 0 ? (
-                  
-                      <div><Grid.Column width={12}>
-                        <div>
-                          <Card.Group>
+
+                  {this.state.filteredInventory.length > 0 
+                    ? (
+                        <Grid.Column width={12}><Grid>
+                          {/* <Card.Group style={{margin: "auto"}}> */}
+                          <Grid.Row columns={4}>
                           {this.props.inventory &&
-                              this.state.filteredInventory.map((item, i) => {
-                                return (<InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>);
-                          })}
-                          </Card.Group>
-                        </div>
-                      </Grid.Column></div>)
-                    : (<div><Grid.Column width={12}>
-                        <div>
-                          <Card.Group>
-                          {this.props.inventory && this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-                          </Card.Group>
-                        </div>
-                      </Grid.Column></div>
-                  )
-                  }  
-              </Grid>
+                            this.state.filteredInventory.map((item, i) => {
+                              return (<Grid.Column><InventoryItem item={item} addFavorite={this.addFavorite} key={i}/></Grid.Column>);
+                            })}
+                          {/* </Card.Group> */}
+                            </Grid.Row>
+                          </Grid>
+                      </Grid.Column>
+                      )
+                    : (
+                      <Grid.Column width={12}><Grid>
+                      <Grid.Row columns={4}>
+                          {/* <Card.Group style={{margin: "auto"}}> */}
+                          {this.props.inventory && 
+                            this.props.inventory.map((item, i) => {
+                              return (<Grid.Column><InventoryItem item={item} addFavorite={this.addFavorite} key={i}/></Grid.Column>);
+                            })}
+                          {/* </Card.Group> */}
+                            </Grid.Row>
+                          </Grid>
+                      </Grid.Column>
+                    )
+                  }
+                </Grid.Row>
+              </Grid></div>
               )}
-            </div>
+              {/* <div style={{height: '150px', width: '150px'}}><Card>Testing</Card></div> */}
+              </div>
           );
         }}
       </ApolloConsumer>
@@ -220,17 +225,17 @@ class Inventory extends React.Component {
 export default Inventory;
 
 /*
-               {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
+{this.props.inventory &&
+    this.props.inventory.map((item, i) => {
+      return (
+        <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
+      );
+    })}
 
-                        {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
+  {this.props.inventory &&
+    this.props.inventory.map((item, i) => {
+      return (
+        <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
+      );
+    })}
 */

@@ -112,7 +112,7 @@ class App extends React.Component {
                 brands={this.state.brands}
                 username={this.state.user} 
                 handleAppBrandChange={this.handleAppBrandChange}/>}/>
-               <Route exact path='/trending'
+              <Route exact path='/trending'
                 render={(props) => <Discover {...props}
                 username={this.state.user}/>}/>
               <Route exact path='/style'
