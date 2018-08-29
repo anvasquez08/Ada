@@ -7,11 +7,9 @@ import {
 } from "semantic-ui-react";
 
 const InventoryItem = ({item, addFavorite}) => (
-  <Card key={item._id}>
+  <Card key={item._id} style={{marginLeft: 25, marginTop: 1, marginBottom: 25}}>
     <Card.Content>
-      <Image src={item.imageUrl} size="big" centered/>
-        {/* <p style={{fontSize: "15px",color: "#909090" }} >{item.brandName}</p> */}
-        {/* <p style={{ fontWeight: "bold" }}>{item.name.length > 50 ? item.name.substring(0, 50) + '...' : item.name}</p> */}
+      <Image src={item.imageUrl} size="medium"/>
         <p>${item.price}</p>
         <p style={{ fontSize: "12px", color: "#909090" }}> {item.brandName}</p>
         <Button size="mini" onClick={() => { addFavorite(item) }} className="ui icon button"><Icon className="heart"></Icon></Button>

@@ -83,7 +83,6 @@ authRouter.get('/current_user', (req, res) => {
     
     res.send(username);
   } else {
-    console.log('UNDEFINED')
     res.send('');
   }
 });
