@@ -37,7 +37,7 @@ export default class Footer extends React.Component {
                   className="jsx-1473164680">
                   <IconInsta/>
                 </a>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/Allende-HR/Allende-HR" aria-label="Twitter" class="jsx-1473164680">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/Allende-HR/Allende-HR" aria-label="Twitter" className="jsx-1473164680">
                   <IconTwt/>
                 </a>
               </div>

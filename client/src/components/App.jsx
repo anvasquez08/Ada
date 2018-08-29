@@ -10,7 +10,7 @@ import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
 import { Switch, Route } from 'react-router-dom'
 import LoginModal from './LoginModal.jsx';
-
+import Discover from './Discover.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class App extends React.Component {
   }
 
   async handleAppBrandChange(val) {
-    console.log(val)
+    // console.log(val)
     await this.setState({brands: val})
   }
 
@@ -112,6 +112,9 @@ class App extends React.Component {
                 brands={this.state.brands}
                 username={this.state.user} 
                 handleAppBrandChange={this.handleAppBrandChange}/>}/>
+               <Route exact path='/trending'
+                render={(props) => <Discover {...props}
+                username={this.state.user}/>}/>
               <Route exact path='/style'
                 render={(props) => <Style {...props}
                 username={this.state.user}/>}/>
@@ -124,6 +127,7 @@ class App extends React.Component {
               <Route exact path='/fb'
                 render={(props) => <PhotoSelector {...props}
                 username={this.state.user}/>}/>
+
             </Switch>
           </div>
         </div>

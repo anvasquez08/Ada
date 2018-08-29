@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const path = require('path');
-
 const authRouter = require('./routes/authRoutes');
 // const recommendationRouter = require('./routes/recommendationRoutes');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
@@ -42,7 +41,7 @@ const typeDefs = `
     singleUpload(input: Upload!): Boolean!
   }
 `;
-// singleUpload(input: Upload!): Boolean!
+
 const resolvers = {
   Query: {
     test: () => "hello", 
@@ -314,11 +313,38 @@ server.express.post('/send', (req,res) => {
         // res.send(data)
     })
 })
+server.express.get('/editorialTrends', (req, res) => {
+  helpers.getSavedEditorial((err, data) => {
+    if (err) {
+      res.sendStatus(404)
+    } else {
+      res.send(data)
+    }
+  })
+})
 
 
+
+
+server.express.get('/trends', (req, res) => {
+  // 1) get images from stories
+  // 2) get analysis of photos 
+  // 3) get recommendations 
+  let finalResponse = {}
+
+  helpers.retrieverTrendingItems((err, response)=> {
+    if (response) {
+      response.forEach((article) => {
+        
+      })
+    }
+
+  })
+})
 
 server.express.get('/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+  res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+
 })
 
 // // app.get('/favorites', (req, res) => {
@@ -328,3 +354,5 @@ server.express.get('/*', (req, res) => {
 // // app.get('/insta', (req, res) => {
 // //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
 // // })
+
+
