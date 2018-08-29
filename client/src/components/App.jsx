@@ -51,7 +51,7 @@ class App extends React.Component {
 
   handleScroll() {
     var offSetY = window.scrollY;
-    console.log(offSetY)
+    // console.log(offSetY)
     this.setState({offSetY})
   }
 
