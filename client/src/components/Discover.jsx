@@ -27,8 +27,8 @@ class Discover extends React.Component {
 
   componentDidMount() {
     this.fetchEditorial()
+    this.fetchLatestProducts()
   }
-
 
   fetchEditorial() {
     axios.get('/trends')
@@ -38,7 +38,7 @@ class Discover extends React.Component {
 
   fetchLatestProducts() {
     axios.get('./latestProds')
-    .then(res => console.log( res.data))
+    .then(res => this.setState({children: res.data}))
     .catch(err => console.log(err))
   }
 
@@ -46,7 +46,8 @@ class Discover extends React.Component {
     return (
       this.state.children.map((item, i) => (
         <div>
-            <Image src={item.imageUrl} size='medium' onDragStart={this.handleOnDragStart}  centered />
+          {console.log(item.imageUrl)}
+            <Image src={item.imageUrl} size='medium'  centered />
             <h3 className="ui center aligned header">{item.name}</h3>
         </div>
       ))
@@ -88,7 +89,6 @@ class Discover extends React.Component {
         <Grid>
         <AliceCarousel 
                 items={this.galleryItems()}
-                style={{border: "none !important"}}
                 mouseDragEnabled 
                 dotsDisabled={true} 
                 infinite={true}

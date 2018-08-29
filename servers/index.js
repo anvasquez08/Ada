@@ -316,23 +316,16 @@ server.express.post('/send', (req,res) => {
     })
 })
 
-server.express.get('/editorialTrends', (req, res) => {
-  console.log()
-  helpers.getSavedEditorial((err, data) => {
-    if (err) {
-      res.sendStatus(404)
-    } else {
-      res.send(data)
-    }
+
+server.express.get('/latestProds', (req, res) => {
+  helpers.retrievelast30items((err, data) => {
+    if (err) res.sendStatus(404)
+    else res.send(data)
   })
 })
 
-
+// missing inventory piece
 server.express.get('/trends', (req, res) => {
-  // 1) get images from stories
-  // 2) get analysis of photos 
-  // 3) get recommendations 
-  console.log('here')
   getSavedEditorial((err, response)=> {
     if (response !== null) {
       res.send(response)
