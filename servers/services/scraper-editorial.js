@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer')
-const {getEditorialRecommendations} = require('../recommendations/service/editorial.js')
+const {saveScrapedEditorial} = require('../../databases/models_edit.js')
+// const {getEditorialRecommendations} = require('../recommendations/service/editorial.js')
 
 let memo = {
   popsugar: ['body > div.body-container > div.feature-section.clearfix.ikb.vertical > div.clearfix > a:nth-child(1) > div.hero-content > div.hero-title',
@@ -20,7 +21,9 @@ var popsugar1 = async (req,res) => {
   /* FETCH TITLE AND PARAGRAPH TEXT */
   const titleDescription = await page.evaluate(() => {
     let title = document.querySelector('h2').innerText;
-    let paragraph = document.querySelector('.body-wrap').innerText.substring(0, 250);
+    let paragraph = document.querySelector('.body-wrap').innerText;
+
+    // let paragraph = document.querySelector('.body-wrap').innerText.substring(0, 600);
     return [{title}, {paragraph}]
   });
   await page.waitFor(2000);
@@ -86,7 +89,8 @@ var popsugar1 = async (req,res) => {
 }
 
 popsugar1().then((value) => {
-  getEditorialRecommendations(value, 'POPSUGAR')
+  console.log('here')
+  saveScrapedEditorial(value, 'POPSUGAR')
   }
 )
 
