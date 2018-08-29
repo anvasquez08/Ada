@@ -59,5 +59,6 @@ const indexInventory = async() => {
   await insertLabels(filteredByTag)
 }
 
+
 module.exports = {indexInventory}
 

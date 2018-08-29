@@ -19,31 +19,35 @@ class Discover extends React.Component {
     super(props)
     this.state = {
       children: [],
+      editorial: [],
       activeItemIndex: 0
     }
-    this.fetchCarouselStyles = this.fetchCarouselStyles.bind(this);
+    this.fetchEditorial = this.fetchEditorial.bind(this);
   }
 
   componentDidMount() {
-    this.fetchCarouselStyles()
+    this.fetchEditorial()
+    this.fetchLatestProducts()
   }
 
-
-  fetchCarouselStyles() {
+  fetchEditorial() {
     axios.get('/trends')
-    .then(res => { this.setState({children: res.data})})
+    .then(res => this.setState({editorial: res.data}))
     .catch(err => console.log(err))
   }
 
-  fetchEditorialTrends() {
-    
+  fetchLatestProducts() {
+    axios.get('./latestProds')
+    .then(res => this.setState({children: res.data}))
+    .catch(err => console.log(err))
   }
 
   galleryItems() {
     return (
       this.state.children.map((item, i) => (
         <div>
-            <Image src={item.imageUrl} size='medium' onDragStart={this.handleOnDragStart}  centered />
+          {console.log(item.imageUrl)}
+            <Image src={item.imageUrl} size='medium'  centered />
             <h3 className="ui center aligned header">{item.name}</h3>
         </div>
       ))
@@ -52,54 +56,51 @@ class Discover extends React.Component {
 
   render() {
     return (
-      <Container>
-        <div style={{ overflow: "hidden", maxHeight: "300px" }}>
-          <Image src="../assets/banner.jpg" fluid />
-        </div>
-        <Header as='h2' dividing>NYT Street Style</Header>
-        <Grid columns={3} relaxed>
-          <Grid.Column>
-          <Segment style={{height: "100%"}}>
-          <Image src={'https://i.imgur.com/hOq4pFe.jpg'} size='medium' />
-              <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-              <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
-              <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
-          </Segment>
-          </Grid.Column>
+  <div>
+    <h1>Testing view for Style.jsx component</h1>
+    {/* HEADER IMAGE */}
+    <div style={{ overflow: "hidden", maxHeight: "300px" }}>
+      <Image src="../assets/banner.jpg" fluid />
+    </div>
 
-          <Grid.Column>
-          <Segment>
-          <Image src={'https://i.imgur.com/RntHgBy.jpg'} size='medium' />
-            <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-            <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
-              <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
-          </Segment>
-          </Grid.Column>
-          <Grid.Column>
-          <Segment>
-          <Image src={'https://i.imgur.com/0JL4fc7.jpg'} size='medium' />
-              <Header as='h2'>Street Style: Copenhagen</Header>
-              <div>In Denmark’s capital, bicycles are the most common accessory..</div>
-              <h5>Søren Jepsen</h5>
-          </Segment>
-          </Grid.Column>
+
+    <Container>
+        <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Discover | Editorial Fashion Trends </Header>
+        <Grid>
+          <div className="ui three column doubling stackable masonry grid">
+            {
+              this.state.editorial.map((story) => {
+                return (
+                  <Grid.Column key={story._id}>
+                  <Segment>
+                  <Image src={story.images[0].image} size='medium' />
+                      <Header as='h3'>{story.title}</Header>
+                      <div>{story.paragraph}</div>
+                      <h5>{story.publicationName}</h5>
+                  </Segment>
+                  </Grid.Column>
+                )
+              })
+            }
+          </div>
+          </Grid>
+
+        <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Discover | Newest Clothing </Header>
+        <Grid>
+        <AliceCarousel 
+                items={this.galleryItems()}
+                mouseDragEnabled 
+                dotsDisabled={true} 
+                infinite={true}
+                autoPlay={true}
+                autoPlayInterval={5000}
+                fadeOutAnimation={true}/>
         </Grid>
-        <Header as='h2' dividing> Trending Styles</Header>
-        <div>
-      <AliceCarousel 
-        items={this.galleryItems()}
-        style={{border: "none !important"}}
-        mouseDragEnabled 
-        dotsDisabled={true} 
-        infinite={true}
-        autoPlay={true}
-        autoPlayInterval={5000}
-        fadeOutAnimation={true}/>
-      </div>
       </Container>
-    )
+  </div>
+  )
   }
 }
 
 export default Discover;
-// AIzaSyCgU8c3xXbJn-wxAoxHAwzNbAYvtvzm1FI
+

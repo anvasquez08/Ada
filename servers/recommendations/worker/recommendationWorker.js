@@ -30,7 +30,7 @@ let updateIndexDB = (callback) => {
 
 //Check tags of image and add inventory ID to each of those tags in recommendation DB
 let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
-    detectLabels.getLabelsFromURL(imageURL, function(err, descriptions) {
+    detectLabels.getLabelsFromUrl(imageURL, function(err, descriptions) {
         if (err) {
             callback(err);
         } else {

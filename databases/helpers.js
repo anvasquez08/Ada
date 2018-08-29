@@ -1,7 +1,7 @@
 const { Inventory, ItemKeywords, Timestamp, Editorial } = require("./schema.js");
 const async = require('async');
 
-const indexItem = (id, itemLabels) => {
+exports.indexItem = (id, itemLabels) => {
 
   async.each(itemLabels, (label) => {
     ItemKeywords.findOne({keyword: label}, (err, keywordItem) => {
@@ -115,8 +115,8 @@ exports.retrieveNewItems = (timestamp, callback) => {
   })
 }
 
-exports.retrieverTrendingItems = (callback) => {
-  Inventory.find({}).limit(25).exec((err, items) => {
+exports.retrievelast30items = (callback) => {
+  Inventory.find({}).sort('-timestamp').limit(10).exec((err, items) => {
     if (err) {
       callback(err);
     } else {
