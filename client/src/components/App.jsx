@@ -10,6 +10,7 @@ import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
 import { Switch, Route } from 'react-router-dom'
 import LoginModal from './LoginModal.jsx';
+import Discover from './Discover.jsx'
 
 
 class App extends React.Component {

@@ -10,28 +10,12 @@ export default class Footer extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <footer className="jsx-2851940331" style={{marginTop:"100px"}}>
-        <div className="jsx-2851940331 inner" style={{padding: "0 16px"}}>
-          <div className="row1 jsx-2851940331" style={{display:"flex", flexDirection: "row"}}>
-            <div className="jsx-2325222291 input-wrapper" style={{flexGrow:7, maxWidth:450}}>
-              <div className="jsx-2325222291" style={{marginBottom: 16}}>
-                <span>Try custom for the first time with $25 off</span>
-||||||| merged common ancestors
-      <footer class="jsx-2851940331" style={{marginTop:"100px"}}>
-        <div class="jsx-2851940331 inner" style={{padding: "0 16px"}}>
-          <div class="row1 jsx-2851940331" style={{display:"flex", flexDirection: "row"}}>
-            <div class="jsx-2325222291 input-wrapper" style={{flexGrow:7, maxWidth:450}}>
-              <div class="jsx-2325222291" style={{marginBottom: 16}}>
-                <span>Try custom for the first time with $25 off</span>
-=======
       <footer class="jsx-2851940331" style={{marginTop:"100px"}}>
         <div class="jsx-2851940331 inner" style={{padding: "0 16px"}}>
           <div class="row1 jsx-2851940331" style={{display:"flex", flexDirection: "row"}}>
             <div class="jsx-2325222291 input-wrapper" style={{flexGrow:7, maxWidth:450}}>
               <div class="jsx-2325222291" style={{marginBottom: 16}}>
                 <span>Sign up for discounts from our partners</span>
->>>>>>> 38cfcf3013819319123f2caed42e00c53761f0e0
               </div>
               <div className="jsx-1213838683 EmailCapture EmailCapture--slim">
                 <form noValidate="" className="jsx-1213838683" style={{display:"flex"}}>
@@ -60,40 +44,12 @@ export default class Footer extends React.Component {
             </div>
           </div>
           <div className="row2" style={{display:"flex", flexDirection: "row"}}>
-<<<<<<< HEAD
-            <div className="jsx-3212225829 NavigationLinks" style={{display:"flex", flexDirection: "row", width: "calc(100% / 12 * 6 - 0.1px)", marginTop: "40px", flexWrap: "wrap"}}>
-              <a href="/about" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>About Us</a>
-              <a href="/contact" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Contact Us</a>
-              <a href="/faqs" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>FAQs</a>
-              <a href="/size-guide" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Size Guide</a>
-              <a href="/privacy" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Privacy Policy</a>
-              <a href="/terms" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Terms</a>
-              <a href="/faqs#collapse-returns-policy" className="jsx-927076563 no-underline">Returns Policy</a>
-||||||| merged common ancestors
-            <div class="jsx-3212225829 NavigationLinks" style={{display:"flex", flexDirection: "row", width: "calc(100% / 12 * 6 - 0.1px)", marginTop: "40px", flexWrap: "wrap"}}>
-              <a href="/about" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>About Us</a>
-              <a href="/contact" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Contact Us</a>
-              <a href="/faqs" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>FAQs</a>
-              <a href="/size-guide" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Size Guide</a>
-              <a href="/privacy" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Privacy Policy</a>
-              <a href="/terms" class="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>Terms</a>
-              <a href="/faqs#collapse-returns-policy" class="jsx-927076563 no-underline">Returns Policy</a>
-=======
             <div className="jsx-3212225829 NavigationLinks" style={{display:"flex", flexDirection: "row", width: "calc(100% / 12 * 6 - 0.1px)", marginTop: "40px", flexWrap: "wrap"}}>
               <a href="/about" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>About Us</a>
               <a href="/faqs" className="jsx-927076563 no-underline" style={{paddingRight:'16px', fontSize:'13px'}}>FAQs</a>
->>>>>>> 38cfcf3013819319123f2caed42e00c53761f0e0
             </div>
-<<<<<<< HEAD
-            <div className="jsx-2851940331 copyright text-secondary" style={{textAlign:"end", flexGrow:1, alignSelf:'flex-end'}}>
-              <span className="jsx-2851940331">© 2018 AWESOME INC</span>
-||||||| merged common ancestors
-            <div class="jsx-2851940331 copyright text-secondary" style={{textAlign:"end", flexGrow:1, alignSelf:'flex-end'}}>
-              <span class="jsx-2851940331">© 2018 AWESOME INC</span>
-=======
             <div className="jsx-2851940331 copyright text-secondary" style={{textAlign:"end", flexGrow:1, alignSelf:'flex-end'}}>
               <span className="jsx-2851940331">© 2018 ALLENDE INC</span>
->>>>>>> 38cfcf3013819319123f2caed42e00c53761f0e0
             </div>
           </div>
         </div >
