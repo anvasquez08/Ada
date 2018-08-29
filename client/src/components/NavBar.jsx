@@ -7,24 +7,28 @@ class NavBar extends React.Component {
   }
   render() {
     return (
-      <div className="ui secondary pointing menu">
+      <div className="ui secondary pointing fixed menu" 
+        style={{backgroundColor: this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "#fff9f6",
+                borderBottomWidth: this.props.offSetY <= 44 && this.props.currentPage === 'home' ? 0 : 1,
+                transition: "background-color 200ms linear"}}>
       
         <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
 
         <div className="right menu">
-        <span className={this.props.currentPage === 'home' ? "ui item active" : "item"} onClick={this.props.loadHomePage}>
-            <Link to='/trending'>Discover</Link></span>
-          <span className={this.props.currentPage === 'home' ? "ui item active" : "item"} onClick={this.props.loadHomePage}>
-            <Link to='/'>Home</Link></span>
-          <span className={this.props.currentPage === 'style' ? "ui item active" : "item"} onClick={this.props.loadStylePage}>
-            <Link to='/style'>My Style</Link></span>
-          <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"} onClick={this.props.loadFavoritesPage}>
-            <Link to='/favorites'>Favorites</Link></span>
+          <span className={this.props.currentPage === 'home' ? "ui item active" : "item"}>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/'>Home</Link></span>
+          <span className={this.props.currentPage === 'style' ? "ui item active" : "item"}>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
+          <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/favorites'>Favorites</Link></span>
+            <span className={this.props.currentPage === 'home' ? "ui item active" : "item"}>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/trending'>Discover</Link></span>
           <span className="item">
-            {this.props.user ? <a href="/auth/logout">Logout</a> : <a href="/auth/instagram">Sign in with Instagram</a>}
+            {this.props.user 
+            ? <a className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
+            : <a className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} href="/auth/instagram">Sign in with Instagram</a>}
           </span>
         </div>
-          
       </div>
     )
   }

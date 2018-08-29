@@ -1,31 +1,7 @@
-const { Item, ItemKeywords, Timestamp } = require("./schema.js");
+const { Inventory, ItemKeywords, Timestamp, Editorial } = require("./schema.js");
 const async = require('async');
 
-exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
-  new Item({
-    id: id,
-    name: name,
-    brandName: brandName,
-    url: url,
-    imageUrl: imageUrl,
-    price: price
-  })
-    .save()
-    .then(response => console.log("Successfully saved data"))
-    .catch(err => console.log("Error in database save function", err));
-};
-
-exports.inventoryItemsWithIds = (inventoryIds, callback) => {
-  Item.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
-    if (err) {
-      callabck(err);
-    } else {
-      callback(null, inventoryItems);
-    }
-  })
-}
-
-exports.indexItem = (id, itemLabels) => {
+const indexItem = (id, itemLabels) => {
 
   async.each(itemLabels, (label) => {
     ItemKeywords.findOne({keyword: label}, (err, keywordItem) => {
@@ -56,11 +32,36 @@ exports.indexItem = (id, itemLabels) => {
   })
 }
 
+exports.inventoryItemsWithIds = (inventoryIds, callback) => {
+  Inventory.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
+    if (err) {
+      callabck(err);
+    } else {
+      callback(null, inventoryItems);
+    }
+  })
+}
+
+exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
+  new Inventory({
+    id: id,
+    name: name,
+    brandName: brandName,
+    url: url,
+    imageUrl: imageUrl,
+    price: price
+  })
+    .save()
+    .then(response => console.log("Successfully saved data"))
+    .catch(err => console.log("Error in database save function", err));
+};
+
 exports.getKeywordEntries = (itemKeywords, callback) => {
   ItemKeywords.find({keyword: {$in: itemKeywords}}, (err, results) => {
     if (err) {
       callback(err);
     } else {
+      console.log({results})
       callback(null, results);
     }
   })
@@ -105,7 +106,7 @@ exports.getRecentTimestamp = (callback) => {
 
 
 exports.retrieveNewItems = (timestamp, callback) => {
-  Item.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
+  Inventory.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
     if (err) {
       callback(err);
     } else {
@@ -113,3 +114,16 @@ exports.retrieveNewItems = (timestamp, callback) => {
     }
   })
 }
+
+exports.retrieverTrendingItems = (callback) => {
+  Inventory.find({}).limit(25).exec((err, items) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, items);
+    }
+  })
+}
+
+
+

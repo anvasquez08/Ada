@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const path = require('path');
-var Twit = require('twit')
 const authRouter = require('./routes/authRoutes');
 // const recommendationRouter = require('./routes/recommendationRoutes');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
@@ -114,23 +113,6 @@ server.express.post('/index', function(req, res) {
     });
   })
 })
-    
-// //User uploads image. Save's image, adds image to user's history
-server.express.post('/upload/:user', (req,res) => {
-    
-  let username = req.params.user;
-  let imageFile = req.files.image;
-  imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
-      if (err) {
-          res.status(500).send(err);
-      } else {
-          console.log("Console logging imageUrl: ",imageUrl);
-          res.status(200).send(imageUrl);
-      }
-  })
-})
-
-
 
 // //Adds inventoryId to users favorites
 
@@ -158,16 +140,31 @@ server.express.get('/favorites/:user', (req,res) => {
 
 server.express.post('/upload', (req,res) => {
     
-  let imageFile = req.files.image;
-  console.log("Console logging imageFile from /upload: ", imageFile);
-  
-  imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-      if (err) {
-          res.status(500).send(err);
-      } else {
-          res.status(200).send(imageUrl);
-      }
-  })
+    let imageFile = req.files.image;
+    console.log("Console logging imageFile from /upload: ", imageFile);
+
+    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(imageUrl);
+        }
+    })
+})
+
+// //User uploads image. Saves image, adds image to user's history
+server.express.post('/upload/:user', (req,res) => {
+    
+    let username = req.params.user;
+    let imageFile = req.files.file;
+    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            console.log("Console logging imageUrl: ",imageUrl);
+            res.status(200).send(imageUrl);
+        }
+    })
 })
 
 // //Adds inventoryId to users favorites
@@ -227,9 +224,8 @@ server.express.get('/history/:user', (req,res) => {
 });
 
 server.express.post('/recommend', function(req, res) {
-    console.log(req.body, req.params, req.query);
     if (typeof req.body.params === 'string') {
-        console.log("Receiving URL")
+        console.log("Receiving URL, proceeding to get recommendations from Image URL")
         let imageUrl = req.body.params
         recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
             if (err) {
@@ -239,18 +235,44 @@ server.express.post('/recommend', function(req, res) {
                 res.status(200).send(recommendations);
             }
         })
-    } else {
-        let image64 = req.body.file.substring(23);
-        // console.log("Console logging image64 from /recommend: ", image64);
-        recommendationService.getRecommendationsForImage64(image64, (err, recommendations) => {
+    } 
+});
+
+server.express.post('/recommend/:user', function(req, res) {
+    let username = req.params.user;
+    if (typeof req.body.params === 'string') {
+        let imageUrl = req.body.params
+        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
             if (err) {
-                console.log("Error in recommendations service: ", err);
+                console.log("Error getting recommendations using image URL", err)
                 res.status(500).send();
             } else {
-                // console.log("Console logging recommendations here: ", recommendations);
+                if (username) {
+                    userDB.addHistoryToUser(username, imageUrl);
+                }
                 res.status(200).send(recommendations);
             }
-    })
+        })
+    } 
+});
+
+server.express.post('/recommend/insta', function(req, res) {
+    console.log("Receiving Instagram selected photos: ", req.body.params)
+    let aggregateTags = [];
+    let instagramPhotos = req.body.params;
+    for (var i=0; i<instagramPhotos.length; i++) {
+        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                aggregateTags.push(recommendations);
+                console.log("Console logging recommendations length: ", recommendations.length)
+                // res.status(200).send(recommendations);
+                console.log("Console logging aggregateTags length", aggregateTags.length )
+                res.status(200).send();
+            }
+        })
     }
 });
 
@@ -290,11 +312,38 @@ server.express.post('/send', (req,res) => {
         // res.send(data)
     })
 })
+server.express.get('/editorialTrends', (req, res) => {
+  helpers.getSavedEditorial((err, data) => {
+    if (err) {
+      res.sendStatus(404)
+    } else {
+      res.send(data)
+    }
+  })
+})
 
 
+
+
+server.express.get('/trends', (req, res) => {
+  // 1) get images from stories
+  // 2) get analysis of photos 
+  // 3) get recommendations 
+  let finalResponse = {}
+
+  helpers.retrieverTrendingItems((err, response)=> {
+    if (response) {
+      response.forEach((article) => {
+        
+      })
+    }
+
+  })
+})
 
 server.express.get('/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+  res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
+
 })
 
 // // app.get('/favorites', (req, res) => {
@@ -305,7 +354,4 @@ server.express.get('/*', (req, res) => {
 // //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
 // // })
 
-var T = new Twit({
-  consumer_key:         '...', 
-  consumer_secret:      '...', 
-  app_only_auth:        true})
+

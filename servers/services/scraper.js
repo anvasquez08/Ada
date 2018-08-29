@@ -2,7 +2,7 @@ const Nightmare = require('nightmare')
 const nightmare = Nightmare({ show: true })
 var cheerio = require('cheerio');
 const puppeteer = require('puppeteer')
-var model = require('../../databases/helpers')
+// var model = require('../../databases/helpers')
 
 let memo = {
   google:{
@@ -179,3 +179,12 @@ module.exports = {
   // macyScrape,
   // getByTags
 };
+
+async function test(url) {
+  let arr = [0,1,2,3,4]
+  let total = 0
+  arr.forEach(el=>{
+    return setTimeout(()=>total+=el, 1000)
+  })
+  console.log({total})
+}

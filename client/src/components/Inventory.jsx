@@ -80,7 +80,6 @@ class Inventory extends React.Component {
         }
       }
     } 
-    console.log('this is temp', temp)
     this.setState({filteredInventory: temp})
   }
 
@@ -114,13 +113,11 @@ class Inventory extends React.Component {
                   />
                 </Grid.Row>
               </Grid>
-
               <Grid centered>{!!this.props.inventory.length ? <img src={this.props.imageUrl}></img> : null}</Grid>
-
-              {/* INVENTORY FILTERS */}
+              {/* INVENTORY FILTERS COMPONENT */}
               {!!this.props.brands.length && (
                 <Grid style={{ margin: "10px" }}>
-                  <Grid.Column width={3}>
+                  <Grid.Column width={2}>
                     <Menu vertical>
                       <Menu.Item>
                         <Menu.Header>Price</Menu.Header>
@@ -174,9 +171,8 @@ class Inventory extends React.Component {
                     </Menu>
                   </Grid.Column>
                   {/* INVENTORY RESULTS */}
-                  {
-                  this.state.filteredInventory.length > 0 ? (
-                 
+                  {this.state.filteredInventory.length > 0 ? (
+                  
                       <Grid.Column width={12}>
                         <div>
                           <Card.Group itemsPerRow={4}>
@@ -185,10 +181,9 @@ class Inventory extends React.Component {
                                 return (<InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>);
                           })}
                           </Card.Group>
-                         </div>
-                      </Grid.Column>
-                 ) : ( 
-                    <Grid.Column width={12}>
+                        </div>
+                      </Grid.Column>)
+                    : (<Grid.Column width={12}>
                         <div>
                           <Card.Group itemsPerRow={4}>
                           {this.props.inventory &&
@@ -198,11 +193,11 @@ class Inventory extends React.Component {
                             );
                           })}
                           </Card.Group>
-                         </div>
+                        </div>
                       </Grid.Column>
                   )
                   }  
-             </Grid>
+              </Grid>
               )}
             </div>
           );
@@ -213,19 +208,3 @@ class Inventory extends React.Component {
 }
 
 export default Inventory;
-
-/*
-               {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-
-                        {this.props.inventory &&
-                          this.props.inventory.map((item, i) => {
-                            return (
-                              <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-                            );
-                          })}
-*/
