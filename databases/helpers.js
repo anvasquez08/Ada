@@ -1,7 +1,7 @@
 const { Inventory, ItemKeywords, Timestamp, Editorial } = require("./schema.js");
 const async = require('async');
 
-const indexItem = (id, itemLabels) => {
+exports.indexItem = (id, itemLabels) => {
 
   async.each(itemLabels, (label) => {
     ItemKeywords.findOne({keyword: label}, (err, keywordItem) => {

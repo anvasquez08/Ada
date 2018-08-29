@@ -224,6 +224,7 @@ server.express.get('/history/:user', (req,res) => {
 });
 
 server.express.post('/recommend', function(req, res) {
+    console.log('recommend params');
     if (typeof req.body.params === 'string') {
         console.log("Receiving URL, proceeding to get recommendations from Image URL")
         let imageUrl = req.body.params
