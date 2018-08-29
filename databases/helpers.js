@@ -1,22 +1,5 @@
-const { Inventory, ItemKeywords, Timestamp } = require("./schema.js");
+const { Inventory, ItemKeywords, Timestamp, Editorial } = require("./schema.js");
 const async = require('async');
-
-exports.saveItem = ({name, brandName, url, imageUrl, price, labels, gender}, callback) => {
-  new Inventory({name, brandName, url, imageUrl, price, labels, gender})
-    .save()
-    .then(response => callback(null,"Successfully saved data"))
-    .catch(err => callback(err));
-};
-
-exports.inventoryItemsWithIds = (inventoryIds, callback) => {
-  Inventory.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, inventoryItems);
-    }
-  })
-}
 
 exports.indexItem = (id, itemLabels) => {
 
@@ -48,6 +31,30 @@ exports.indexItem = (id, itemLabels) => {
     console.log(err);
   })
 }
+
+exports.inventoryItemsWithIds = (inventoryIds, callback) => {
+  Inventory.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
+    if (err) {
+      callabck(err);
+    } else {
+      callback(null, inventoryItems);
+    }
+  })
+}
+
+exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
+  new Inventory({
+    id: id,
+    name: name,
+    brandName: brandName,
+    url: url,
+    imageUrl: imageUrl,
+    price: price
+  })
+    .save()
+    .then(response => console.log("Successfully saved data"))
+    .catch(err => console.log("Error in database save function", err));
+};
 
 exports.getKeywordEntries = (itemKeywords, callback) => {
   ItemKeywords.find({keyword: {$in: itemKeywords}}, (err, results) => {
@@ -107,3 +114,16 @@ exports.retrieveNewItems = (timestamp, callback) => {
     }
   })
 }
+
+exports.retrievelast30items = (callback) => {
+  Inventory.find({}).sort('-timestamp').limit(10).exec((err, items) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, items);
+    }
+  })
+}
+
+
+

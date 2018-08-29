@@ -6,9 +6,6 @@ class NavBar extends React.Component {
     super(props)
   }
 
-  componentDidMount(){
-    console.log("NAVBAR", this.props)
-  }
   render() {
     return (
       <div className="ui secondary pointing fixed menu" 
@@ -25,10 +22,12 @@ class NavBar extends React.Component {
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
           <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/favorites'>Favorites</Link></span>
+            <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/trending'>Trending Styles</Link></span>
           <span className="item">
             {this.props.user 
             ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
-            : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/instagram">Sign in with Instagram</a>}
+            : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} onClick={this.props.toggleModal}>Sign in</a>}
           </span>
         </div>
       </div>

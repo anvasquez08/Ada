@@ -29,14 +29,17 @@ let getRecommendationsForImageUrl = (image64, callback) => {
         if (err) {
             callback(err);
         } else {
+          console.log('THESE ARE THE LABELS: ', labels)
             getRecommendationsFromLabels(labels, (err, recommendations, occurenceObject) => {
                 if (err) {
                     callback(err);
                 } else {
+                  console.log('THESE ARE THE RECOMMENDATIONS', recommendations)
                     inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
                         if (err) {
                             callback(err)
                         } else {
+                          console.log('in image trait', inventories)
                             callback(null, inventories);
                         }
                     })

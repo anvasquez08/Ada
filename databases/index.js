@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const async = require('async');
-const { DBInventoryURI, DBImageURI } = require("../config.js");
+const { DBInventoryURI, DBImageURI, DBEditorialURI } = require("../config.js");
 
 
 /* ====  Inventory DB ==== */
@@ -29,5 +29,27 @@ imageDB.once("open", () => {
 // const userDB = mongoose.createConnection
 // UserDB is being initialized in databases/Users.js
 
+/* ====  Editorial DB ==== */
+const editorialDB = mongoose.createConnection(DBEditorialURI, { poolSize: 20 });
 
-module.exports = { inventoryDB, imageDB };
+editorialDB.on("error", err => {
+  if (err) throw err;
+});
+
+editorialDB.once("open", () => {
+  console.info("Connected to image database.");
+});
+
+/* ====  Index DB ==== */
+const indexDB = mongoose.createConnection(DBImageURI, { poolSize: 20 });
+
+indexDB.on("error", err => {
+  if (err) throw err;
+});
+
+indexDB.once("open", () => {
+  console.info("Connected to image database.");
+});
+
+
+module.exports = { inventoryDB, imageDB, editorialDB, indexDB };

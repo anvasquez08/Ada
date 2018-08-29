@@ -8,17 +8,17 @@ const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const path = require('path');
 const labelsTable = require('./labels.js')
-
-const authRouter = require('./routes/authRoutes');
+const authRouter = require('./routes/authRoutes.js');
+const primaryRouter = require('./routes/primaryRouter.js');
 // const recommendationRouter = require('./routes/recommendationRoutes');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
 const userDB = require('../databases/Users')
-const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
 const scraper = require('./services/scraper.js')
 const { NGROKURL } = require('../config.js')
+const {getSavedEditorial} = require('../databases/models_edit.js');
 
 /*============== Graph QL ============== */
 
@@ -45,7 +45,7 @@ const typeDefs = `
     singleUpload(input: Upload!): Boolean!
   }
 `;
-// singleUpload(input: Upload!): Boolean!
+
 const resolvers = {
   Query: {
     test: () => "hello", 
@@ -86,6 +86,7 @@ server.express.use(session({secret: 'thecodingjack', cookie: {maxAge: 1000*20*60
 server.express.use(passport.initialize());
 server.express.use(passport.session());
 server.express.use('/auth', authRouter)
+server.express.use('/', primaryRouter);
 
 
 const options = {
@@ -97,242 +98,3 @@ const options = {
 server.start(options, ({ port }) =>
   console.log('Server is running on http://localhost:' + port)
 )
-
-/*====================================== */
-
-// server.express.get('/scrape', scraper.scrape.bind(this,'zara'))
-// server.express.get('/tags', scraper.getByTags)
-
-server.express.post('/index', function(req, res) {
-  let url = 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png'
-  let testID = 999;
-  recWorker.indexAnalyzeInventoryItem(testID, url, (err) => {   
-    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send('success');
-            res.status(200).send(imageUrl);
-        }
-    });
-  })
-})
-
-// //Adds inventoryId to users favorites
-
-server.express.post('/favorites/:user/:inventoryId', (req,res) => {
-    let username = req.params.user;
-    let inventoryId = req.params.inventoryId;
-    userDB.addFavoriteToUser(username, inventoryId);
-})
-
-// //returns user's favorites
-
-server.express.get('/favorites/:user', (req,res) => { 
-    let username = req.params.user;
-
-    userDB.getUser(username, (err, userProfile) => {
-    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send(imageUrl);
-        }
-    })
-})
-})
-
-server.express.post('/upload', (req,res) => {
-    
-    let imageFile = req.files.image;
-    console.log("Console logging imageFile from /upload: ", imageFile);
-
-    imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send(imageUrl);
-        }
-    })
-})
-
-// //User uploads image. Save's image, adds image to user's history
-server.express.post('/upload/:user', (req,res) => {
-    
-    let username = req.params.user;
-    let imageFile = req.files.file;
-    imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            console.log("Console logging imageUrl: ",imageUrl);
-            res.status(200).send(imageUrl);
-        }
-    })
-  })
-
-// //Adds inventoryId to users favorites
-server.express.post('/favorites/:user/:inventoryId', (req,res) => {
-    let username = req.params.user;
-    let inventoryId = req.params.inventoryId;
-    userDB.addFavoriteToUser(username, inventoryId);
-    res.status(200).send('hope this saved. clean me up later');
-})
-
-
-// //returns user's favorites
-server.express.get('/favorites/:user', (req,res) => { 
-    let username = req.params.user;
-
-    userDB.getUser(username, (err, userProfile) => {
-        if (err) {
-            res.status(400).send(err);
-        } else {
-            if (userProfile === null) {
-                res.status(400).send('User not found');
-            }
-            helpers.inventoryItemsWithIds(userProfile.favorites, (err, favorites) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.status(200).send(favorites);
-                }
-            })
-        }
-    })
-})
-
-// //Adds inventoryId to users favorites
-server.express.post('/instahistory/:user', (req,res) => {
-    let username = req.params.user;
-    let inventoryIDs = req.body.photos;
-    console.log('username', username);
-    console.log('inventoryIds', inventoryIDs);
-    inventoryIDs.forEach(photoUrl => {
-        userDB.addHistoryToUser(username, photoUrl);
-    });
-    res.status(200).send('hope these saved. clean me up later')
-})
-
-//return user's image upload history
-server.express.get('/history/:user', (req,res) => { 
-    console.log('GETTING HISTORY')
-    let username = req.params.user;
-
-    userDB.getUser(username, (err, userProfile) => {
-        if (userProfile === null) {
-            res.status(400).send('User not found');
-        }
-        res.status(200).send(userProfile.history);
-    });
-});
-
-server.express.post('/recommend', function(req, res) {
-    if (typeof req.body.params === 'string') {
-        console.log("Receiving URL, proceeding to get recommendations from Image URL")
-        let imageUrl = req.body.params
-        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
-            if (err) {
-                console.log("Error getting recommendations using image URL", err)
-                res.status(500).send();
-            } else {
-                res.status(200).send(recommendations);
-            }
-        })
-    } 
-});
-
-server.express.post('/recommend/:user', function(req, res) {
-    let username = req.params.user;
-    if (typeof req.body.params === 'string') {
-        console.log("Receiving URL")
-        let imageUrl = req.body.params
-        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
-            if (err) {
-                console.log("Error getting recommendations using image URL", err)
-                res.status(500).send();
-            } else {
-                if (username) {
-                    userDB.addHistoryToUser(username, imageUrl);
-                  }
-                res.status(200).send(recommendations);
-            }
-        })
-    } 
-});
-
-server.express.post('/recommend/insta', function(req, res) {
-    console.log("Receiving Instagram selected photos: ", req.body.params)
-    let aggregateTags = [];
-    let instagramPhotos = req.body.params;
-    for (var i=0; i<instagramPhotos.length; i++) {
-        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
-            if (err) {
-                console.log("Error getting recommendations using image URL", err)
-                res.status(500).send();
-            } else {
-                aggregateTags.push(recommendations);
-                console.log("Console logging recommendations length: ", recommendations.length)
-                // res.status(200).send(recommendations);
-                console.log("Console logging aggregateTags length", aggregateTags.length )
-                res.status(200).send();
-            }
-        })
-    }
-});
-
-// //using this endpoint starts the recommendation worker: checks inventory for new items to add to recommendation DB.
-// //TODO: Run worker occasionally instead of running this test endpoint
-server.express.post('/update', function(req, res) {
-    recWorker.updateIndexDB((err) => {
-        if (err) {
-            console.log("Console logging error in /update: ", err);
-        }
-    });
-});
-
-//experimental send to TF server
-server.express.post('/send', (req,res) => {
-    console.log('hitting TF server')
-    axios.post(NGROKURL,{image: req.files.image})
-    .then(({data})=>{
-        console.log(data)
-        // res.send(data)
-        let label = data.label.map(el=>labelsTable[el])
-        // label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
-        // if (label === 't shirt') label = 'T-Shirt'
-        console.log("Console logging labels destructured from /send: ", {label})
-        recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
-            console.log("Console logging recommendations destructured from /send: ", {recommendations})
-            if (err) {
-                console.log("Err in /send")
-                res.send(err);
-            } else {
-                recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
-                    if (err) {
-                        console.log("Err in /send")
-                        res.send(err)
-                    } else {
-                        res.send(inventories);
-                    }
-                })
-            }
-        })
-        // res.send(data)
-    })
-})
-
-
-
-
-server.express.get('/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
-})
-
-// // app.get('/favorites', (req, res) => {
-// //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
-// // })
-
-// // app.get('/insta', (req, res) => {
-// //     res.sendFile(path.resolve(__dirname + '../../client/dist' +'/index.html'));
-// // })

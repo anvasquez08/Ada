@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var mongoUri = 'mongodb://localhost/users';
 
 // Connect Mongoose to our local MongoDB via URI specified above and export it below
-mongoose.connect(mongoUri);
+// mongoose.connect(mongoUri);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
