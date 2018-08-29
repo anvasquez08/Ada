@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const path = require('path');
+const labelsTable = require('./labels.js')
 
 const authRouter = require('./routes/authRoutes');
 // const recommendationRouter = require('./routes/recommendationRoutes');
@@ -16,6 +17,8 @@ const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
+const scraper = require('./services/scraper.js')
+const { NGROKURL } = require('../config.js')
 
 /*============== Graph QL ============== */
 
@@ -97,7 +100,7 @@ server.start(options, ({ port }) =>
 
 /*====================================== */
 
-// server.express.get('/scrape', scraper.googleScrape)
+server.express.get('/scrape', scraper.scrape.bind(this,'zara'))
 // server.express.get('/tags', scraper.getByTags)
 
 server.express.post('/index', function(req, res) {
@@ -288,11 +291,16 @@ server.express.post('/update', function(req, res) {
     });
 });
 
+//experimental send to TF server
 server.express.post('/send', (req,res) => {
-    axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
+    console.log('hitting TF server')
+    axios.post(NGROKURL,{image: req.files.image})
     .then(({data})=>{
-        label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
-        if (label === 't shirt') label = 'T-Shirt'
+        console.log(data)
+        // res.send(data)
+        let label = data.label.map(el=>labelsTable[el])
+        // label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        // if (label === 't shirt') label = 'T-Shirt'
         console.log("Console logging labels destructured from /send: ", {label})
         recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
             console.log("Console logging recommendations destructured from /send: ", {recommendations})
@@ -305,7 +313,6 @@ server.express.post('/send', (req,res) => {
                         console.log("Err in /send")
                         res.send(err)
                     } else {
-                        console.log("Err in /send")
                         res.send(inventories);
                     }
                 })
@@ -314,6 +321,7 @@ server.express.post('/send', (req,res) => {
         // res.send(data)
     })
 })
+
 
 
 

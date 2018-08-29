@@ -1,24 +1,17 @@
-const { Item, ItemKeywords, Timestamp } = require("./schema.js");
+const { Inventory, ItemKeywords, Timestamp } = require("./schema.js");
 const async = require('async');
 
-exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
-  new Item({
-    id: id,
-    name: name,
-    brandName: brandName,
-    url: url,
-    imageUrl: imageUrl,
-    price: price
-  })
+exports.saveItem = ({name, brandName, url, imageUrl, price, labels, gender}, callback) => {
+  new Inventory({name, brandName, url, imageUrl, price, labels, gender})
     .save()
-    .then(response => console.log("Successfully saved data"))
-    .catch(err => console.log("Error in database save function", err));
+    .then(response => callback(null,"Successfully saved data"))
+    .catch(err => callback(err));
 };
 
 exports.inventoryItemsWithIds = (inventoryIds, callback) => {
-  Item.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
+  Inventory.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
     if (err) {
-      callabck(err);
+      callback(err);
     } else {
       callback(null, inventoryItems);
     }
@@ -106,7 +99,7 @@ exports.getRecentTimestamp = (callback) => {
 
 
 exports.retrieveNewItems = (timestamp, callback) => {
-  Item.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
+  Inventory.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
     if (err) {
       callback(err);
     } else {

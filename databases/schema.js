@@ -3,17 +3,18 @@ const { inventoryDB, imageDB} = require("./index.js");
 const ObjectId = mongoose.Schema.ObjectId;
 
 /* Inventory Schema */
-const itemSchema = mongoose.Schema({
-  id: { type: Number, unique: true },
+const inventorySchema = mongoose.Schema({
   name: String,
+  labels: [String],
   brandName: String,
   url: { type: String, unique: true },
   imageUrl: String,
   price: Number,
+  gender: Number,
   timestamp: { type: Date, default: Date.now }
 });
 
-const Item = inventoryDB.model("Item", itemSchema);
+const Inventory = inventoryDB.model("Inventory", inventorySchema);
 
 /* Keywords Schema */
 var itemKeywords = mongoose.Schema({
@@ -31,4 +32,4 @@ var mostRecentTimestamp = mongoose.Schema({
 var Timestamp = imageDB.model('Timestamp', mostRecentTimestamp);
 
 
-module.exports = { Item, ItemKeywords, Timestamp };
+module.exports = { Inventory, ItemKeywords, Timestamp };
