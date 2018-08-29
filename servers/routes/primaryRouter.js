@@ -229,15 +229,11 @@ primaryRouter.post('/index', function(req, res) {
           // res.send(data)
       })
   })
-  
-  primaryRouter.get('/editorialTrends', (req, res) => {
-    console.log()
-    helpers.getSavedEditorial((err, data) => {
-      if (err) {
-        res.sendStatus(404)
-      } else {
-        res.send(data)
-      }
+
+  primaryRouter.get('/latestProds', (req, res) => {
+    helpers.retrievelast30items((err, data) => {
+      if (err) res.sendStatus(404)
+      else res.send(data)
     })
   })
   
