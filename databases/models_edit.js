@@ -27,3 +27,5 @@ const getSavedEditorial = (callback) => {
     }
   })
 }
+
+module.exports = {getSavedEditorial}

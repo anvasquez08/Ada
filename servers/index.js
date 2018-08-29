@@ -15,6 +15,7 @@ const { inventoryDB, imageDB } = require('./../databases/index.js')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
+const {getSavedEditorial} = require('../databases/models_edit.js');
 
 /*============== Graph QL ============== */
 
@@ -314,7 +315,9 @@ server.express.post('/send', (req,res) => {
         // res.send(data)
     })
 })
+
 server.express.get('/editorialTrends', (req, res) => {
+  console.log()
   helpers.getSavedEditorial((err, data) => {
     if (err) {
       res.sendStatus(404)
@@ -325,21 +328,17 @@ server.express.get('/editorialTrends', (req, res) => {
 })
 
 
-
-
 server.express.get('/trends', (req, res) => {
   // 1) get images from stories
   // 2) get analysis of photos 
   // 3) get recommendations 
-  let finalResponse = {}
-
-  helpers.retrieverTrendingItems((err, response)=> {
-    if (response) {
-      response.forEach((article) => {
-        
-      })
+  console.log('here')
+  getSavedEditorial((err, response)=> {
+    if (response !== null) {
+      res.send(response)
+    } else {
+      res.send(err)
     }
-
   })
 })
 
