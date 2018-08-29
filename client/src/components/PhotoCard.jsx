@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from "semantic-ui-react";
 
-class InstagramEntry extends React.Component {
+class PhotoCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -19,14 +19,14 @@ class InstagramEntry extends React.Component {
   render() {
     return (
       <div style={this.state.toggleStyle ? {height:'180px', width: '180px', overflow: 'hidden'} : {height:'180px', width: '180px', overflow: 'hidden'}}>
-      <Image onClick={() => {this.toggleStyle(); this.props.select(this.props.photo.images.low_resolution.url)}}
+      <Image onClick={() => {this.toggleStyle(); this.props.select(this.props.photo)}}
         style={this.state.toggleStyle
           ? {objectFit: 'cover', opacity: 0.5, filter: 'grayscale(100%)', backgroundPosition: 'center top', width: '100%'}
           : {objectFit: 'cover', backgroundPosition: 'center top', width: '100%'}}
-        src={this.props.photo.images.low_resolution.url}/>
+        src={this.props.photo}/>
       </div>
     )
   }
 }
 
-export default InstagramEntry;
+export default PhotoCard;

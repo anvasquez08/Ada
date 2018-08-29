@@ -5,28 +5,40 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  componentDidMount(){
+    console.log("NAVBAR", this.props)
+  }
   render() {
     return (
       <div className="ui secondary pointing fixed menu" 
-        style={{backgroundColor: this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "#fff9f6",
-                borderBottomWidth: this.props.offSetY <= 44 && this.props.currentPage === 'home' ? 0 : 1,
+        style={{backgroundColor: this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "#fff9f6",
+                borderBottomWidth: this.props.offSetY <= 44 && this.props.currentPage === '/' ? 0 : 1,
                 transition: "background-color 200ms linear"}}>
       
         <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
 
         <div className="right menu">
-          <span className={this.props.currentPage === 'home' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/'>Home</Link></span>
+          <span className={this.props.currentPage === '/' ? "ui item active" : "item"}>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/'>Home</Link></span>
           <span className={this.props.currentPage === 'style' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
           <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/favorites'>Favorites</Link></span>
-            <span className={this.props.currentPage === 'home' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} to='/trending'>Discover</Link></span>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/favorites'>Favorites</Link></span>
+          {/* <span className="item">
+            {this.props.user 
+            ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
+            : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/instagram">Sign in with Instagram</a>}
+          </span>
           <span className="item">
             {this.props.user 
-            ? <a className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
-            : <a className={this.props.offSetY <= 44 && this.props.currentPage === 'home' ? "transparent" : "normal"} href="/auth/instagram">Sign in with Instagram</a>}
+            ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
+            : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/facebook">Sign in with Facebook</a>}
+          </span> */}
+          <span className="item">
+            {this.props.user 
+            ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
+            : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} onClick={this.props.toggleModal}>Sign in</a>}
           </span>
         </div>
       </div>

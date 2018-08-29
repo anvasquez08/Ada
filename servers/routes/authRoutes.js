@@ -6,6 +6,9 @@ const clientUrl = 'http://localhost:4000'; // http://18.222.219.218:4000/
 const INSTAGRAM_CLIENT_ID = require('../../config').INSTAGRAM_CLIENT_ID;
 const INSTAGRAM_SECRET = require('../../config').INSTAGRAM_SECRET;
 const InstagramStrategy = require('passport-instagram').Strategy;
+const FACEBOOK_APP_ID = require('../../config').FACEBOOK_APP_ID;
+const FACEBOOK_APP_SECRET = require('../../config').FACEBOOK_APP_SECRET;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const userDB = require('../../databases/Users.js');
 
 passport.serializeUser((user, done) => {
@@ -26,37 +29,90 @@ passport.use(new InstagramStrategy({
   }
 ));
 
+passport.use(new FacebookStrategy({
+  clientID: FACEBOOK_APP_ID,
+  clientSecret: FACEBOOK_APP_SECRET,
+  callbackURL: "http://localhost:4000/auth/facebook/callback",
+  profileFields: ['id', 'displayName', 'photos']
+},
+function(accessToken, refreshToken, profile, done) {
+  process.nextTick(() => {
+    return done(null, {profile: profile, accessToken: accessToken})})
+}))
+  
+
 authRouter.get('/instagram',
   passport.authenticate('instagram')
 );
+
+authRouter.get('/facebook',
+  passport.authenticate('facebook', {scope: ['user_photos']})
+);
+
 
 authRouter.get('/instagram/callback',
   passport.authenticate('instagram', {successRedirect: '/insta', failureRedirect: '/'}),
   (req, res) => {res.redirect('/')}
 );
 
+authRouter.get('/facebook/callback',
+  passport.authenticate('facebook', {successRedirect: '/fb', failureRedirect: '/'}),
+  (req, res) => {
+    res.redirect('/')
+  }
+);
+
 authRouter.get('/current_user', (req, res) => {
   if (req.user !== undefined) {
     req.session.accessToken = req.user.accessToken;
+    req.session.profile = req.user.profile;
+    console.log('req.user', req.user);
+    console.log('ACESSSSS TOKEN', req.session.accessToken);
+    let username;
+    if (req.user.profile.username) {
+      username = req.user.profile.username;
+    } else {
+      username = req.user.profile.displayName;
+    }
     userDB.getUser(req.user.profile.username, (err, data) => {
       if (err) {
-        console.log("User not found in DB - saving user to DB: ", req.user.profile.username)
-        userDB.saveUser(req.user.profile.username)
+        console.log("User not found in DB - saving user to DB: ", username)
+        userDB.saveUser(username)
       }
     });
-    res.send(req.user.profile.username);
+    
+    res.send(username);
   } else {
+    console.log('UNDEFINED')
     res.send('');
   }
 });
 
 authRouter.get('/media', (req, res) => {
-  axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.session.accessToken}`)
-  .then((result) => {
-    res.send(result.data);
+  axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.user.accessToken}`)
+  .then(({data}) => {
+    console.log('data', data);
+    let urls = data.data.map((image) => {
+      return image.images.low_resolution.url;
+    })
+    console.log('urls', urls);
+    res.status(200).send(urls);
   })
-  .catch((err) => {console.log("Log in to see your Instagram feed")})
+  .catch((err) => {console.log(err)})
 });
+
+authRouter.get('/fbmedia', (req, res) => {
+  axios.get(`https://graph.facebook.com/${req.user.profile.id}/photos?type=uploaded&fields=images&access_token=${req.user.accessToken}`)
+  .then((response)=> {
+    console.log(response.data.data);
+    let urls = response.data.data.map((image) => {
+      return image.images[0].source;
+    })
+    res.status(200).send(urls);
+  }).catch((err) => {
+    console.log(err)
+  })
+})
 
 authRouter.get('/logout', (req, res) => {
   req.logout();

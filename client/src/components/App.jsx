@@ -5,11 +5,11 @@ import NavBar from './NavBar.jsx';
 import Footer from './Footer.jsx';
 import Inventory from './Inventory.jsx';
 import '../styles/css/main.css'
-import Instagram from './Instagram.jsx';
+import PhotoSelector from './PhotoSelector.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
-import Discover from './Discover.jsx';
 import { Switch, Route } from 'react-router-dom'
+import LoginModal from './LoginModal.jsx';
 
 
 class App extends React.Component {
@@ -23,30 +23,25 @@ class App extends React.Component {
       user: '',
       inventory: [],
       brands: [],
-      instagramResults: [],
-      currentPage: 'home'
+      currentPage: 'home',
+      loginType: '',
+      modalActive: false
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleImageUrl = this.handleImageUrl.bind(this);
-    this.loadStylePage = this.loadStylePage.bind(this);
-    this.loadHomePage = this.loadHomePage.bind(this);
-    this.loadFavoritesPage = this.loadFavoritesPage.bind(this);
     this.handleScroll = this.handleScroll.bind(this)
     this.handleAppBrandChange = this.handleAppBrandChange.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, { passive: true })
     // check if there is an active user session
     axios.get('/auth/current_user')
-      .then((result) => this.setState({ user: result.data, isLoggedIn: true }))
-      .then(() => {
-        // if there is an active user session, pull user's instagram photos
-        if (this.state.user) {
-          axios.get('/auth/media')
-            .then((result) => { this.setState({ instagramResults: result.data.data }) })
-        }
+      .then((result) => this.setState({user: result.data, isLoggedIn: true}))
+      .catch((err) => {
+        console.log(err);
       })
   }
 
@@ -85,27 +80,9 @@ class App extends React.Component {
     })
   }
 
-  setCurrentPage(page){
+  toggleModal() {
     this.setState({
-      currentPage: page
-    })
-  }
-
-  loadStylePage() {
-    this.setState({
-      currentPage: 'style'
-    })
-  }
-
-  loadHomePage() {
-    this.setState({
-      currentPage: 'home'
-    })
-  }
-
-  loadFavoritesPage() {
-    this.setState({
-      currentPage: 'favorites'
+      modalActive: !(this.state.modalActive)
     })
   }
 
@@ -113,18 +90,18 @@ class App extends React.Component {
     return (
       <div>
         <NavBar 
-        currentPage={this.state.currentPage}
+        currentPage={this.props.history.location.pathname}
         offSetY={this.state.offSetY}
         user={this.state.user}
-        loadStylePage={this.loadStylePage}
-        loadHomePage={this.loadHomePage}
-        loadFavoritesPage={this.loadFavoritesPage}/>
+        toggleModal={this.toggleModal}/>
+        <LoginModal
+        toggleModal={this.toggleModal}
+        modalActive={this.state.modalActive}/>
         <div className="Main">
           <div>
             <Switch>
               <Route exact path='/'
                 render={(props) => <Landing {...props}
-                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route path='/detect'
                 render={(props) => <Inventory {...props}
@@ -137,16 +114,15 @@ class App extends React.Component {
                 handleAppBrandChange={this.handleAppBrandChange}/>}/>
               <Route exact path='/style'
                 render={(props) => <Style {...props}
-                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route exact path='/favorites'
                 render={(props) => <Favorites {...props}
-                setCurrentPage={this.setCurrentPage}
                 username={this.state.user}/>}/>
               <Route exact path='/insta'
-                render={(props) => <Instagram {...props}
-                setCurrentPage={this.setCurrentPage}
-                photos={this.state.instagramResults}
+                render={(props) => <PhotoSelector {...props}
+                username={this.state.user}/>}/>
+              <Route exact path='/fb'
+                render={(props) => <PhotoSelector {...props}
                 username={this.state.user}/>}/>
               <Route exact path='/trending'
                 render={(props) => <Discover {...props}
@@ -159,5 +135,6 @@ class App extends React.Component {
     )
   }
 }
-
+// const ShowTheLocationWithRouter = withRouter(App)
+// // withRouter(connect(...)(App))
 export default App
