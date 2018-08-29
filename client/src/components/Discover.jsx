@@ -19,22 +19,20 @@ class Discover extends React.Component {
     super(props)
     this.state = {
       children: [],
+      editorial: [],
       activeItemIndex: 0
     }
-    this.fetchCarouselStyles = this.fetchCarouselStyles.bind(this);
+    this.fetchEditorial = this.fetchEditorial.bind(this);
   }
 
   componentDidMount() {
-    this.fetchCarouselStyles()
+    this.fetchEditorial()
   }
 
 
-  fetchCarouselStyles() {
+  fetchEditorial() {
     axios.get('/trends')
-
-    .then(res => { 
-      console.log(res)
-      this.setState({children: res.data})})
+    .then(res => this.setState({editorial: res.data}))
     .catch(err => console.log(err))
   }
 
@@ -62,35 +60,26 @@ class Discover extends React.Component {
   <Image src="../assets/banner.jpg" fluid />
 </div>
 
-  {/* MY STYLE PHOTOS */}
+  {/* MY EDITORIAL */}
 <Container>
-<Header as='h2' dividing>NYT Street Style</Header>
 <Grid columns={3} relaxed>
-  <Grid.Column>
-  <Segment style={{height: "100%"}}>
-  <Image src={'https://i.imgur.com/hOq4pFe.jpg'} size='medium' />
-      <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-      <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
-      <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
-  </Segment>
-  </Grid.Column>
 
-  <Grid.Column>
-  <Segment>
-  <Image src={'https://i.imgur.com/RntHgBy.jpg'} size='medium' />
-   <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-   <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
-      <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
-  </Segment>
-  </Grid.Column>
-  <Grid.Column>
-  <Segment>
-  <Image src={'https://i.imgur.com/0JL4fc7.jpg'} size='medium' />
-      <Header as='h2'>Street Style: Copenhagen</Header>
-      <div>In Denmark’s capital, bicycles are the most common accessory..</div>
-      <h5>Søren Jepsen</h5>
-  </Segment>
-  </Grid.Column>
+  {
+    this.state.editorial.map((story) => {
+      return (
+        <Grid.Column>
+        <Segment>
+          {console.log(story)}
+        <Image src={story.images[0].image} size='medium' />
+            <Header as='h2'>{story.title}</Header>
+            <div>{story.paragraph}</div>
+            <h5>{story.publicationName}</h5>
+        </Segment>
+        </Grid.Column>
+      )
+    })
+  }
+
 </Grid>
 <Header as='h2' dividing> Trending Styles</Header>
 <div>
