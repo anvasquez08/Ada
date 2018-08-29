@@ -80,7 +80,6 @@ class Inventory extends React.Component {
         }
       }
     } 
-    console.log('this is temp', temp)
     this.setState({filteredInventory: temp})
   }
 
@@ -115,8 +114,6 @@ class Inventory extends React.Component {
                   <UploadComponent
                     handleStateChange={this.props.handleStateChange}
                     username={this.props.username}
-                    handleImageUrl={this.props.handleImageUrl}
-                    imageUrl={this.props.imageUrl}
                   />
                 </Grid.Row>
               </Grid>

@@ -10,6 +10,7 @@ import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
 import { Switch, Route } from 'react-router-dom'
 import LoginModal from './LoginModal.jsx';
+import Discover from './Discover.jsx'
 
 
 class App extends React.Component {
@@ -51,7 +52,7 @@ class App extends React.Component {
 
   handleScroll() {
     var offSetY = window.scrollY;
-    console.log(offSetY)
+    // console.log(offSetY)
     this.setState({offSetY})
   }
 
@@ -70,7 +71,7 @@ class App extends React.Component {
   }
 
   async handleAppBrandChange(val) {
-    console.log(val)
+    // console.log(val)
     await this.setState({brands: val})
   }
 
@@ -123,6 +124,9 @@ class App extends React.Component {
                 username={this.state.user}/>}/>
               <Route exact path='/fb'
                 render={(props) => <PhotoSelector {...props}
+                username={this.state.user}/>}/>
+              <Route exact path='/trending'
+                render={(props) => <Discover {...props}
                 username={this.state.user}/>}/>
             </Switch>
           </div>

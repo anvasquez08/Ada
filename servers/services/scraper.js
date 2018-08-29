@@ -2,7 +2,7 @@ const Nightmare = require('nightmare')
 const nightmare = Nightmare({ show: true })
 var cheerio = require('cheerio');
 const puppeteer = require('puppeteer')
-var model = require('../../databases/helpers')
+// var model = require('../../databases/helpers')
 
 let memo = {
   google:{
