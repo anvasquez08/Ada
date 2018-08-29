@@ -1,20 +1,12 @@
 import React from 'react';
 import {
+  Container,
+  Header,
   Grid,
   Segment,
-  Divider, 
   Image,
-  Menu,
-  Form,
-  Checkbox,
-  Card,
-  Icon,
-  Button,
-  Label,
-  Container,
-  Header
-  
 } from "semantic-ui-react";
+
 import ItemsCarousel from 'react-items-carousel';
 import { Motion, spring, presets } from 'react-motion';
 import range from 'lodash/range';
@@ -61,6 +53,9 @@ class Discover extends React.Component {
   render() {
     return (
       <Container>
+        <div style={{ overflow: "hidden", maxHeight: "300px" }}>
+          <Image src="../assets/banner.jpg" fluid />
+        </div>
         <Header as='h2' dividing>NYT Street Style</Header>
         <Grid columns={3} relaxed>
           <Grid.Column>
