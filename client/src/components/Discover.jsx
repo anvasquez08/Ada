@@ -5,6 +5,9 @@ import {
   Grid,
   Segment,
   Image,
+  Modal,
+  Button,
+  Icon
 } from "semantic-ui-react";
 
 import ItemsCarousel from 'react-items-carousel';
@@ -46,7 +49,6 @@ class Discover extends React.Component {
     return (
       this.state.children.map((item, i) => (
         <div>
-          {console.log(item.imageUrl)}
             <Image src={item.imageUrl} size='medium'  centered />
             <h3 className="ui center aligned header">{item.name}</h3>
         </div>
@@ -75,8 +77,46 @@ class Discover extends React.Component {
                   <Segment>
                   <Image src={story.images[0].image} size='medium' />
                       <Header as='h3'>{story.title}</Header>
-                      <div>{story.paragraph}</div>
-                      <h5>{story.publicationName}</h5>
+                      <div>{story.paragraph.split('.').slice(0, 2).join('.') + '.'}</div>
+                      <div>
+                        <Image src='https://i.imgur.com/h4Fen0q.png' avatar />
+                        <span>{story.publicationName}.com</span>
+                      </div>
+
+                        <Modal trigger={<Button>View Full Story & Inventory</Button>}>
+
+                        <Modal.Header>
+                          {story.title} 
+                          <h5>By: {story.publicationName}.com</h5>
+                        </Modal.Header>
+
+                        <Modal.Content image scrolling>
+
+                          <Grid>
+                                <Grid.Column width={4}>
+                                  <Header center>Inspiration Photos</Header>
+                                  {
+                                    story.images.map((image) => {
+                                      return (<div key={image._id} style={{padding: '5px'}}><Image size='large' src={image.image} /></div>)
+                                    })
+                                  }
+                                </Grid.Column>
+                                <Grid.Column width={9}>
+                                  <p style={{fontSize: '110%'}}>{story.paragraph}</p>
+                                </Grid.Column>
+                                <Grid.Column width={3}>
+                                  <Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' />
+                                </Grid.Column>
+                          </Grid>
+
+                        </Modal.Content>
+                        <Modal.Actions>
+                          <Button primary>
+                            Close <Icon name='chevron right' />
+                          </Button>
+                        </Modal.Actions>
+                      </Modal>
+
                   </Segment>
                   </Grid.Column>
                 )
@@ -103,4 +143,5 @@ class Discover extends React.Component {
 }
 
 export default Discover;
+
 
