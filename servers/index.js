@@ -100,7 +100,7 @@ server.start(options, ({ port }) =>
 
 /*====================================== */
 
-server.express.get('/scrape', scraper.scrape.bind(this,'zara'))
+// server.express.get('/scrape', scraper.scrape.bind(this,'zara'))
 // server.express.get('/tags', scraper.getByTags)
 
 server.express.post('/index', function(req, res) {
