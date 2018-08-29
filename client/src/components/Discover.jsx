@@ -70,8 +70,8 @@ class Discover extends React.Component {
           <Grid.Column>
           <Segment>
           <Image src={'https://i.imgur.com/RntHgBy.jpg'} size='medium' />
-           <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
-           <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
+            <Header as='h2'>Street Style: Governors Ball Music Festival</Header>
+            <div>Bold patterns and colors dominated the style landscape of Randalls Island.</div>
               <h5>Photographs by Deidre SchooProduced by Elizabeth Bristow</h5>
           </Segment>
           </Grid.Column>

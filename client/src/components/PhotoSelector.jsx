@@ -42,7 +42,7 @@ class PhotoSelector extends React.Component {
   }
 
   sendPhotosForRecommendations() {
-    axios.post('/recommend/insta', {params: this.state.selectedPictures})
+    axios.post('/recommendinsta', {params: this.state.selectedPictures})
       .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
   }
 

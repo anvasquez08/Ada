@@ -17,17 +17,17 @@ class NavBar extends React.Component {
           {this.props.user ? <a className="item">{this.props.user}</a> : null}
         </div>
         <div className="right menu">
+          <span className={this.props.currentPage === "/" ? "ui item active" : "item"} >
+            <Link
+              className={ this.props.offSetY <= 44 && this.props.currentPage === "/" ? "transparent" : "normal" } to="/">
+              Home
+            </Link>
+          </span>
           <span
             className={this.props.currentPage === "favorites" ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === "/" ? "transparent": "normal"}
               to="/trending">
               Discover
-            </Link>
-          </span>
-          <span className={this.props.currentPage === "/" ? "ui item active" : "item"} >
-            <Link
-              className={ this.props.offSetY <= 44 && this.props.currentPage === "/" ? "transparent" : "normal" } to="/">
-              Home
             </Link>
           </span>
           <span

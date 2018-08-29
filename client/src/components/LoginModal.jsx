@@ -13,7 +13,7 @@ class LoginModal extends React.Component{
             <div>
                 <Modal onRequestClose={this.props.toggleModal} open={this.props.modalActive} onClose={this.props.toggleModal} size="mini">
                 <div class="ui center aligned segment">
-                <Header className='logInButton'>Log In With Instagram or Facebook</Header>
+                <Header className='logInButton'>Log in with Facebook or Instagram</Header>
                     <a href="/auth/facebook"><i className="facebook square icon huge"/></a>
                     <a href="/auth/instagram"><i className="instagram icon huge"/></a>
                 </div>
