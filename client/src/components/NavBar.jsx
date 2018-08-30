@@ -13,8 +13,9 @@ class NavBar extends React.Component {
                 borderBottomWidth: this.props.offSetY <= 44 && this.props.currentPage === '/' ? 0 : 1,
                 transition: "background-color 200ms linear"}}>
       
+        <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
+
         <div className="right menu">
-          <div>{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
           <span className={this.props.currentPage === '/' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/'>Home</Link></span>
           <span className={this.props.currentPage === 'style' ? "ui item active" : "item"}>
@@ -38,8 +39,6 @@ export default NavBar;
 
 
 // Code it so that this.props.currentPage === 'home', 'style', 'favorites'
-
-
 // {this.props.currentPage === 'home' 
 //   ? <span className="ui item active"><Link to='/'>Home</Link></span>
 //   : <span className="item"><Link to='/'>Home</Link></span>

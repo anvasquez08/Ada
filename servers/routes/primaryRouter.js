@@ -8,7 +8,9 @@ const userDB = require('../../databases/Users.js')
 const recWorker = require('../recommendations/worker/recommendationWorker.js')
 const recommendationService = require('../recommendations/service/imageTraits');
 const helpers = require('../../databases/helpers.js');
-const {getSavedEditorial} = require('../../databases/models_edit.js');
+const {getSavedEditorial, getInventoryForEditorial} = require('../../databases/models_edit.js');
+const async = require('async');
+const {getRecommendationsForImageUrl} = require('../recommendations/service/imageTraits.js')
 const { NGROKURL } = require('../../config.js')
 const labelsTable = require('../labels.js')
 
@@ -141,40 +143,40 @@ primaryRouter.post('/index', function(req, res) {
   });
   
   primaryRouter.post('/recommend', function(req, res) {
-      console.log('recommend params');
-      if (typeof req.body.params === 'string') {
-          console.log("Receiving URL, proceeding to get recommendations from Image URL")
-          let imageUrl = req.body.params
-          recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
-              if (err) {
-                  console.log("Error getting recommendations using image URL", err)
-                  res.status(500).send();
-              } else {
-                  res.status(200).send(recommendations);
-              }
-          })
-      } 
+    console.log('recommend params');
+    if (typeof req.body.params === 'string') {
+        console.log("Receiving URL, proceeding to get recommendations from Image URL")
+        let imageUrl = req.body.params
+        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                res.status(200).send(recommendations);
+            }
+        })
+    } 
   });
   
   primaryRouter.post('/recommendinsta', (req, res) => {
-      console.log("Anybody out there?")
-      console.log("Receiving Instagram selected photos: ", req.body.params)
-      let aggregateLabels = []; // using this later, when aggregating labels
-      let instagramPhotos = req.body.params;
-      for (var i = 0; i < instagramPhotos.length; i++) {
-          recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
-              if (err) {
-                  console.log("Error getting recommendations using image URL", err)
-                  res.status(500).send();
-              } else {
-                  aggregateLabels.push(recommendations);
-                  console.log("Console logging recommendations length: ", recommendations.length)
-                  // res.status(200).send(recommendations);
-                  console.log("Console logging aggregateLabels length", aggregateLabels.length )
-                  res.status(200).send();
-              }
-          })
-      }
+    let aggregateLabels = []; // using this later, when aggregating labels
+    let instagramPhotos = req.body.params;
+    for (var i = 0; i < 1; i++) {
+        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                aggregateLabels.push(recommendations);
+            //   console.log("Console logging recommendations length: ", recommendations.length)
+            //   // res.status(200).send(recommendations);
+            //   console.log("Console logging aggregateLabels length", aggregateLabels.length )
+            //   res.status(200).send();
+                console.log(aggregateLabels);
+                res.send(recommendations);
+            }
+        })
+    }
   });
   
   primaryRouter.post('/recommend/:user', function(req, res) {
@@ -249,18 +251,31 @@ primaryRouter.post('/index', function(req, res) {
   })
   
   
-  primaryRouter.get('/trends', (req, res) => {
-    // 1) get images from stories
-    // 2) get analysis of photos 
-    // 3) get recommendations 
-    getSavedEditorial((err, response)=> {
-      if (response !== null) {
-        res.send(response)
-      } else {
-        res.send(err)
-      }
+   primaryRouter.get('/trends', (req, res) => {
+    let res1 = []
+    getSavedEditorial()
+    .then((totalEditorial) => {
+      res1.push(totalEditorial)
+      let promiseArr = []
+      
+      totalEditorial.forEach((editorial) => {
+        editorial.images.forEach((image) => {        
+        let singlePromise = new Promise((resolve, reject) => {
+          getInventoryForEditorial(image.image)
+          .then(data => resolve(data))
+          .catch(err => reject(err))
+        })   
+        promiseArr.push(singlePromise)       
+        })
+      })
+      return Promise.all(promiseArr)
     })
-  })
+    .then((finalImageData) => {
+      res1.push(finalImageData)
+      res.send(res1)
+    })
+
+})
   
   primaryRouter.get('/*', (req, res) => {
     res.sendFile(path.resolve(__dirname + '../../../client/dist' +'/index.html'));
