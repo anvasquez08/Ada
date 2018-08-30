@@ -32,9 +32,12 @@ class PhotoSelector extends React.Component {
   }
 
   submitPhotos(e) {
+
     e.preventDefault();
+    this.sendPhotosForRecommendations();
     axios.post(`instahistory/${this.props.username}`, {photos: this.state.selectedPictures})
     .then(() => {
+      //Currenty changes to stlye page after adding photos to user history. Change this if you want to redirect somewhere else.
       this.props.history.push('/style');
     }).catch((err) => {
       console.log(err);
@@ -42,20 +45,20 @@ class PhotoSelector extends React.Component {
   }
 
   sendPhotosForRecommendations() {
-    axios.post('/recommend/insta', {params: this.state.selectedPictures})
+    axios.post('/recommendinsta', {params: this.state.selectedPictures})
       .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
   }
 
   componentDidMount() {
     if (this.state.photos.length === 0){
       let currentLocation = this.props.location.pathname
-      console.log('current location', currentLocation);
+      // console.log('current location', currentLocation);
       if (currentLocation === '/insta') {
-        console.log('INSTA AUTH');
+        // console.log('INSTA AUTH');
         axios.get('/auth/media')
         .then((result) => {this.setState({photos: result.data})})
       } else if (currentLocation === '/fb') {
-        console.log('FACEBOOK AUTH');
+        // console.log('FACEBOOK AUTH');
         axios.get('/auth/fbmedia')
         .then(
           (result) => {this.setState({photos: result.data}
@@ -74,7 +77,7 @@ class PhotoSelector extends React.Component {
         ?
         <div><Grid centered>
         <Grid.Row>
-          <Button className="ui large blue floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
+          <Button className="ui large blue floated button" onClick={this.submitPhotos}>Get Recommendations!</Button><br/>
         </Grid.Row>
           {this.state.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>
@@ -84,7 +87,7 @@ class PhotoSelector extends React.Component {
             </div>)
             })}
         </Grid></div>
-        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram or Facebook<Icon name='arrow alternate circle up outline'/></h1>
+        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram <Icon name='arrow alternate circle up outline'/></h1>
       }
       </div>
     )

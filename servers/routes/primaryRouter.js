@@ -41,19 +41,19 @@ primaryRouter.post('/index', function(req, res) {
   
   // //returns user's favorites
   
-  primaryRouter.get('/favorites/:user', (req,res) => { 
-      let username = req.params.user;
+//   primaryRouter.get('/favorites/:user', (req,res) => { 
+//       let username = req.params.user;
   
-      userDB.getUser(username, (err, userProfile) => {
-      imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-          if (err) {
-              res.status(500).send(err);
-          } else {
-              res.status(200).send(imageUrl);
-          }
-      })
-  })
-  })
+//       userDB.getUser(username, (err, userProfile) => {
+//       imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+//           if (err) {
+//               res.status(500).send(err);
+//           } else {
+//               res.status(200).send(imageUrl);
+//           }
+//       })
+//   })
+//   })
   
   primaryRouter.post('/upload', (req,res) => {
       
@@ -253,7 +253,6 @@ primaryRouter.post('/index', function(req, res) {
     // 1) get images from stories
     // 2) get analysis of photos 
     // 3) get recommendations 
-    console.log('here')
     getSavedEditorial((err, response)=> {
       if (response !== null) {
         res.send(response)

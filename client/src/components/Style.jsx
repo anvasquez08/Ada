@@ -47,7 +47,7 @@ class Style extends React.Component {
                         <Image src={item} size="big" centered />
                       </Card.Content>
                     </Card>
-                  );
+                  )
                 })}
               </Card.Group>
             </div>

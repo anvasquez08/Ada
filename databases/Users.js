@@ -1,14 +1,14 @@
 var mongoose = require('mongoose');
-var mongoUri = 'mongodb://localhost/users';
+var mongoUri = 'mongodb://127.0.0.1/users';
 
 // Connect Mongoose to our local MongoDB via URI specified above and export it below
 // mongoose.connect(mongoUri);
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log("Connected to mongoDB - users database");
-});
+var db = mongoose.connect(mongoUri);
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function() {
+//   console.log("Connected to mongoDB - users database");
+// });
 
 let userSchema = mongoose.Schema({
   username: {
@@ -58,10 +58,13 @@ let addFavoriteToUser = (username, favorite) => {
 }
 
 let getUser = (username, callback) => {
+  console.log('CALLLLLLEDDDDDD')
   User.findOne({username: username}, (err, foundUser) => {
     if (err) {
+      console.log('no found user');
       callback(err);
     } else {
+      console.log('foundUser', foundUser)
       callback(null, foundUser);
     }
   })

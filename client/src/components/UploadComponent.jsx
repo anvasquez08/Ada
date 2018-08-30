@@ -69,9 +69,9 @@ class UploadComponent extends Component {
     // console.log('UPLOADING WITH ENDPOINT', endpoint)
     axios.post(endpoint, data)
       .then(({data})=>{
-        console.log('image uploaded')
+        console.log('image uploaded', data)
     })
-    .catch(err=>console.log("Console logging error from axios post: ", err))
+    .catch(err => console.log("Console logging error from axios post: ", err))
   }
 
   encodeImage(image) {
@@ -81,7 +81,7 @@ class UploadComponent extends Component {
       this.props
         .largeUpload({ variables: { input: e.target.result, name: this.props.username } })
         .then(result => this.props.handleStateChange("inventory", result.data.uploadLargeFile))
-        .catch(error => console.log(error));
+        .catch(error => console.log("Error encoding image: ", error));
     };
   }
 
