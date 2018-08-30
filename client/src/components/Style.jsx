@@ -6,6 +6,7 @@ import {
   Card,
   Button
 } from "semantic-ui-react";
+import InventoryItem from './InventoryItem.jsx'
 
 class Style extends React.Component {
   constructor(props) {
@@ -30,28 +31,22 @@ class Style extends React.Component {
   render() {
     return (
       <div>
-        <h1>Testing view for Style.jsx component</h1>
+        <h1>Testing view for Favorites.jsx component</h1>
           {/* HEADER IMAGE */}
         <div style={{ overflow: "hidden", maxHeight: "300px" }}>
           <Image src="../assets/banner.jpg" fluid />
         </div>
 
           {/* MY STYLE PHOTOS */}
-          <Grid.Column width={12}>
-            <div>
-              <Card.Group itemsPerRow={4}>
-                { this.state.userPhotos.map((item, index) => {
-                  return (
-                    <Card key={index}>
-                      <Card.Content>
-                        <Image src={item} size="big" centered />
-                      </Card.Content>
-                    </Card>
-                  )
-                })}
-              </Card.Group>
-            </div>
-          </Grid.Column>
+          <Grid centered style={{margin: '100px'}}>
+          <Grid.Row columns={4}>
+            { this.state.userPhotos.map((item, index) => {
+              return (
+                <Grid.Column><InventoryItem item={item} isStyle={true} key={index}/></Grid.Column>
+              );
+            })}
+            </Grid.Row>
+          </Grid>
       </div>)
   }
 }
