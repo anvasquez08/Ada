@@ -1,14 +1,25 @@
 import React from 'react';
 import PhotoCard from '../components/PhotoCard.jsx';
-import { Grid, Button, Icon } from "semantic-ui-react";
+import InventoryItem from './InventoryItem.jsx';
+import { Grid, Button, Icon, Menu, Form, Checkbox, Image } from "semantic-ui-react";
 import axios from 'axios';
 
 class PhotoSelector extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       selectedPictures: [],
-      photos:[]
+      photos:[],
+      inventory: [],
+      priceTiers: [
+        { val: "$", isSelected: false, bracket: [0, 60] },
+        { val: "$$", isSelected: false, bracket: [61, 130] },
+        { val: "$$$", isSelected: false, bracket: [131, 300] },
+        { val: "$$$$", isSelected: false, bracket: [301, 2000] }
+      ],
+      filteredPrices: [],
+      filteredBrands: [],
+      filteredInventory: []
     }
     this.select = this.select.bind(this);
     this.submitPhotos = this.submitPhotos.bind(this);
@@ -46,7 +57,13 @@ class PhotoSelector extends React.Component {
 
   sendPhotosForRecommendations() {
     axios.post('/recommendinsta', {params: this.state.selectedPictures})
-      .then(() => {console.log("Returning call from server: sendPhotosForRecommendations")})
+      .then((result) => {
+        // console.log("Returning call from server: sendPhotosForRecommendations")
+        // console.log(result.data);
+        this.props.handleStateChange('inventory', result.data);
+        // set state to the higher component, or change this.props.inventory below
+      })
+      .catch(() => console.log("Error setting state"))
   }
 
   componentDidMount() {
@@ -89,6 +106,99 @@ class PhotoSelector extends React.Component {
         </Grid></div>
         : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram <Icon name='arrow alternate circle up outline'/></h1>
       }
+
+    {!!this.props.brands.length && (
+      <div>
+        <Grid style={{ margin: "10px", display: "table" }} divided='vertically' columns='equal'>
+        <Grid.Row columns={2}>
+        <Grid.Column width={3}>
+          <Menu vertical>
+            <Menu.Item>
+              <Menu.Header>Price</Menu.Header>
+              <Form>
+                <Form.Group grouped>
+                  {this.props.brands.length > 0 &&
+                    this.state.priceTiers.map((price, i) => {
+                      return (
+                        <Form.Field key={price.val}>
+                          <Checkbox
+                            label={price.val}
+                            control="input"
+                            type="checkbox"
+                            onChange={() => {
+                              let newState = this.state.priceTiers.slice();
+                              newState[i].isSelected = !price.isSelected;
+                              this.setState({ priceTiers: newState },
+                                () => { this.handlePriceChange(price) }
+                              );
+                            }}
+                          />
+                        </Form.Field>
+                      );
+                    })}
+                </Form.Group>
+              </Form>
+            </Menu.Item>
+            <Menu.Item>
+              <Menu.Header>Brands</Menu.Header>
+              <Form>
+                {this.props.inventory &&
+                  this.props.brands.map((brand, i) => {
+                    return (
+                      <Form.Field key={i}>
+                        <Checkbox
+                          label={brand.brandName}
+                          control="input"
+                          type="checkbox"
+                          onChange={ () => {
+                            let newState = this.props.brands.slice();
+                            newState[i].isSelected = !brand.isSelected;
+                            this.props.handleAppBrandChange(newState)
+                            this.handleBrandChange()
+                          }}/>
+                      </Form.Field>
+                    )
+                  })}
+              </Form>
+            </Menu.Item>
+          </Menu>
+          </Grid.Column>
+          {/* </Grid.Row> */}
+
+        {/* INVENTORY RESULTS */}
+
+        {this.state.filteredInventory.length > 0 
+          ? (
+              <Grid.Column width={12}><Grid>
+                {/* <Card.Group style={{margin: "auto"}}> */}
+                <Grid.Row columns={4}>
+                {this.props.inventory &&
+                  this.state.filteredInventory.map((item, i) => {
+                    return (<Grid.Column><InventoryItem item={item} addFavorite={this.addFavorite} key={i}/></Grid.Column>);
+                  })}
+                {/* </Card.Group> */}
+                  </Grid.Row>
+                </Grid>
+            </Grid.Column>
+            )
+          : (
+            <Grid.Column width={12}><Grid>
+            <Grid.Row columns={4}>
+                {/* <Card.Group style={{margin: "auto"}}> */}
+                {this.props.inventory && 
+                  this.props.inventory.map((item, i) => {
+                    return (<Grid.Column><InventoryItem item={item} addFavorite={this.addFavorite} key={i}/></Grid.Column>);
+                  })}
+                {/* </Card.Group> */}
+                  </Grid.Row>
+                </Grid>
+            </Grid.Column>
+          )
+        }
+      </Grid.Row>
+    </Grid></div>
+    )}
+
       </div>
     )
   }

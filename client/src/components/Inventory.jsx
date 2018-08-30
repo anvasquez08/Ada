@@ -213,7 +213,6 @@ class Inventory extends React.Component {
                 </Grid.Row>
               </Grid></div>
               )}
-              {/* <div style={{height: '150px', width: '150px'}}><Card>Testing</Card></div> */}
               </div>
           );
         }}
