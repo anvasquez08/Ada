@@ -42,21 +42,17 @@ class Discover extends React.Component {
   fetchEditorial() {
     axios.get('/trends')
     .then(res => {
-      let imageArr = []
+      let imageArray = [], editorial = res.data[0]
       for (let i = 0; i < res.data[1].length; i+=5) {
         let subArr = res.data[1].slice(i, i + 5)
-        imageArr.push(subArr)
+        subArr = subArr.reduce((acc, curr) => acc.concat(curr), [])
+        imageArray.push(subArr)
       }
-      console.log(imageArr)
-      let final =  []
-      imageArr.forEach((image) =>  {
-        image.forEach((single) =>{
-
-          console.log(single.imageUrl)
-        })
+      imageArray.forEach((smallerImageArr, i) =>  {
+        editorial[i].inventory = smallerImageArr
       })
-      console.log(final)
-      this.setState({editorial: res.data[0], editorialPics: final})
+      
+      this.setState({editorial: editorial})
     })
     .catch(err => console.log(err))
   }
@@ -78,9 +74,9 @@ class Discover extends React.Component {
     )
   };
 
-  modalGallery() {
+  modalGallery(arr) {
     return (
-      this.state.children.map((item, i) =>(
+      arr.map((item, i) =>(
         <div key={i}>
           <p>{item.brandName} | {item.name}</p>
           <img src={item.imageUrl}   style={{ height: 200, background: '#333' }}/>
@@ -107,7 +103,7 @@ class Discover extends React.Component {
                   return (
                     <Grid.Column key={story._id}>
                     <Segment>
-                    <Image src={story.images[0].image} size='medium' />
+                    <Image src={story.images[0].image} size='medium'/>
                         <Header as='h3'>{story.title}</Header>
                         <div>{story.paragraph.split('.').slice(0, 2).join('.') + '.'}</div>
                         <div>
@@ -124,43 +120,48 @@ class Discover extends React.Component {
 
                           <Modal.Content image scrolling>
 
-                            <Grid>
-                                  <Grid.Column width={4}>
-                                    <Header center>Inspiration Photos</Header>
+                    
+                          {/* <Header center="true">Inspiration Photos</Header> */}
+                          <Grid  celled='internally'>
+                            <Grid.Row> 
+                              <Container>
+                               <Header center="true">Browse Simiar Collection</Header>
+              
+                                <ItemsCarousel
+                                          numberOfCards={3}
+                                          gutter={0}
+                                          showSlither={true}
+                                          firstAndLastGutter={true}
+
+                                          requestToChangeActive={this.changeActiveItem}
+                                          activeItemIndex={this.state.activeItemIndex}
+                                          activePosition={'center'}
+
+                                          chevronWidth={2}
+                                          rightChevron={'>'}
+                                          leftChevron={'<'}
+                                          outsideChevron={true}>
+
+                                          {this.modalGallery(story.inventory)}                         
+                                </ItemsCarousel>   
+                              </Container> 
+                            </Grid.Row>
+                            <Grid.Row> 
+                           <Grid.Column width={4}>
+                                    <Header center="true">Article Photos</Header>
                                     {
                                       story.images.map((image) => {
-                                        return (<div key={image._id} style={{padding: '5px'}}><Image size='large' src={image.image} /></div>)
+                                        return (<div key={image._id} style={{padding: '5px'}}><Image size='small' src={image.image} /></div>)
                                       })
                                     }
-                                  </Grid.Column>
-                                  <Grid.Column width={9}>
-                                    <p style={{fontSize: '110%'}}>{story.paragraph}</p>
-                                  </Grid.Column>
-                                  <Grid.Column width={3}>
+                              </Grid.Column>
+
+                              <Grid.Column width={9}><p style={{fontSize: '110%'}}>{story.paragraph}</p>  </Grid.Column>
+                                  {/* <Grid.Column width={3}>
                                     <Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' />
-                                  </Grid.Column>
-
-                                    {/* <ItemsCarousel
-                                      numberOfCards={5}
-                                      gutter={0}
-                                      showSlither={true}
-                                      firstAndLastGutter={true}
-
-                                      requestToChangeActive={this.changeActiveItem}
-                                      activeItemIndex={this.state.activeItemIndex}
-                                      activePosition={'center'}
-
-                                      chevronWidth={2}
-                                      rightChevron={'>'}
-                                      leftChevron={'<'}
-                                      outsideChevron={true}>
-                                      {this.modalGallery()}
-                                  </ItemsCarousel> */}
-
-
-                  
-                            </Grid>
-
+                                  </Grid.Column> */}
+                            </Grid.Row>
+                          </Grid>
                           </Modal.Content>
                           <Modal.Actions>
                             <Button primary>
@@ -191,7 +192,7 @@ class Discover extends React.Component {
           {/* <Test images={this.state.children}/>   */}
           </div>
           </Grid>
-              <ItemsCarousel
+              {/* <ItemsCarousel
                 numberOfCards={5}
                 gutter={0}
                 showSlither={true}
@@ -206,7 +207,7 @@ class Discover extends React.Component {
                 leftChevron={'<'}
                 outsideChevron={true}>
                 {this.modalGallery()}
-            </ItemsCarousel>
+            </ItemsCarousel> */}
         </Container>
     </div>
   )
