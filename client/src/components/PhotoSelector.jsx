@@ -43,13 +43,12 @@ class PhotoSelector extends React.Component {
   }
 
   submitPhotos(e) {
-
     e.preventDefault();
     this.sendPhotosForRecommendations();
     axios.post(`instahistory/${this.props.username}`, {photos: this.state.selectedPictures})
     .then(() => {
       //Currenty changes to stlye page after adding photos to user history. Change this if you want to redirect somewhere else.
-      this.props.history.push('/style');
+      this.props.history.push('/insta');
     }).catch((err) => {
       console.log(err);
     })
