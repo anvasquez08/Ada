@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
 const path = require('path');
+const labelsTable = require('./labels.js')
 const authRouter = require('./routes/authRoutes.js');
 const primaryRouter = require('./routes/primaryRouter.js');
 // const recommendationRouter = require('./routes/recommendationRoutes');
@@ -15,6 +16,8 @@ const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
 const recommendationService = require('./recommendations/service/imageTraits.js')
 const helpers = require('../databases/helpers.js');
+const scraper = require('./services/scraper.js')
+const { NGROKURL } = require('../config.js')
 const {getSavedEditorial} = require('../databases/models_edit.js');
 
 /*============== Graph QL ============== */
@@ -95,4 +98,3 @@ const options = {
 server.start(options, ({ port }) =>
   console.log('Server is running on http://localhost:' + port)
 )
-

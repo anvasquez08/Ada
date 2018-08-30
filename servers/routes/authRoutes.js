@@ -66,21 +66,20 @@ authRouter.get('/current_user', (req, res) => {
   if (req.user !== undefined) {
     req.session.accessToken = req.user.accessToken;
     req.session.profile = req.user.profile;
-    // console.log('req.user', req.user);
-    // console.log('ACESSSSS TOKEN', req.session.accessToken);
     let username;
     if (req.user.profile.username) {
       username = req.user.profile.username;
     } else {
       username = req.user.profile.displayName;
     }
-    userDB.getUser(req.user.profile.username, (err, data) => {
+    console.log('username is', username);
+    userDB.getUser(username, (err, data) => {
       if (err) {
-        console.log("User not found in DB - saving user to DB: ", username)
-        userDB.saveUser(username)
+        console.log("Error Saving User", err)
+      } else if (data === null) {
+        userDB.saveUser(username);
       }
     });
-    
     res.send(username);
   } else {
     res.send('');

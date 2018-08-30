@@ -43,9 +43,12 @@ class PhotoSelector extends React.Component {
   }
 
   submitPhotos(e) {
+
     e.preventDefault();
+    this.sendPhotosForRecommendations();
     axios.post(`instahistory/${this.props.username}`, {photos: this.state.selectedPictures})
     .then(() => {
+      //Currenty changes to stlye page after adding photos to user history. Change this if you want to redirect somewhere else.
       this.props.history.push('/style');
     }).catch((err) => {
       console.log(err);
@@ -91,7 +94,7 @@ class PhotoSelector extends React.Component {
         ?
         <div><Grid centered>
         <Grid.Row>
-          <Button className="ui large blue floated button" onClick={this.sendPhotosForRecommendations}>Get Recommendations!</Button><br/>
+          <Button className="ui large blue floated button" onClick={this.submitPhotos}>Get Recommendations!</Button><br/>
         </Grid.Row>
           {this.state.photos.map((photo, idx) => {
             return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>
