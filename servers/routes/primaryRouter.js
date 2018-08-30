@@ -71,7 +71,6 @@ primaryRouter.post('/index', function(req, res) {
   
   // User uploads image. Saves image, adds image to user's history
   primaryRouter.post('/upload/:user', (req,res) => {
-      
       let username = req.params.user;
       let imageFile = req.files.file;
       imageUpload.uploadImage(username, imageFile, (err, imageUrl) => {
@@ -207,7 +206,10 @@ primaryRouter.post('/index', function(req, res) {
   
   primaryRouter.post('/send', (req,res) => {
     console.log('hitting TF server')
-    axios.post(NGROKURL,{image: req.files.image})
+    let body
+    if(req.files && req.files.image) body = {image: req.files.image}
+    if(req.body.imageUrl) body = {imageUrl: req.body.imageUrl}
+    axios.post(NGROKURL,body)
     .then(({data})=>{
         // data.boxes.forEach((box,idx)=>{
         //     if(box[0]+box[1]+box[2]+box[3] > 0){
@@ -219,17 +221,14 @@ primaryRouter.post('/index', function(req, res) {
         // res.send(data)
         // let label = data.label.map(el=>labelsTable[el])
         let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
-        // if (label === 't shirt') label = 'T-Shirt'
         console.log("Console logging labels destructured from /send: ", {label})
         recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
             console.log("Console logging recommendations destructured from /send: ", {recommendations})
             if (err) {
-                console.log("Err in /send")
                 res.send(err);
             } else {
                 recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
                     if (err) {
-                        console.log("Err in /send")
                         res.send(err)
                     } else {
                         res.send(inventories);
@@ -237,7 +236,6 @@ primaryRouter.post('/index', function(req, res) {
                 })
             }
         })
-        // res.send(data)
     })
   })
 
