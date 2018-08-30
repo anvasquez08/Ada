@@ -209,18 +209,16 @@ primaryRouter.post('/index', function(req, res) {
     console.log('hitting TF server')
     axios.post(NGROKURL,{image: req.files.image})
     .then(({data})=>{
-        console.log(data)
-        var label = []
-        data.boxes.forEach((box,idx)=>{
-            if(box[0]+box[1]+box[2]+box[3] > 0){
-                var currentItem = data.label[idx]
-                label.push(labelsTable[currentItem])
-            }
-        })
-        console.log({label})
+        // data.boxes.forEach((box,idx)=>{
+        //     if(box[0]+box[1]+box[2]+box[3] > 0){
+        //         var currentItem = data.label[idx]
+        //         label.push(labelsTable[currentItem])
+        //     }
+        // })
+        // console.log({label})
         // res.send(data)
         // let label = data.label.map(el=>labelsTable[el])
-        // label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
         // if (label === 't shirt') label = 'T-Shirt'
         console.log("Console logging labels destructured from /send: ", {label})
         recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
