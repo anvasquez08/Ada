@@ -20,6 +20,32 @@ class UploadComponent extends Component {
     super(props);
     this.sendImageUrl = this.sendImageUrl.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
+    this.uploadToTF = this.uploadToTF.bind(this);
+  }
+
+  uploadToTF(e){
+    console.log("uploading to tf")
+    e.preventDefault();
+    let input = document.getElementById("embedpollfileinput");
+    let imageFile = input.files[0];
+    // this.encodeImage(imageFile);
+
+    let data = new FormData()
+    data.append('image', imageFile);
+    // this.props
+    // .imageUpload({ variables: { input: data } })
+    // .then(result => console.log('result', result))
+    // .catch(error => console.log(error));
+
+    
+    let endpoint = `/send`;
+
+    axios.post(endpoint, data)
+      .then(({data})=>{
+        console.log(data)
+        this.props.handleStateChange('inventory',data)
+    })
+    .catch(err=>console.log(err))
   }
 
   handleImageUpload(e) {
@@ -90,7 +116,7 @@ class UploadComponent extends Component {
                     className="ui large blue right floated button"
                   >
                     <input type="file"
-                      onChange={this.handleImageUpload}
+                      onChange={this.uploadToTF}
                       className="inputfile" id="embedpollfileinput"
                       style={{ width: "0.1px",   height: "0.1px",  opacity: "0", overflow: "hidden",  position: "absolute",    zIndex: "-1"
                       }}
@@ -141,7 +167,7 @@ const UPLOAD_LARGE_FILE = gql`
     }
   }
 `
-
+// export default UploadComponent
 export default compose(
   graphql( UPLOAD_LARGE_FILE, {name: "largeUpload"}),
   graphql( UPLOAD_FILE , { name: "imageUpload" })

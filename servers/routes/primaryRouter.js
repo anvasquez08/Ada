@@ -9,6 +9,8 @@ const recWorker = require('../recommendations/worker/recommendationWorker.js')
 const recommendationService = require('../recommendations/service/imageTraits');
 const helpers = require('../../databases/helpers.js');
 const {getSavedEditorial} = require('../../databases/models_edit.js');
+const { NGROKURL } = require('../../config.js')
+const labelsTable = require('../labels.js')
 
 
 // server.express.get('/scrape', scraper.googleScrape)
@@ -204,30 +206,39 @@ primaryRouter.post('/index', function(req, res) {
   });
   
   primaryRouter.post('/send', (req,res) => {
-      axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
-      .then(({data})=>{
-          label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
-          if (label === 't shirt') label = 'T-Shirt'
-          console.log("Console logging labels destructured from /send: ", {label})
-          recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
-              console.log("Console logging recommendations destructured from /send: ", {recommendations})
-              if (err) {
-                  console.log("Err in /send")
-                  res.send(err);
-              } else {
-                  recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
-                      if (err) {
-                          console.log("Err in /send")
-                          res.send(err)
-                      } else {
-                          console.log("Err in /send")
-                          res.send(inventories);
-                      }
-                  })
-              }
-          })
-          // res.send(data)
-      })
+    console.log('hitting TF server')
+    axios.post(NGROKURL,{image: req.files.image})
+    .then(({data})=>{
+        // data.boxes.forEach((box,idx)=>{
+        //     if(box[0]+box[1]+box[2]+box[3] > 0){
+        //         var currentItem = data.label[idx]
+        //         label.push(labelsTable[currentItem])
+        //     }
+        // })
+        // console.log({label})
+        // res.send(data)
+        // let label = data.label.map(el=>labelsTable[el])
+        let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        // if (label === 't shirt') label = 'T-Shirt'
+        console.log("Console logging labels destructured from /send: ", {label})
+        recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
+            console.log("Console logging recommendations destructured from /send: ", {recommendations})
+            if (err) {
+                console.log("Err in /send")
+                res.send(err);
+            } else {
+                recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                    if (err) {
+                        console.log("Err in /send")
+                        res.send(err)
+                    } else {
+                        res.send(inventories);
+                    }
+                })
+            }
+        })
+        // res.send(data)
+    })
   })
 
   primaryRouter.get('/latestProds', (req, res) => {
