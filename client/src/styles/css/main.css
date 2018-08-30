@@ -19,3 +19,7 @@ footer{
 	background-color: #eae7e4;
 	padding: 40px 0 48px 0;
 }
+
+.top-banner{
+	position: "relative";
+}
