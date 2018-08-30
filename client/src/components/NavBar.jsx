@@ -13,14 +13,15 @@ class NavBar extends React.Component {
                 borderBottomWidth: this.props.offSetY <= 44 && this.props.currentPage === '/' ? 0 : 1,
                 transition: "background-color 200ms linear"}}>
       
+        <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
+
         <div className="right menu">
-          <div>{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
           <span className={this.props.currentPage === '/' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/'>Home</Link></span>
           <span className={this.props.currentPage === 'style' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
           <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/favorites'>Favorites</Link></span>
+            <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/favorites'>Wish List</Link></span>
             <span className={this.props.currentPage === 'favorites' ? "ui item active" : "item"}>
             <Link className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} to='/trending'>Trending Styles</Link></span>
           <span className="item">

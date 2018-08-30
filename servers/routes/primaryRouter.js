@@ -11,6 +11,10 @@ const helpers = require('../../databases/helpers.js');
 const {getSavedEditorial, getInventoryForEditorial} = require('../../databases/models_edit.js');
 const async = require('async');
 const {getRecommendationsForImageUrl} = require('../recommendations/service/imageTraits.js')
+const { NGROKURL } = require('../../config.js')
+const labelsTable = require('../labels.js')
+
+
 // server.express.get('/scrape', scraper.googleScrape)
 // server.express.get('/tags', scraper.getByTags)
 
@@ -39,19 +43,19 @@ primaryRouter.post('/index', function(req, res) {
   
   // //returns user's favorites
   
-  primaryRouter.get('/favorites/:user', (req,res) => { 
-      let username = req.params.user;
+//   primaryRouter.get('/favorites/:user', (req,res) => { 
+//       let username = req.params.user;
   
-      userDB.getUser(username, (err, userProfile) => {
-      imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
-          if (err) {
-              res.status(500).send(err);
-          } else {
-              res.status(200).send(imageUrl);
-          }
-      })
-  })
-  })
+//       userDB.getUser(username, (err, userProfile) => {
+//       imageUpload.uploadImage(null, imageFile, (err, imageUrl) => {
+//           if (err) {
+//               res.status(500).send(err);
+//           } else {
+//               res.status(200).send(imageUrl);
+//           }
+//       })
+//   })
+//   })
   
   primaryRouter.post('/upload', (req,res) => {
       
@@ -139,40 +143,40 @@ primaryRouter.post('/index', function(req, res) {
   });
   
   primaryRouter.post('/recommend', function(req, res) {
-      console.log('recommend params');
-      if (typeof req.body.params === 'string') {
-          console.log("Receiving URL, proceeding to get recommendations from Image URL")
-          let imageUrl = req.body.params
-          recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
-              if (err) {
-                  console.log("Error getting recommendations using image URL", err)
-                  res.status(500).send();
-              } else {
-                  res.status(200).send(recommendations);
-              }
-          })
-      } 
+    console.log('recommend params');
+    if (typeof req.body.params === 'string') {
+        console.log("Receiving URL, proceeding to get recommendations from Image URL")
+        let imageUrl = req.body.params
+        recommendationService.getRecommendationsForImageUrl(imageUrl, (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                res.status(200).send(recommendations);
+            }
+        })
+    } 
   });
   
   primaryRouter.post('/recommendinsta', (req, res) => {
-      console.log("Anybody out there?")
-      console.log("Receiving Instagram selected photos: ", req.body.params)
-      let aggregateLabels = []; // using this later, when aggregating labels
-      let instagramPhotos = req.body.params;
-      for (var i = 0; i < instagramPhotos.length; i++) {
-          recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
-              if (err) {
-                  console.log("Error getting recommendations using image URL", err)
-                  res.status(500).send();
-              } else {
-                  aggregateLabels.push(recommendations);
-                  console.log("Console logging recommendations length: ", recommendations.length)
-                  // res.status(200).send(recommendations);
-                  console.log("Console logging aggregateLabels length", aggregateLabels.length )
-                  res.status(200).send();
-              }
-          })
-      }
+    let aggregateLabels = []; // using this later, when aggregating labels
+    let instagramPhotos = req.body.params;
+    for (var i = 0; i < 1; i++) {
+        recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
+            if (err) {
+                console.log("Error getting recommendations using image URL", err)
+                res.status(500).send();
+            } else {
+                aggregateLabels.push(recommendations);
+            //   console.log("Console logging recommendations length: ", recommendations.length)
+            //   // res.status(200).send(recommendations);
+            //   console.log("Console logging aggregateLabels length", aggregateLabels.length )
+            //   res.status(200).send();
+                console.log(aggregateLabels);
+                res.send(recommendations);
+            }
+        })
+    }
   });
   
   primaryRouter.post('/recommend/:user', function(req, res) {
@@ -204,30 +208,39 @@ primaryRouter.post('/index', function(req, res) {
   });
   
   primaryRouter.post('/send', (req,res) => {
-      axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
-      .then(({data})=>{
-          label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
-          if (label === 't shirt') label = 'T-Shirt'
-          console.log("Console logging labels destructured from /send: ", {label})
-          recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
-              console.log("Console logging recommendations destructured from /send: ", {recommendations})
-              if (err) {
-                  console.log("Err in /send")
-                  res.send(err);
-              } else {
-                  recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
-                      if (err) {
-                          console.log("Err in /send")
-                          res.send(err)
-                      } else {
-                          console.log("Err in /send")
-                          res.send(inventories);
-                      }
-                  })
-              }
-          })
-          // res.send(data)
-      })
+    console.log('hitting TF server')
+    axios.post(NGROKURL,{image: req.files.image})
+    .then(({data})=>{
+        // data.boxes.forEach((box,idx)=>{
+        //     if(box[0]+box[1]+box[2]+box[3] > 0){
+        //         var currentItem = data.label[idx]
+        //         label.push(labelsTable[currentItem])
+        //     }
+        // })
+        // console.log({label})
+        // res.send(data)
+        // let label = data.label.map(el=>labelsTable[el])
+        let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+        // if (label === 't shirt') label = 'T-Shirt'
+        console.log("Console logging labels destructured from /send: ", {label})
+        recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
+            console.log("Console logging recommendations destructured from /send: ", {recommendations})
+            if (err) {
+                console.log("Err in /send")
+                res.send(err);
+            } else {
+                recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+                    if (err) {
+                        console.log("Err in /send")
+                        res.send(err)
+                    } else {
+                        res.send(inventories);
+                    }
+                })
+            }
+        })
+        // res.send(data)
+    })
   })
 
   primaryRouter.get('/latestProds', (req, res) => {
