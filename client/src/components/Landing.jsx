@@ -26,9 +26,10 @@ export default class Landing extends React.Component {
       <div>
         <div className="main">
           <div className="main-wrapper">
-          {/* <div style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
-          <div> ADA</div>
-          <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div> */}
+            <div style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
+              <div> ADA</div>
+              <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div>
+            </div>
             <div className="top-banner">
               <div class="jsx-3126485111 HeaderSimple__Media" >
                 <img src="images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg" alt=""
