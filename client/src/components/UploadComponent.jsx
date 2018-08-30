@@ -32,6 +32,7 @@ class UploadComponent extends Component {
 
     let data = new FormData()
     data.append('image', imageFile);
+    data.set('username', this.props.username)
     // this.props
     // .imageUpload({ variables: { input: data } })
     // .then(result => console.log('result', result))
@@ -95,9 +96,7 @@ class UploadComponent extends Component {
     //   endpoint += `/${this.props.username}`
     // }
     let endpoint = '/send'
-    console.log('endpoint', endpoint)
-    console.log('imageUrl', this.props.imageUrl)
-    axios.post(endpoint, {imageUrl: this.props.imageUrl})
+    axios.post(endpoint, {imageUrl: this.props.imageUrl, username: this.props.username})
       .then(({data}) => {
         // console.log("Console logging return from sendImageUrl: ", result.data)
         this.props.handleStateChange('inventory', data);
