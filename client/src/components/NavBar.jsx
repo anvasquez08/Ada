@@ -15,7 +15,7 @@ class NavBar extends React.Component {
                 borderBottomWidth: this.props.offSetY <= 44 && this.props.location.pathname === '/' ? 0 : 1,
                 transition: "background-color 200ms linear"}}>
       
-        {/* <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div> */}
+        <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
 
         <div className="right menu">
           <span className={this.props.location.pathname === '/detect' ? "ui item active" : "item"}>
@@ -31,7 +31,6 @@ class NavBar extends React.Component {
             ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "normal" : "normal"} href="/auth/logout">Logout</a>
             : <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "normal" : "normal"} onClick={this.props.toggleModal}>Sign in</a>}
           </span>
-          <span className="item">{this.props.user}</span>
         </div>
       </div>
     )

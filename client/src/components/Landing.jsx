@@ -13,6 +13,7 @@ import {
   Icon,
   Button
 } from "semantic-ui-react";
+import Discover from './Discover.jsx'
 
 export default class Landing extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ export default class Landing extends React.Component {
               <h1 style={{textAlign:"center"}}>
                 What's Trending
               </h1>
+              <Discover />
               <Grid centered style={{marginTop:50}}>
                 <div style={{margin: "12px 5px 20px 0px"}}>
                   <Grid.Column>
