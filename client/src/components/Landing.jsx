@@ -25,9 +25,17 @@ export default class Landing extends React.Component {
     return (
       <div>
         <div className="Main">
-          <div id="4GDDQ91YIEgOiACSwmUKS4" class="jsx-416275461 wrapper">
-            <div class="top-banner jsx-3126485111 HeaderSimple HeaderSimple--has-mobile-media" style={{position: "relative"}}>
-              <div class="jsx-3126485111 HeaderSimple__Media" >
+          <div id="4GDDQ91YIEgOiACSwmUKS4" className="jsx-416275461 wrapper">
+
+          <div style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
+          <div> ADA</div>
+          <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div>
+          
+          </div>
+
+
+            <div className="top-banner jsx-3126485111 HeaderSimple HeaderSimple--has-mobile-media" style={{position: "relative"}}>
+              <div className="jsx-3126485111 HeaderSimple__Media" >
                 <img src="images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg" alt=""
                   srcSet="//images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=432&amp;h=254&amp;q=85 432w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=720&amp;h=424&amp;q=85 720w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=1440&amp;h=848&amp;q=85 1440w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=2160&amp;h=1272&amp;q=85 2160w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?q=85 2880w"
                   style={{ backgroundSize: "cover" }}
@@ -42,7 +50,7 @@ export default class Landing extends React.Component {
                   <h2 className="jsx-3126485111">
                     <p>Clothing made for you, just the way you want it.</p>
                   </h2>
-                  <Link to="/detect" class="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Try Out Now </Link>
+                  <Link to="/detect" className="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Try Out Now </Link>
                 </div>
               </div>
             </div>

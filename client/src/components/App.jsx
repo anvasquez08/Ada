@@ -98,6 +98,7 @@ class App extends React.Component {
         toggleModal={this.toggleModal}
         modalActive={this.state.modalActive}/>
         <div className="Main">
+
           <div>
             <Switch>
               <Route exact path='/'
