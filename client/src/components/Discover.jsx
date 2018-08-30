@@ -155,7 +155,7 @@ class Discover extends React.Component {
             </div>
             </Grid>
 
-          <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Discover | Newest Clothing </Header>
+          <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> New Releases </Header>
           <Grid>
           <AliceCarousel 
                   items={this.galleryItems()}

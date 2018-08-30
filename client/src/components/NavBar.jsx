@@ -10,12 +10,14 @@ class NavBar extends React.Component {
 
   render() {
     return (
+
+
       <div className="ui secondary pointing fixed menu" 
         style={{backgroundColor: this.props.offSetY <= 44 && this.props.location.pathname === '/' ? "normal" : "#fff9f6",
                 borderBottomWidth: this.props.offSetY <= 44 && this.props.location.pathname === '/' ? 0 : 1,
                 transition: "background-color 200ms linear"}}>
-      
-        <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div>
+            {/* <div style={{fontFamily: "Roboto", fontSize: "48px", padding: "25px", display: "block", position: "absolute", color: "white"}}>ADA</div> */}
+        {/* <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div> */}
 
         <div className="right menu">
           <span className={this.props.location.pathname === '/detect' ? "ui item active" : "item"}>
