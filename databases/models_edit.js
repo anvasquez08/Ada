@@ -1,11 +1,11 @@
 const { Editorial } = require("./schema.js");
 const async = require('async');
+const {getRecommendationsForImageUrl} = require('../servers/recommendations/service/imageTraits.js')
 
 const saveScrapedEditorial = (args, publication) => {
   const {title} = args[0]
   const {paragraph} = args[1]
   const {images} = args[2]
-  console.log(args)
   new Editorial({
     publicationName: publication,
     title: title,
@@ -17,15 +17,22 @@ const saveScrapedEditorial = (args, publication) => {
     .catch(err => console.log("Error in database save function", err));
 }
 
-
-const getSavedEditorial = (callback) => {
-  Editorial.find({}).exec((err, items) => {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, items);
-    }
+const getSavedEditorial = () => {
+  return new Promise((resolve, reject) => {
+    Editorial.find({}).exec((err, items) => {
+      if (err) reject(err)
+      else resolve(items); 
+    })
   })
 }
 
-module.exports = {getSavedEditorial, saveScrapedEditorial}
+const getInventoryForEditorial = (image) => {
+  return new Promise((resolve, reject) => {
+    getRecommendationsForImageUrl(image, (err, data) => {
+        if (err) reject(err);
+        else resolve(data)
+      })
+    })
+}
+
+module.exports = {getSavedEditorial, saveScrapedEditorial, getInventoryForEditorial}

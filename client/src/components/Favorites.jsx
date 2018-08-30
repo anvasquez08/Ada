@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import InventoryItem from "./InventoryItem.jsx";
 import {
   Grid,
   Image,
@@ -36,21 +37,15 @@ class Favorites extends React.Component {
         </div>
 
           {/* MY STYLE PHOTOS */}
-          <Grid.Column width={12}>
-            <div>
-              <Card.Group itemsPerRow={4}>
-                { this.state.userPhotos.map((item, index) => {
-                  return (
-                    <Card key={index}>
-                      <Card.Content>
-                        <Image src={item.imageUrl} size="big" centered />
-                      </Card.Content>
-                    </Card>
-                  );
-                })}
-              </Card.Group>
-            </div>
-          </Grid.Column>
+          <Grid centered style={{margin: '100px'}}>
+          <Grid.Row columns={4}>
+            { this.state.userPhotos.map((item, index) => {
+              return (
+                <Grid.Column><InventoryItem item={item} key={index}/></Grid.Column>
+              );
+            })}
+            </Grid.Row>
+          </Grid>
       </div>)
   }
 }

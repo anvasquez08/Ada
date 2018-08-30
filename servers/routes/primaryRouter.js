@@ -8,7 +8,9 @@ const userDB = require('../../databases/Users.js')
 const recWorker = require('../recommendations/worker/recommendationWorker.js')
 const recommendationService = require('../recommendations/service/imageTraits');
 const helpers = require('../../databases/helpers.js');
-const {getSavedEditorial} = require('../../databases/models_edit.js');
+const {getSavedEditorial, getInventoryForEditorial} = require('../../databases/models_edit.js');
+const async = require('async');
+const {getRecommendationsForImageUrl} = require('../recommendations/service/imageTraits.js')
 const { NGROKURL } = require('../../config.js')
 const labelsTable = require('../labels.js')
 
@@ -236,15 +238,26 @@ primaryRouter.get('/latestProds', (req, res) => {
 
 
 primaryRouter.get('/trends', (req, res) => {
-  // 1) get images from stories
-  // 2) get analysis of photos 
-  // 3) get recommendations 
-  getSavedEditorial((err, response)=> {
-    if (response !== null) {
-      res.send(response)
-    } else {
-      res.send(err)
-    }
+  let res1 = []
+  getSavedEditorial()
+  .then((totalEditorial) => {
+    res1.push(totalEditorial)
+    let promiseArr = []
+    totalEditorial.forEach((editorial) => {
+      editorial.images.forEach((image) => {        
+      let singlePromise = new Promise((resolve, reject) => {
+        getInventoryForEditorial(image.image)
+        .then(data => resolve(data))
+        .catch(err => reject(err))
+      })   
+      promiseArr.push(singlePromise)       
+      })
+    })
+    return Promise.all(promiseArr)
+  })
+  .then((finalImageData) => {
+    res1.push(finalImageData)
+    res.send(res1)
   })
 })
 

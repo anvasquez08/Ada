@@ -26,16 +26,33 @@ class Discover extends React.Component {
       activeItemIndex: 0
     }
     this.fetchEditorial = this.fetchEditorial.bind(this);
+    this.changeActiveItem = this.changeActiveItem.bind(this)
+    this.modalGallery = this.modalGallery.bind(this);
   }
+
 
   componentDidMount() {
     this.fetchEditorial()
     this.fetchLatestProducts()
   }
 
+  changeActiveItem = (activeItemIndex) => this.setState({ activeItemIndex });
+
   fetchEditorial() {
     axios.get('/trends')
-    .then(res => this.setState({editorial: res.data}))
+    .then(res => {
+      let imageArray = [], editorial = res.data[0]
+      for (let i = 0; i < res.data[1].length; i+=5) {
+        let subArr = res.data[1].slice(i, i + 5)
+        subArr = subArr.reduce((acc, curr) => acc.concat(curr), [])
+        imageArray.push(subArr)
+      }
+      imageArray.forEach((smallerImageArr, i) =>  {
+        editorial[i].inventory = smallerImageArr
+      })
+      
+      this.setState({editorial: editorial})
+    })
     .catch(err => console.log(err))
   }
 
@@ -56,92 +73,105 @@ class Discover extends React.Component {
     )
   };
 
+  modalGallery(arr) {
+    return (
+      arr.map((item, i) =>(
+        <div key={i}>
+          <p>{item.brandName} | {item.name}</p>
+          <img src={item.imageUrl}   style={{ height: 200, background: '#333' }}/>
+        </div>
+      ))
+    )
+  }
+
   render() {
     return (
-  <div>
-    <h1>Testing view for Style.jsx component</h1>
-    {/* HEADER IMAGE */}
-    <div style={{ overflow: "hidden", maxHeight: "300px" }}>
-      <Image src="../assets/banner.jpg" fluid />
-    </div>
-
-
-    <Container>
-        <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Discover | Editorial Fashion Trends </Header>
-        <Grid>
-          <div className="ui three column doubling stackable masonry grid">
-            {
-              this.state.editorial.map((story) => {
-                return (
-                  <Grid.Column key={story._id}>
-                  <Segment>
-                  <Image src={story.images[0].image} size='medium' />
+    <div>
+      <Container>
+        <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Editorial Fashion Trends </Header>
+          <Grid>
+            <div className="ui three column doubling stackable masonry grid">
+              {
+                this.state.editorial.map((story) => {
+                  return (
+                    <Grid.Column key={story._id}>
+                    <Segment>
+                    <Image src={story.images[0].image} size='medium'/>
                       <Header as='h3'>{story.title}</Header>
-                      <div>{story.paragraph.split('.').slice(0, 2).join('.') + '.'}</div>
-                      <div>
-                        <Image src='https://i.imgur.com/h4Fen0q.png' avatar />
-                        <span>{story.publicationName}.com</span>
-                      </div>
+                        <div>{story.paragraph.split('.').slice(0, 2).join('.') + '.'}</div>
+                        <div>
+                          <Image src='https://i.imgur.com/h4Fen0q.png' avatar/>
+                          <span>{story.publicationName}.com</span>
+                        </div>
+                    <Modal trigger={<Button>View Full Story & Inventory</Button>}closeIcon>
 
-                        <Modal trigger={<Button>View Full Story & Inventory</Button>}>
+                    <Modal.Header>{story.title}
+                      <h5>By: {story.publicationName}.com</h5>
+                    </Modal.Header>
 
-                        <Modal.Header>
-                          {story.title} 
-                          <h5>By: {story.publicationName}.com</h5>
-                        </Modal.Header>
+                    <Modal.Content image scrolling>
+                        <Grid  celled='internally'>
+                          <Grid.Row> 
+                            <Container>
+                            <Header center="true">Browse Simiar Collection</Header>
+                            <ItemsCarousel
+                              numberOfCards={3}
+                              gutter={0}
+                              showSlither={true}
+                              firstAndLastGutter={true}
+                              requestToChangeActive={this.changeActiveItem}
+                              activeItemIndex={this.state.activeItemIndex}
+                              activePosition={'center'}
+                              chevronWidth={2}
+                              rightChevron={'>'}
+                              leftChevron={'<'}
+                              outsideChevron={true}>
 
-                        <Modal.Content image scrolling>
-
-                          <Grid>
-                                <Grid.Column width={4}>
-                                  <Header center>Inspiration Photos</Header>
-                                  {
-                                    story.images.map((image) => {
-                                      return (<div key={image._id} style={{padding: '5px'}}><Image size='large' src={image.image} /></div>)
+                                {this.modalGallery(story.inventory)}                         
+                            </ItemsCarousel>   
+                            </Container> 
+                          </Grid.Row>
+                          <Grid.Row> 
+                          <Grid.Column width={4}>
+                            <Header center="true">Article Photos</Header>
+                                {
+                                  story.images.map((image) => {
+                                    return (<div key={image._id} style={{padding: '5px'}}><Image size='small' src={image.image} /></div>)
                                     })
-                                  }
-                                </Grid.Column>
-                                <Grid.Column width={9}>
-                                  <p style={{fontSize: '110%'}}>{story.paragraph}</p>
-                                </Grid.Column>
-                                <Grid.Column width={3}>
-                                  <Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' />
-                                </Grid.Column>
+                                }
+                              </Grid.Column>
+
+                              <Grid.Column width={9}><p style={{fontSize: '110%'}}>{story.paragraph}</p>  </Grid.Column>
+                            </Grid.Row>
                           </Grid>
+                          </Modal.Content>
+                        </Modal>
 
-                        </Modal.Content>
-                        <Modal.Actions>
-                          <Button primary>
-                            Close <Icon name='chevron right' />
-                          </Button>
-                        </Modal.Actions>
-                      </Modal>
+                    </Segment>
+                    </Grid.Column>
+                  )
+                })
+              }
+            </div>
+            </Grid>
 
-                  </Segment>
-                  </Grid.Column>
-                )
-              })
-            }
+          <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Discover | Newest Clothing </Header>
+          <Grid>
+          <AliceCarousel 
+                  items={this.galleryItems()}
+                  mouseDragEnabled 
+                  dotsDisabled={true} 
+                  infinite={true}
+                  autoPlay={true}
+                  autoPlayInterval={5000}
+                  fadeOutAnimation={true}/>
+          <div>
           </div>
           </Grid>
-
-        <Header as='h2' dividing style={{marginTop: "25px", marginBottom: "25px"}}> Discover | Newest Clothing </Header>
-        <Grid>
-        <AliceCarousel 
-                items={this.galleryItems()}
-                mouseDragEnabled 
-                dotsDisabled={true} 
-                infinite={true}
-                autoPlay={true}
-                autoPlayInterval={5000}
-                fadeOutAnimation={true}/>
-        </Grid>
-      </Container>
-  </div>
+        </Container>
+    </div>
   )
   }
 }
 
 export default Discover;
-
-
