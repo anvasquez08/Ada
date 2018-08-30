@@ -8,7 +8,7 @@ import '../styles/css/main.css'
 import PhotoSelector from './PhotoSelector.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import LoginModal from './LoginModal.jsx';
 
 
@@ -142,6 +142,6 @@ class App extends React.Component {
     )
   }
 }
-// const ShowTheLocationWithRouter = withRouter(App)
+const ShowTheLocationWithRouter = withRouter(App)
 // // withRouter(connect(...)(App))
 export default App
