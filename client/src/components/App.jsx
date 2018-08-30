@@ -123,7 +123,13 @@ class App extends React.Component {
                 username={this.state.user}/>}/>
               <Route exact path='/insta'
                 render={(props) => <PhotoSelector {...props}
-                username={this.state.user}/>}/>
+                handleStateChange={this.handleStateChange}
+                handleImageUrl={this.handleImageUrl}
+                imageUrl={this.state.imageUrl}
+                inventory={this.state.inventory}
+                brands={this.state.brands}
+                username={this.state.user}
+                handleAppBrandChange={this.handleAppBrandChange}/>}/>
               <Route exact path='/fb'
                 render={(props) => <PhotoSelector {...props}
                 username={this.state.user}/>}/>

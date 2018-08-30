@@ -66,8 +66,8 @@ authRouter.get('/current_user', (req, res) => {
   if (req.user !== undefined) {
     req.session.accessToken = req.user.accessToken;
     req.session.profile = req.user.profile;
-    console.log('req.user', req.user);
-    console.log('ACESSSSS TOKEN', req.session.accessToken);
+    // console.log('req.user', req.user);
+    // console.log('ACESSSSS TOKEN', req.session.accessToken);
     let username;
     if (req.user.profile.username) {
       username = req.user.profile.username;
@@ -90,11 +90,11 @@ authRouter.get('/current_user', (req, res) => {
 authRouter.get('/media', (req, res) => {
   axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.user.accessToken}`)
   .then(({data}) => {
-    console.log('data', data);
+    // console.log('data', data);
     let urls = data.data.map((image) => {
       return image.images.low_resolution.url;
     })
-    console.log('urls', urls);
+    // console.log('urls', urls);
     res.status(200).send(urls);
   })
   .catch((err) => {console.log(err)})
