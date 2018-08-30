@@ -39,8 +39,6 @@ export default NavBar;
 
 
 // Code it so that this.props.currentPage === 'home', 'style', 'favorites'
-
-
 // {this.props.currentPage === 'home' 
 //   ? <span className="ui item active"><Link to='/'>Home</Link></span>
 //   : <span className="item"><Link to='/'>Home</Link></span>
