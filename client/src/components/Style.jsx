@@ -30,8 +30,7 @@ class Style extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Testing view for Favorites.jsx component</h1>
+      <div style={{paddingTop: 42}}>
           {/* HEADER IMAGE */}
         <div style={{ overflow: "hidden", maxHeight: "300px" }}>
           <Image src="../assets/banner.jpg" fluid />
@@ -42,7 +41,7 @@ class Style extends React.Component {
           <Grid.Row columns={4}>
             { this.state.userPhotos.map((item, index) => {
               return (
-                <Grid.Column><InventoryItem item={item} isStyle={true} key={index}/></Grid.Column>
+                <Grid.Column key={index}><InventoryItem item={item} isStyle={true}/></Grid.Column>
               );
             })}
             </Grid.Row>
