@@ -89,7 +89,6 @@ var popsugar1 = async (req,res) => {
 }
 
 popsugar1().then((value) => {
-  console.log('here')
   saveScrapedEditorial(value, 'POPSUGAR')
   }
 )
