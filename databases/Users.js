@@ -42,6 +42,7 @@ let saveUser = (username) => {
 }
 
 let addHistoryToUser = (username, history) => {
+  console.log("ADDING HISTORY")
   User.findOneAndUpdate({username: username}, {$push: {history: history}}, (err) => {
     if (err) {
       console.log('ERR ADDING HISTORY TO USER', err)

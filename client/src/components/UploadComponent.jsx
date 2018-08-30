@@ -32,6 +32,7 @@ class UploadComponent extends Component {
 
     let data = new FormData()
     data.append('image', imageFile);
+    data.set('username', this.props.username)
     // this.props
     // .imageUpload({ variables: { input: data } })
     // .then(result => console.log('result', result))
@@ -90,13 +91,12 @@ class UploadComponent extends Component {
     // https://images.asos-media.com/products/stradivarius-long-sleeve-shirt-in-white/10584462-1-white?$XL$
     // https://static.theblacktux.com/products/tuxedos/grosgrain-bound-tuxedo/1_20160811_HolidayEcom_GrosgrainBoundTuxedo_1473_1812x1875.jpg?impolicy=PDPdesktop
     console.log("Sending image URL!", this.props.imageUrl)
-    let endpoint = `/recommend`;
-    if (this.props.username.length > 0) {
-      endpoint += `/${this.props.username}`
-    }
-    console.log('endpoint', endpoint)
-    console.log('imageUrl', this.props.imageUrl)
-    axios.post(endpoint, {params: this.props.imageUrl})
+    // let endpoint = `/recommend`;
+    // if (this.props.username.length > 0) {
+    //   endpoint += `/${this.props.username}`
+    // }
+    let endpoint = '/send'
+    axios.post(endpoint, {imageUrl: this.props.imageUrl, username: this.props.username})
       .then(({data}) => {
         // console.log("Console logging return from sendImageUrl: ", result.data)
         this.props.handleStateChange('inventory', data);
