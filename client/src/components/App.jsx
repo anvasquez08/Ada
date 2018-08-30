@@ -8,9 +8,9 @@ import '../styles/css/main.css'
 import PhotoSelector from './PhotoSelector.jsx';
 import Style from './Style.jsx';
 import Favorites from './Favorites.jsx';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import LoginModal from './LoginModal.jsx';
-import Discover from './Discover.jsx'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -98,6 +98,7 @@ class App extends React.Component {
         toggleModal={this.toggleModal}
         modalActive={this.state.modalActive}/>
         <div className="Main">
+
           <div>
             <Switch>
               <Route exact path='/'
@@ -112,9 +113,9 @@ class App extends React.Component {
                 brands={this.state.brands}
                 username={this.state.user} 
                 handleAppBrandChange={this.handleAppBrandChange}/>}/>
-              <Route exact path='/trending'
+              {/* <Route exact path='/trending'
                 render={(props) => <Discover {...props}
-                username={this.state.user}/>}/>
+                username={this.state.user}/>}/> */}
               <Route exact path='/style'
                 render={(props) => <Style {...props}
                 username={this.state.user}/>}/>
@@ -142,6 +143,6 @@ class App extends React.Component {
     )
   }
 }
-// const ShowTheLocationWithRouter = withRouter(App)
+const ShowTheLocationWithRouter = withRouter(App)
 // // withRouter(connect(...)(App))
 export default App

@@ -103,7 +103,7 @@ class Inventory extends React.Component {
       <ApolloConsumer>
         {client => {
           return (
-            <div>
+            <div style={{paddingTop: 42}}>
               {/* HEADER IMAGE */}
               <div style={{ overflow: "hidden", maxHeight: "300px" }}>
                 <Image src="../assets/banner.jpg" fluid />

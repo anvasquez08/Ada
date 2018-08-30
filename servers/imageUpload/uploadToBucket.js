@@ -7,7 +7,7 @@ AWS.config.update({region: 'us-west-2'});
 s3 = new AWS.S3();
 
 let uploadImage = (username, imageFile, callback) => {
-
+  console.log({username})
   var uploadParams = {Bucket: 'coding-jacks-awesome-bucket', Key: '', Body: ''};
   uploadParams.Body = imageFile.data;
   uploadParams.Key = imageFile.name;
@@ -19,6 +19,7 @@ let uploadImage = (username, imageFile, callback) => {
     } else {
       if (username) {
         userDB.addHistoryToUser(username, data.Location);
+        console.log(data.location)
         callback(null, data.location);
       }
     }
