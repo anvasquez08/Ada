@@ -31,7 +31,7 @@ export default class Landing extends React.Component {
               <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div>
             </div>
             <div className="top-banner">
-              <div class="jsx-3126485111 HeaderSimple__Media" >
+              <div className="jsx-3126485111 HeaderSimple__Media" >
                 {/* <img src="images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg" alt=""
                   srcSet="//images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=432&amp;h=254&amp;q=85 432w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=720&amp;h=424&amp;q=85 720w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=1440&amp;h=848&amp;q=85 1440w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?w=2160&amp;h=1272&amp;q=85 2160w, //images.ctfassets.net/cvlcgjxo5px5/3twRR067LywU8UWQse4Y2E/37f4c7dda59b7094723773ce33136048/HP1_2x.jpg?q=85 2880w"
                   style={{ backgroundSize: "cover" }}
@@ -51,7 +51,7 @@ export default class Landing extends React.Component {
               <h1 style={{textAlign:"center"}}>
                 What's Trending
               </h1>
-              <Discover />
+              {/* <Discover /> */}
               <Grid centered style={{marginTop:50}}>
               <div style={{height: "350px", width: "350px", overflow: "hidden", margin: "12px 5px 20px 0px"}}>
                   <Grid.Column>

@@ -66,7 +66,7 @@ class PhotoSelector extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.photos.length === 0){
+    if (!!this.state.photos === 0){
       let currentLocation = this.props.location.pathname
       // console.log('current location', currentLocation);
       if (currentLocation === '/insta') {
@@ -106,7 +106,7 @@ class PhotoSelector extends React.Component {
         : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram <Icon name='arrow alternate circle up outline'/></h1>
       }
 
-    {!!this.props.brands.length && (
+    {!!this.props.brands && (
       <div>
         <Grid style={{ margin: "10px", display: "table" }} divided='vertically' columns='equal'>
         <Grid.Row columns={2}>
@@ -116,7 +116,7 @@ class PhotoSelector extends React.Component {
               <Menu.Header>Price</Menu.Header>
               <Form>
                 <Form.Group grouped>
-                  {this.props.brands.length > 0 &&
+                  {!!this.props.brands &&
                     this.state.priceTiers.map((price, i) => {
                       return (
                         <Form.Field key={price.val}>
@@ -166,7 +166,7 @@ class PhotoSelector extends React.Component {
 
         {/* INVENTORY RESULTS */}
 
-        {this.state.filteredInventory.length > 0 
+        {!!this.state.filteredInventory
           ? (
               <Grid.Column width={12}><Grid>
                 {/* <Card.Group style={{margin: "auto"}}> */}
