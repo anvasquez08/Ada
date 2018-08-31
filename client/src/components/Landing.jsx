@@ -26,7 +26,7 @@ export default class Landing extends React.Component {
       <div>
         <div className="main">
           <div className="main-wrapper">
-            <div className={this.props.offSetY<=42 ? "fadeIn" : "fadeOut"} style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
+            <div style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
               <div> ADA</div>
               <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div>
             </div>
@@ -39,7 +39,30 @@ export default class Landing extends React.Component {
                 <video overflow="hidden" height="100%" width="100%" autoPlay loop src="https://videos.ctfassets.net/cvlcgjxo5px5/4vSRHQxtbikYSOOqyME2IG/f60840f3c2e750ddb4fd7eafe86d6cfb/BM_INTRO_V1_NOTEXT.mp4"></video>
               </div>
               <div style={{margin:"40px 54px", position:"absolute", top:"0", left:"0", right:"0", bottom:"0", textAlign:"center", color:"#FFF", display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                
+                <div style={{width: "50%"}} className="jsx-3126485111 inner">
+                  <p>Introducing<br />
+                  ADA Style</p>
+                    <p>Clothing made for you, just the way you want it.</p>
+                  <Link to="/detect" className="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Try Out Now </Link>
+                </div>
+              </div>
+            </div>
+            <div className="Trend" style={{marginTop:100}}>
+              <h1 style={{textAlign:"center"}}>
+                What's Trending
+              </h1>
+              {/* <Discover /> */}
+              <Grid centered style={{marginTop:50}}>
+              <div style={{height: "350px", width: "350px", overflow: "hidden", margin: "12px 5px 20px 0px"}}>
+                  <Grid.Column>
+                <video overflow="hidden" height="100%" width="100%" preload="auto" loop autoPlay src="https://images-na.ssl-images-amazon.com/images/I/910m2YoITcS.mp4"></video>
+                </Grid.Column>
+              </div>
+                <div style={{margin: "12px 5px 20px 0px"}}>
+                  <Grid.Column>
+                    <img src="https://builder.io/api/v1/image/assets%2F8vNMbZH3AvNtwzSXWef6QW77P102%2F348f1d9d44754191bc6cfd2cc3c74ec4?height=400&quality=75&width=400"></img>
+                    <h5>Summer Trends 2018</h5>
+                  </Grid.Column>
                 </div>
                 <div style={{margin: "12px 5px 20px 0px"}}>
                   <Grid.Column>
@@ -56,7 +79,7 @@ export default class Landing extends React.Component {
                 <div style={{height: "350px", width: "350px", overflow: "hidden", margin: "12px 5px 20px 0px"}}>
                   <Grid.Column>
                 <video overflow="hidden" height="100%" width="100%" preload="auto" loop autoPlay src="https://images-na.ssl-images-amazon.com/images/I/91RhJj6xLrS.mp4"></video>
-                </Grid.Column>sdafadkfalkdjfal
+                </Grid.Column>
               </div>
               </Grid>
             </div>
