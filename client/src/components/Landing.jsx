@@ -42,7 +42,6 @@ export default class Landing extends React.Component {
                 <div style={{width: "50%"}} className="jsx-3126485111 inner">
                   <p>Introducing<br />
                   ADA Style</p>
-                    <p>Clothing made for you, just the way you want it.</p>
                   <Link to="/detect" className="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Try Out Now </Link>
                 </div>
               </div>
