@@ -103,6 +103,7 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/'
                 render={(props) => <Landing {...props}
+                offSetY={this.state.offSetY}
                 username={this.state.user}/>}/>
               <Route path='/detect'
                 render={(props) => <Inventory {...props}

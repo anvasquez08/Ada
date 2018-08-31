@@ -17,9 +17,9 @@ class NavBar extends React.Component {
                 borderBottomWidth: this.props.offSetY <= 44 && this.props.location.pathname === '/' ? 0 : 1,
                 transition: "background-color 200ms linear"}}>
       
-        <div className="left menu">{this.props.user 
-        ? <span className="item"><a className={this.props.offSetY <= 44 && this.props.location.pathname === '/' ? "transparent" : "normal"}>{this.props.user}</a></span> 
-        : null}
+        <div className="left menu">{this.props.offSetY <= 44 && this.props.location.pathname === '/'
+        ? null
+        : <span className="item"><a style={{fontFamily: "Roboto", fontSize:24}}href="/">ADA</a></span> }
         </div>
             {/* <div style={{fontFamily: "Roboto", fontSize: "48px", padding: "25px", display: "block", position: "absolute", color: "white"}}>ADA</div> */}
         {/* <div className="left menu">{this.props.user ? <a className="item">{this.props.user}</a> : null}</div> */}

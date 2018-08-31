@@ -25,6 +25,8 @@ passport.use(new InstagramStrategy({
   callbackURL: 'http://localhost:4000/auth/instagram/callback'
   }, (accessToken, refreshToken, profile, done) => {
     process.nextTick(() => {
+      console.log(accessToken)
+      console.log(profile)
       return done(null, {profile: profile, accessToken: accessToken})})
   }
 ));
