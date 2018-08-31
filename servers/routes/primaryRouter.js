@@ -13,9 +13,10 @@ const async = require('async');
 const {getRecommendationsForImageUrl} = require('../recommendations/service/imageTraits.js')
 const { NGROKURL } = require('../../config.js')
 const labelsTable = require('../labels.js')
+const scraper = require('../services/scraper.js')
 
 
-// server.express.get('/scrape', scraper.googleScrape)
+// primaryRouter.get('/scrape', scraper.scrape.bind(this,'bloomingdales'))
 // server.express.get('/tags', scraper.getByTags)
 
 primaryRouter.post('/index', function(req, res) {
