@@ -63,7 +63,7 @@ class UploadComponent extends Component {
     .catch(error => console.log(error));
 
     
-    let endpoint = `/upload`;
+    let endpoint = `/upload2`;
     if (this.props.username.length > 0) {
       endpoint += `/${this.props.username}`
     }
@@ -97,6 +97,14 @@ class UploadComponent extends Component {
     // }
     let endpoint = '/send2'
     axios.post(endpoint, {imageUrl: this.props.imageUrl, username: this.props.username})
+      .then(({data}) => {
+        // console.log("Console logging return from sendImageUrl: ", result.data)
+        this.props.handleStateChange('inventory', data);
+      })
+  }
+
+  dressData() {
+    axios.get()
       .then(({data}) => {
         // console.log("Console logging return from sendImageUrl: ", result.data)
         this.props.handleStateChange('inventory', data);

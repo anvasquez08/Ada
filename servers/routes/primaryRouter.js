@@ -301,7 +301,229 @@ const tuxes = [
         "__v": 0
     }]
 
-
+const dresses= [{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "GOAT Georgiana bow-trim cady dress",
+  "brandName": "Bloomingdale's",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://assetsprx.matchesfashion.com/img/product/1044/1227766_1.jpg",
+  "price": 573,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Tyler Off the Shoulder Scuba Crepe Dress",
+  "brandName": "Bloomingdale's",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/9/_102877789.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+  "price": 789,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Roland Mouret",
+  "brandName": "Bloomingdale's",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://static.orchardmile.us/resized/roland-mouret/900/61938203690f355bd547627a6ee46b6eb7a4c018.jpg",
+  "price": 1098,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Glenda cady wrap dress",
+  "brandName": "Bloomingdale's",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://assetsprx.matchesfashion.com/img/product/1216525_1_large.jpg",
+  "price": 498,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Off the Shoulder Sheath Dress",
+  "brandName": "Nordstrom",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/18/_102727958.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+  "price": 1259,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Popover Midi Dress",
+  "brandName": "Nordstrom",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/8/_103185568.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+  "price": 573,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Off the Shoulder Midi Dress",
+  "brandName": "Nordstrom",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/10/_103165370.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+  "price": 573,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Siren - Nappa",
+  "brandName": "Nordstrom",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://cdn.shopify.com/s/files/1/1103/4464/products/Siren_105_Blush_Nappa_Pump_PDP_1_SIDE_1680x.jpg?v=1533409435",
+  "price": 450,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "BB Pump",
+  "brandName": "Bloomingdale's",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/8/_103063128.jpg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838&dpr=2&quality=60",
+  "price": 670,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "IDYLLE - Earring Silver, La Rose, Diamonds",
+  "brandName": "Nordstrom",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "http://vanessa-tugendhaft.com/5127-thickbox_default/idylle-earring-la-rose-diamonds.jpg",
+  "price": 573,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "IDYLLE - Necklace La Rose Prestige, Diamonds",
+  "brandName": "Nordstrom",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "http://vanessa-tugendhaft.com/7533-thickbox_default/idylle-necklace-la-rose-xl-diamonds.jpg",
+  "price": 573,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+      "$oid": "5b8467dd3acd203f13a6c760"
+  },
+  "labels": [
+      "pink",
+      "dress"
+  ],
+  "name": "Organic Crunch Linen Modern Tea Dress",
+  "brandName": "Theory",
+  "url": "https://www.matchesfashion.com/us/products/Goat-Georgiana-bow-trim-cady-dress-1227766",
+  "imageUrl": "https://i1.adis.ws/i/theory/TH_I0303623_W4V_L0?$TH-pdp-desktop$",
+  "price": 800,
+  "gender": 1,
+  "timestamp": {
+      "$date": "2018-08-27T21:06:37.291Z"
+  },
+  "__v": 0
+}
+]
 // server.express.get('/scrape', scraper.googleScrape)
 // server.express.get('/tags', scraper.getByTags)
 
@@ -493,6 +715,10 @@ primaryRouter.post('/update', function(req, res) {
     });
 });
 
+primaryRouter.post('/upload2', function(req, res) {
+  res.send(dresses)
+});
+
 primaryRouter.post('/send', (req,res) => {
 
   let body
@@ -549,6 +775,10 @@ primaryRouter.post('/send2', (req,res) => {
       res.send(tuxes);
     })
   
+  })
+
+  primaryRouter.post('/send2', (req,res) => {
+    res.send(dresses)
   })
 
 primaryRouter.get('/latestProds', (req, res) => {
