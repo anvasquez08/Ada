@@ -95,7 +95,7 @@ class UploadComponent extends Component {
     // if (this.props.username.length > 0) {
     //   endpoint += `/${this.props.username}`
     // }
-    let endpoint = '/send'
+    let endpoint = '/send2'
     axios.post(endpoint, {imageUrl: this.props.imageUrl, username: this.props.username})
       .then(({data}) => {
         // console.log("Console logging return from sendImageUrl: ", result.data)
