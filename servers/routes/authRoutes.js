@@ -91,11 +91,9 @@ authRouter.get('/current_user', (req, res) => {
 authRouter.get('/media', (req, res) => {
   axios.get(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${req.user.accessToken}`)
   .then(({data}) => {
-    // console.log('data', data);
     let urls = data.data.map((image) => {
       return image.images.low_resolution.url;
     })
-    // console.log('urls', urls);
     res.status(200).send(urls);
   })
   .catch((err) => {console.log(err)})

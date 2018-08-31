@@ -26,7 +26,7 @@ export default class Landing extends React.Component {
       <div>
         <div className="main">
           <div className="main-wrapper">
-            <div className={this.props.offSetY<=42 ? "fadeIn" : "fadeOut"} style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
+            <div style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
               <div> ADA</div>
               <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div>
             </div>
@@ -42,6 +42,7 @@ export default class Landing extends React.Component {
                 <div style={{width: "50%"}} className="jsx-3126485111 inner">
                   <p>Introducing<br />
                   ADA Style</p>
+                    <p>Clothing made for you, just the way you want it.</p>
                   <Link to="/detect" className="jsx-960340962 button Button Button--transparent Button--inline HeaderSimple__CTA">Try Out Now </Link>
                 </div>
               </div>

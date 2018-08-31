@@ -158,7 +158,7 @@ primaryRouter.get('/history/:user', (req,res) => {
 //   });
 
 primaryRouter.post('/recommendinsta', (req, res) => {
-  let aggregateLabels = []; // using this later, when aggregating labels
+//   let aggregateLabels = []; // using this later, when aggregating labels
   let instagramPhotos = req.body.params;
   for (var i = 0; i < 1; i++) {
       recommendationService.getRecommendationsForImageUrl(instagramPhotos[i], (err, recommendations) => {
@@ -166,12 +166,13 @@ primaryRouter.post('/recommendinsta', (req, res) => {
               console.log("Error getting recommendations using image URL", err)
               res.status(500).send();
           } else {
-              aggregateLabels.push(recommendations);
+            //   aggregateLabels.push(recommendations);
           //   console.log("Console logging recommendations length: ", recommendations.length)
           //   // res.status(200).send(recommendations);
           //   console.log("Console logging aggregateLabels length", aggregateLabels.length )
           //   res.status(200).send();
-              console.log(aggregateLabels);
+            //   console.log(aggregateLabels);
+            // console.log("Testing recommendinsta!!!: ", recommendations);
               res.send(recommendations);
           }
       })
