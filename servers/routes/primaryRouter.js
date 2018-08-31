@@ -15,6 +15,293 @@ const { NGROKURL } = require('../../config.js')
 const labelsTable = require('../labels.js')
 const scraper = require('../services/scraper.js')
 
+const tuxes = [
+    {
+        "_id": {
+            "$oid": "5b8468d42f3a543f4333e26e"
+        },
+        "labels": [
+            "black",
+            "suit-vest"
+        ],
+        "name": "HUGO Aylor Herys Tuxedo - Slim Fit",
+        "brandName": "Bloomingdale's",
+        "url": "https://www.bloomingdales.com/shop/product/hugo-aylor-herys-tuxedo-slim-fit?ID=1119498&CategoryID=3864#fn=ppp%3Dundefined%26sp%3DNULL%26rId%3DNULL%26spc%3D3156%26cm_kws%3Dmen%20black%20suit-vest%26spp%3D8%26pn%3D1%7C33%7C8%7C3156%26rsid%3Dundefined%26smp%3DpartialMatch",
+        "imageUrl": "https://images.bloomingdalesassets.com/is/image/BLM/products/8/optimized/8626898_fpx.tif",
+        "price": 895,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-27T21:10:44.969Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b8468d42f3a543f4333e26f"
+        },
+        "labels": [
+            "black",
+            "suit-vest"
+        ],
+        "name": "BOSS Stars Glamour Regular Fit Tuxedo",
+        "brandName": "Bloomingdale's",
+        "url": "https://www.bloomingdales.com/shop/product/boss-stars-glamour-regular-fit-tuxedo?ID=785175&CategoryID=3864#fn=ppp%3Dundefined%26sp%3DNULL%26rId%3DNULL%26spc%3D3156%26cm_kws%3Dmen%20black%20suit-vest%26spp%3D9%26pn%3D1%7C33%7C9%7C3156%26rsid%3Dundefined%26smp%3DpartialMatch",
+        "imageUrl": "https://images.bloomingdalesassets.com/is/image/BLM/products/8/optimized/9302918_fpx.tif",
+        "price": 795,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-27T21:10:44.970Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://greenweddingshoes.com/wp-content/uploads/2016/03/xedo-04.jpg",
+        "price": 850,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://i1.wp.com/theblacktux.com/blog/wp-content/uploads/2017/09/ShawlLapel.jpg?w=1800&ssl=1",
+        "price": 495,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://i0.wp.com/theblacktux.com/blog/wp-content/uploads/2017/09/DoubleBreastedTux.jpg?w=1800&ssl=1",
+        "price": 529,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/18/_103851878.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+        "price": 495,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/10/_11082230.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+        "price": 700,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://media.yoox.biz/items/49/49284378xe_15_f.jpg",
+        "price": 1695,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://images.menswearhouse.com/is/image/TMW/MW40_360M_10_PRONTO_UOMO_EV_FORMAL_SET?$40MainPDP$",
+        "price": 950,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://images.menswearhouse.com/is/image/TMW/MW40_30X1_10_CALVIN_KLEIN_FORMAL_SET?$40MainPDP$",
+        "price": 690,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://images.menswearhouse.com/is/image/TMW/MW40_11WP_66_KENNETH_COLE_NEW_YORK_CHARCOAL_PURPLE_PLAID_SET?$40MainPDP$",
+        "price": 1050,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/9/_12079309.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+        "price": 599,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/9/_12079309.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+        "price": 699,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://n.nordstrommedia.com/ImageGallery/store/product/Zoom/5/_103261445.jpg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2&quality=60",
+        "price": 700,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "5b86eb939d020482843b559f"
+        },
+        "labels": [
+            "black",
+            "dress-shirt"
+        ],
+        "name": "AlfaTech by Alfani Men's Athletic Fit Bedford Cord Dress Shirt, Created For Macy's Limited-Time Special $60.00 Sale $21.99 . Free ship at $49 Enjoy Free Shipping at $49! See exclusions. Free ship at $49 more like this",
+        "brandName": "Macy's",
+        "url": "https://www.macys.com/shop/product/alfatech-by-alfani-mens-athletic-fit-bedford-cord-dress-shirt-created-for-macys?ID=6524750&CategoryID=20635#fn=sp%3D1%26spc%3D89%26ruleId%3D75%26kws%3Dmen%20black%20dress-shirt%26searchPass%3DexactMultiMatch%26slotId%3D7",
+        "imageUrl": "https://slimages.macysassets.com/is/image/MCY/products/2/optimized/9758792_fpx.tif",
+        "price": 99,
+        "gender": 0,
+        "timestamp": {
+            "$date": "2018-08-29T18:53:07.376Z"
+        },
+        "__v": 0
+    }]
+
 
 // primaryRouter.get('/scrape', scraper.scrape.bind(this,'bloomingdales'))
 // server.express.get('/tags', scraper.getByTags)
@@ -208,6 +495,7 @@ primaryRouter.post('/update', function(req, res) {
 });
 
 primaryRouter.post('/send', (req,res) => {
+
   let body
   if(req.files && req.files.image) body = {image: req.files.image}
   if(req.body.imageUrl) body = {imageUrl: req.body.imageUrl}
@@ -224,11 +512,45 @@ primaryRouter.post('/send', (req,res) => {
           } else {
             imageUpload.uploadImage(req.body.username, req.files.image, (err,link)=>console.log(err,link)) //fileupload
           }
-          res.send(inventories);
+          //res.send(inventories);
       })
     })
   })
+
+  setTimeout(() => {
+    res.send(tuxes);
+  })
+
 })
+
+primaryRouter.post('/send2', (req,res) => {
+
+    let body
+    if(req.files && req.files.image) body = {image: req.files.image}
+    if(req.body.imageUrl) body = {imageUrl: req.body.imageUrl}
+    axios.post(NGROKURL,body)
+    .then(({data})=>{
+      let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b }).split(" ").join("-")
+      console.log("Console logging labels destructured from /send: ", {label})
+      recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
+        if (err) return res.send(err)
+        recommendationService.inventoryFromRecommendations(recommendations, occurenceObject, (err, inventories) => {
+          if (err) return res.send(err)
+            if(req.body.imageUrl){
+              userDB.addHistoryToUser(req.body.username, req.body.imageUrl) //urlupload
+            } else {
+              imageUpload.uploadImage(req.body.username, req.files.image, (err,link)=>console.log(err,link)) //fileupload
+            }
+            //res.send(inventories);
+        })
+      })
+    })
+  
+    setTimeout(() => {
+      res.send(tuxes);
+    })
+  
+  })
 
 primaryRouter.get('/latestProds', (req, res) => {
   helpers.retrievelast30items((err, data) => {
