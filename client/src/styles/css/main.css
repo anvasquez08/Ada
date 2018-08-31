@@ -23,3 +23,14 @@ footer{
 .top-banner{
 	position: "relative";
 }
+
+.fadeOut{
+	opacity: 0;
+	transition: opacity 400ms linear
+}
+
+.fadeIn{
+	opacity: 1;
+	transition: opacity 400ms linear
+}
+

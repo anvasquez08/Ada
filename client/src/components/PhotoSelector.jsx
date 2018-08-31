@@ -66,7 +66,7 @@ class PhotoSelector extends React.Component {
   }
 
   componentDidMount() {
-    if (!!this.state.photos === 0){
+    if (!!this.state.photos){
       let currentLocation = this.props.location.pathname
       // console.log('current location', currentLocation);
       if (currentLocation === '/insta') {
@@ -77,7 +77,7 @@ class PhotoSelector extends React.Component {
         // console.log('FACEBOOK AUTH');
         axios.get('/auth/fbmedia')
         .then(
-          (result) => {this.setState({photos: result.data}
+          (result) => {console.log('photos', result.data); this.setState({photos: result.data}
         )}).catch((err) => {
           console.log(err);
         })

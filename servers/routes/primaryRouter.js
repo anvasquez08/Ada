@@ -212,7 +212,7 @@ primaryRouter.post('/send', (req,res) => {
   if(req.body.imageUrl) body = {imageUrl: req.body.imageUrl}
   axios.post(NGROKURL,body)
   .then(({data})=>{
-    let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b });
+    let label = Object.keys(data).reduce(function(a, b){ return data[a] > data[b] ? a : b }).split(" ").join("-")
     console.log("Console logging labels destructured from /send: ", {label})
     recommendationService.getRecommendationsFromLabels(label, (err, recommendations, occurenceObject) => {
       if (err) return res.send(err)
