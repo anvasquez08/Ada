@@ -26,7 +26,7 @@ export default class Landing extends React.Component {
       <div>
         <div className="main">
           <div className="main-wrapper">
-            <div style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
+            <div className={this.props.offSetY<=42 ? "fadeIn" : "fadeOut"} style={{fontFamily: "Roboto", leftPadding: "20px", fontSize: "40px", padding: "18px",   position: "absolute", color: "white", zIndex:"1000"}}>
               <div> ADA</div>
               <div style={{ paddingTop: "5px", paddingRight: "10px"}}>style</div>
             </div>

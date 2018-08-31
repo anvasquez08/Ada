@@ -59,6 +59,20 @@ const indexInventory = async() => {
   await insertLabels(filteredByTag)
 }
 
+const labelsToIndex = ()=>{
+  Inventory.find({}).select('labels')
+  .then(data => {
+    data.forEach(item=>{
+      let id = item._id
+      let keyword = item.labels[1]
+      ItemKeywords.findOneAndUpdate({keyword},
+        { $addToSet : {inventoryIds : id}})
+    })
+  })
+}
+
+// labelsToIndex()
+
 
 module.exports = {indexInventory}
 

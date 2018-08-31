@@ -20,7 +20,7 @@ const Inventory = inventoryDB.model("Inventory", inventorySchema);
 /* Keywords Schema */
 var itemKeywords = mongoose.Schema({
   keyword: { type: String, unique: true },
-  inventoryIds: [ObjectId]
+  inventoryIds: {type: [ObjectId], unique: true}
 });
 
 var ItemKeywords = imageDB.model('ItemKeywords', itemKeywords);
