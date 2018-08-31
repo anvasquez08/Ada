@@ -717,7 +717,8 @@ primaryRouter.post('/update', function(req, res) {
     });
 });
 
-primaryRouter.post('/upload2', function(req, res) {
+primaryRouter.get('/upload2', function(req, res) {
+  console.log('upload2')
   res.send(dresses)
 });
 
@@ -779,9 +780,9 @@ primaryRouter.post('/send2', (req,res) => {
   
   })
 
-  primaryRouter.post('/send2', (req,res) => {
-    res.send(dresses)
-  })
+  // primaryRouter.post('/send2', (req,res) => {
+  //   res.send(dresses)
+  // })
 
 primaryRouter.get('/latestProds', (req, res) => {
   helpers.retrievelast30items((err, data) => {

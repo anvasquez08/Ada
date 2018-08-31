@@ -50,26 +50,29 @@ class UploadComponent extends Component {
   }
 
   handleImageUpload(e) {
-    e.preventDefault();
-    let input = document.getElementById("embedpollfileinput");
-    let imageFile = input.files[0];
-    this.encodeImage(imageFile);
 
-    let data = new FormData()
-    data.append('file', imageFile);
-    this.props
-    .imageUpload({ variables: { input: data } })
-    .then(result => console.log('Console logging result from handleImageUpload: ', result))
-    .catch(error => console.log(error));
+    e.preventDefault();
+    console.log('uploading dress')
+    // let input = document.getElementById("embedpollfileinput");
+    // let imageFile = input.files[0];
+    // this.encodeImage(imageFile);
+
+    // let data = new FormData()
+    // data.append('file', imageFile);
+    // this.props
+    // .imageUpload({ variables: { input: data } })
+    // .then(result => console.log('Console logging result from handleImageUpload: ', result))
+    // .catch(error => console.log(error));
 
     
     let endpoint = `/upload2`;
-    if (this.props.username.length > 0) {
-      endpoint += `/${this.props.username}`
-    }
+    // if (this.props.username.length > 0) {
+    //   endpoint += `/${this.props.username}`
+    // }
     // console.log('UPLOADING WITH ENDPOINT', endpoint)
-    axios.post(endpoint, data)
+    axios.get('/upload2')
       .then(({data})=>{
+        this.props.handleStateChange('inventory',data)
         console.log('image uploaded', data)
     })
     .catch(err => console.log("Console logging error from axios post: ", err))
@@ -124,7 +127,7 @@ class UploadComponent extends Component {
                     className="ui large blue right floated button"
                   >
                     <input type="file"
-                      onChange={this.uploadToTF}
+                      onChange={this.handleImageUpload}
                       className="inputfile" id="embedpollfileinput"
                       style={{ width: "0.1px",   height: "0.1px",  opacity: "0", overflow: "hidden",  position: "absolute",    zIndex: "-1"
                       }}
