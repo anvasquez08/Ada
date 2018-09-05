@@ -31,8 +31,8 @@ class NavBar extends React.Component {
             <Link className={this.props.offSetY <= 44 && this.props.location.pathname === '/' ? "transparent" : "normal"} to='/style'>My Style</Link></span>
           <span className={this.props.location.pathname === '/favorites' ? "ui item active" : "item"} style={this.props.user ? {display: 'block'} : {display: 'none'}}>
             <Link className={this.props.offSetY <= 44 && this.props.location.pathname === '/' ? "transparent" : "normal"} to='/favorites'>Wish List</Link></span>
-            <span className={this.props.location.pathname === '/trending' ? "ui item active" : "item"}>
-            <Link className={this.props.offSetY <= 44 && this.props.location.pathname === '/' ? "transparent" : "normal"} to='/trending'>Trending Styles</Link></span>
+            {/* <span className={this.props.location.pathname === '/trending' ? "ui item active" : "item"}> */}
+            {/* <Link className={this.props.offSetY <= 44 && this.props.location.pathname === '/' ? "transparent" : "normal"} to='/trending'>Trending Styles</Link></span> */}
           <span className="item">
             {this.props.user 
             ? <a className={this.props.offSetY <= 44 && this.props.currentPage === '/' ? "transparent" : "normal"} href="/auth/logout">Logout</a>
