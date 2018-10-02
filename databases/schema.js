@@ -1,23 +1,26 @@
 const mongoose = require("mongoose");
-const { inventoryDB, imageDB} = require("./index.js");
+const { inventoryDB, imageDB, editorialDB } = require("./index.js");
+const ObjectId = mongoose.Schema.ObjectId;
 
 /* Inventory Schema */
-const itemSchema = mongoose.Schema({
-  id: { type: Number, unique: true },
+const inventorySchema = mongoose.Schema({
   name: String,
+  labels: [String],
   brandName: String,
   url: { type: String, unique: true },
-  imageUrl: String,
+  imageUrl: { type: String, unique: true },
+  gender: Number,
   price: Number,
+  gender: Number,
   timestamp: { type: Date, default: Date.now }
 });
 
-const Item = inventoryDB.model("Item", itemSchema);
+const Inventory = inventoryDB.model("Inventory", inventorySchema);
 
 /* Keywords Schema */
 var itemKeywords = mongoose.Schema({
-  keyword: String,
-  inventoryIds: [Number]
+  keyword: { type: String, unique: true },
+  inventoryIds: {type: [ObjectId], unique: true}
 });
 
 var ItemKeywords = imageDB.model('ItemKeywords', itemKeywords);
@@ -29,5 +32,20 @@ var mostRecentTimestamp = mongoose.Schema({
 
 var Timestamp = imageDB.model('Timestamp', mostRecentTimestamp);
 
+/* Editorial Schema */
+const editorialSchema = mongoose.Schema({
+  publicationName: {type: String, unique: false},
+  title: {type: String, unique: false},
+  paragraph: {type: String, unique: false},
+  images: [{
+    source: {type: String, unique: false},
+    numOfImages: {type: String, unique: false},
+    image: {type: String, unique: false},
+  }],
+  timestamp: { type: Date, default: Date.now, unique: false }
+});
 
-module.exports = { Item, ItemKeywords, Timestamp };
+const Editorial = editorialDB.model("Editorial", editorialSchema);
+
+
+module.exports = { Inventory, ItemKeywords, Timestamp, Editorial };

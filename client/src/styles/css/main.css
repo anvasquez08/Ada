@@ -1,4 +1,36 @@
 body {
 	margin: 0;
 	padding: 0;
+	color: #333;
+	background-color: #fff9f6;
 }
+
+.transparent{
+	color: white;
+	transition: color 200ms linear
+}
+
+.normal{
+	color: black;
+	transition: color 200ms linear
+}
+
+footer{
+	background-color: #eae7e4;
+	padding: 40px 0 48px 0;
+}
+
+.top-banner{
+	position: "relative";
+}
+
+.fadeOut{
+	transform: scale(1);
+	transition: transform 400ms linear
+}
+
+.fadeIn{
+	transform: scale(0);
+	transition: transform 400ms linear
+}
+

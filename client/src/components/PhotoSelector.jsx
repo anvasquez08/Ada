@@ -1,25 +1,16 @@
-import React from "react";
-import UploadComponent from "./UploadComponent.jsx";
-import { ApolloConsumer } from "react-apollo";
+import React from 'react';
+import PhotoCard from '../components/PhotoCard.jsx';
 import InventoryItem from './InventoryItem.jsx';
+import { Grid, Button, Icon, Menu, Form, Checkbox, Image } from "semantic-ui-react";
+import axios from 'axios';
 
-import axios from "axios";
-import {
-  Grid,
-  Image,
-  Menu,
-  Form,
-  Checkbox,
-  Card,
-  Icon,
-  Button
-} from "semantic-ui-react";
-
-class Inventory extends React.Component {
-
+class PhotoSelector extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
+      selectedPictures: [],
+      photos:[],
+      inventory: [],
       priceTiers: [
         { val: "$", isSelected: false, bracket: [0, 60] },
         { val: "$$", isSelected: false, bracket: [61, 130] },
@@ -29,99 +20,93 @@ class Inventory extends React.Component {
       filteredPrices: [],
       filteredBrands: [],
       filteredInventory: []
-    };
-    this.addFavorite = this.addFavorite.bind(this);
+    }
+    this.select = this.select.bind(this);
+    this.submitPhotos = this.submitPhotos.bind(this);
+    this.sendPhotosForRecommendations = this.sendPhotosForRecommendations.bind(this);
   }
 
-  // Filter brands where "isSelected" = true 
-  handleBrandChange() {
-    let filtered = this.props.brands.filter(brand => {
-      return brand.isSelected === true && brand
-    })
-    this.setState({filteredBrands: filtered}, 
-      () => {this.filter()})
-  }
-
-  // Filter categories where "isSelected" = true
-  handlePriceChange() {
-    let filtered = this.state.priceTiers.filter(priceCat => {
-      return priceCat.isSelected === true && priceCat;
-    });
-    this.setState({ filteredPrices: filtered}, 
-      () => {this.filter()});
-  }
-
-  // Filter inventory by stores and price range 
-  filter() {
-    let temp = [], finalArr = [];
-    let { filteredPrices, filteredBrands } = this.state;
-    let { inventory } = this.props
-    
-    //Filtering brands
-    if (filteredBrands.length > 0) {
-      for (let k = 0; k < filteredBrands.length; k++) {
-        for (let j = 0; j < inventory.length; j++) {
-          if (filteredBrands[k].brandName === inventory[j].brandName) {
-            temp.push(inventory[j]);
-          }
-        }
-      }
-    } 
-
-    //Filtering price range
-    if (filteredPrices.length > 0) {
-      let tempInven = temp.length > 0 ? temp : inventory
-      temp = []
-      for (let i = 0; i < filteredPrices.length; i++) {
-        for (let m = 0; m < tempInven.length; m++) {
-          if (tempInven[m].price >=  filteredPrices[i].bracket[0] && tempInven[m].price <= filteredPrices[i].bracket[1]) {
-            temp.push(tempInven[m]);
-          }
-        }
-      }
-    } 
-    this.setState({filteredInventory: temp})
-  }
-
-  addFavorite(inventoryItem) {
-    if (this.props.username.length === 0) {
-      console.log("User not logged in")
+  select(url) {
+    if (this.state.selectedPictures.indexOf(url) > -1) {
+      let copy = this.state.selectedPictures.slice()
+      copy.splice(copy.indexOf(url), 1)
+      this.setState({
+        selectedPictures: copy
+      })
     } else {
-      axios
-        .post(`/favorites/${this.props.username}/${inventoryItem._id}`)
-        .then(({ data }) => {
-          console.log("favorite saved, here's the data: ", data);
+      let copy = this.state.selectedPictures.slice()
+      copy.push(url);
+      this.setState({
+        selectedPictures: copy
+      })
+    }
+  }
+
+  submitPhotos(e) {
+    e.preventDefault();
+    this.sendPhotosForRecommendations();
+    axios.post(`instahistory/${this.props.username}`, {photos: this.state.selectedPictures})
+    .then(() => {
+      //Currenty changes to stlye page after adding photos to user history. Change this if you want to redirect somewhere else.
+      this.props.history.push('/insta');
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+  sendPhotosForRecommendations() {
+    axios.post('/recommendinsta', {params: this.state.selectedPictures})
+      .then((result) => {
+        // console.log("Returning call from server: sendPhotosForRecommendations")
+        console.log("Getting back from server, console logging result.data now: ", result.data);
+        this.props.handleStateChange('inventory', result.data);
+        // set state to the higher component, or change this.props.inventory below
+      })
+      .catch(() => console.log("Error setting state"))
+  }
+
+  componentDidMount() {
+    if (!!this.state.photos){
+      let currentLocation = this.props.location.pathname
+      // console.log('current location', currentLocation);
+      if (currentLocation === '/insta') {
+        // console.log('INSTA AUTH');
+        axios.get('/auth/media')
+        .then((result) => {this.setState({photos: result.data})})
+      } else if (currentLocation === '/fb') {
+        // console.log('FACEBOOK AUTH');
+        axios.get('/auth/fbmedia')
+        .then(
+          (result) => {console.log('photos', result.data); this.setState({photos: result.data}
+        )}).catch((err) => {
+          console.log(err);
         })
-        .catch(err => {
-          console.log("Error adding favorite!: ", err);
-        });
+      }
     }
   }
 
   render() {
     return (
-      <ApolloConsumer>
-        {client => {
-          return (
-            <div style={{paddingTop: 42}}>
-              {/* HEADER IMAGE */}
-              <div style={{ overflow: "hidden", maxHeight: "300px" }}>
-                <Image src="../assets/banner.jpg" fluid />
-              </div>
-              {/* UPLOAD COMPONENT */}
-              <Grid style={{ margin: "10px" }}>
-                <Grid.Row centered>
-                  <UploadComponent
-                    handleImageUrl={this.props.handleImageUrl}
-                    handleStateChange={this.props.handleStateChange}
-                    username={this.props.username}
-                    imageUrl={this.props.imageUrl}
-                  />
-                </Grid.Row>
-              </Grid>
+      <div style={{marginTop: 100}}>
 
-              {/* INVENTORY FILTERS COMPONENT */}
-              {!!this.props.brands.length && (
+      {this.props.username
+        ?
+        <div><Grid centered>
+        <Grid.Row>
+          <Button className="ui large blue floated button" onClick={this.submitPhotos}>Get Recommendations!</Button><br/>
+        </Grid.Row>
+          {this.state.photos.map((photo, idx) => {
+            return (<div style={{margin: "12px 5px 20px 0px"}} key={idx}>
+              <Grid.Column>
+                <PhotoCard photo={photo} select={this.select}/>
+              </Grid.Column>
+            </div>)
+            })}
+        </Grid></div>
+        : <h1 style={{color: 'black', textAlign: 'right'}}>Sign in with Instagram <Icon name='arrow alternate circle up outline'/></h1>
+      }
+
+    {!!this.props.brands.length && (
                 <div>
                   <Grid style={{ margin: "10px", display: "table" }} divided='vertically' columns='equal'>
                   <Grid.Row columns={2}>
@@ -214,27 +199,9 @@ class Inventory extends React.Component {
               </Grid></div>
               )}
               </div>
-          );
-        }}
-      </ApolloConsumer>
-    );
+    )
   }
 }
 
-export default Inventory;
 
-/*
-{this.props.inventory &&
-    this.props.inventory.map((item, i) => {
-      return (
-        <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-      );
-    })}
-
-  {this.props.inventory &&
-    this.props.inventory.map((item, i) => {
-      return (
-        <InventoryItem item={item} addFavorite={this.addFavorite} key={i}/>
-      );
-    })}
-*/
+export default PhotoSelector;

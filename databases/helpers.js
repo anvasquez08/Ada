@@ -1,19 +1,5 @@
-const { Item, ItemKeywords, Timestamp } = require("./schema.js");
+const { Inventory, ItemKeywords, Timestamp, Editorial } = require("./schema.js");
 const async = require('async');
-
-exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
-  new Item({
-    id: id,
-    name: name,
-    brandName: brandName,
-    url: url,
-    imageUrl: imageUrl,
-    price: price
-  })
-    .save()
-    .then(response => console.log("Successfully saved data"))
-    .catch(err => console.log("Error in database save function", err));
-};
 
 exports.indexItem = (id, itemLabels) => {
 
@@ -46,12 +32,43 @@ exports.indexItem = (id, itemLabels) => {
   })
 }
 
-exports.getKetwordEntries = (itemKeywords, callback) => {
+exports.inventoryItemsWithIds = (inventoryIds, callback) => {
+  Inventory.find({_id: {$in: inventoryIds}}, (err, inventoryItems) => {
+    if (err) {
+      callabck(err);
+    } else {
+      callback(null, inventoryItems);
+    }
+  })
+}
+
+// exports.saveItem = (id, name, brandName, url, imageUrl, price) => {
+//   new Inventory({
+//     id: id,
+//     name: name,
+//     brandName: brandName,
+//     url: url,
+//     imageUrl: imageUrl,
+//     price: price
+//   })
+//     .save()
+//     .then(response => console.log("Successfully saved data"))
+//     .catch(err => console.log("Error in database save function", err));
+// };
+
+exports.saveItem = ({name, brandName, url, imageUrl, price, labels, gender}, callback) => {
+  new Inventory({name, brandName, url, imageUrl, price, labels, gender})
+    .save()
+    .then(response => callback(null,"Successfully saved data"))
+    .catch(err => callback(err));
+};
+
+exports.getKeywordEntries = (itemKeywords, callback) => {
   ItemKeywords.find({keyword: {$in: itemKeywords}}, (err, results) => {
     if (err) {
       callback(err);
     } else {
-      console.log('RESULTS', results);
+      console.log({results})
       callback(null, results);
     }
   })
@@ -83,7 +100,6 @@ exports.updateRecentTimestamp = (timestamp) => {
 }
 
 exports.getRecentTimestamp = (callback) => {
-  console.log('hit timestamp');
   Timestamp.findOne({}, (err, latestTimestamp) => {
     if (err) {
       console.log('error getting recent timestamp', err);
@@ -97,11 +113,24 @@ exports.getRecentTimestamp = (callback) => {
 
 
 exports.retrieveNewItems = (timestamp, callback) => {
-    Item.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, newItems);
-      }
-    })
-  }
+  Inventory.find({timestamp: {$gte: timestamp}}, (err, newItems) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, newItems);
+    }
+  })
+}
+
+exports.retrievelast30items = (callback) => {
+  Inventory.find({}).sort('-timestamp').limit(10).exec((err, items) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, items);
+    }
+  })
+}
+
+
+

@@ -1,95 +1,100 @@
 const express = require("express");
-const graph = require("express-graphql");
+const session = require("express-session");
 const morgan = require("morgan");
 const passport = require('passport')
 const cors = require('cors')
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload');
 const axios = require('axios')
-
-const authRouter = require('./routes/authRoutes')
-const gqlSchema = require('./../databases/gqlSchema.js');
+const path = require('path');
+const labelsTable = require('./labels.js')
+const authRouter = require('./routes/authRoutes.js');
+const primaryRouter = require('./routes/primaryRouter.js');
+// const recommendationRouter = require('./routes/recommendationRoutes');
 const imageUpload = require('./imageUpload/uploadToBucket.js');
-const { inventoryDB, imageDB } = require('./../databases/index.js')
+const userDB = require('../databases/Users')
 const recWorker = require('./recommendations/worker/recommendationWorker.js')
-const recommendationService = require('./recommendations/service/imageTraits.js');
-// const AWS = require('aws-sdk');
-// AWS.config.update({region: 'us-west-2'});
-// const rekognition = new AWS.Rekognition();
-// const scraper = require('./services/scraper') // Fix
-
-const app = express();
-app.use(fileUpload());
-app.use(cors())
-app.use(morgan("dev"));
-app.use(bodyParser.json());
-app.use(express.static(__dirname + "../../client/dist"));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use('/auth', authRouter)
+const recommendationService = require('./recommendations/service/imageTraits.js')
+const helpers = require('../databases/helpers.js');
+const scraper = require('./services/scraper.js')
+const { NGROKURL } = require('../config.js')
+const {getSavedEditorial} = require('../databases/models_edit.js');
 
 /*============== Graph QL ============== */
-app.use("/graphql", bodyParser.json(), graph({ schema: gqlSchema,  graphiql: true  }));
 
-/*====================================== */
+const { GraphQLServer } = require('graphql-yoga')
+const typeDefs = `
+  scalar Upload
+  
+  type Inventory {
+    _id: ID
+    name: String
+    brandName: String
+    url: String
+    imageUrl: String
+    price: Float
+    timestamp: String
+  }
 
-// app.get('/scrape', scraper.googleScrape)
-// app.get('/tags', scraper.getByTags)
+  type Query {
+    test: String 
+  }
 
-app.post('/index', function(req, res) {
-    let url = 'http://greenwoodhypno.co.uk/wp-content/uploads/2014/09/test-image.png'
-    let testID = 999;
-    recWorker.indexAnalyzeInventoryItem(testID, url, (err) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.send('success');
-        }
-    });
-    
-});
+  type Mutation {
+    uploadLargeFile(input: String!, name: String): [Inventory]
+    singleUpload(input: Upload!): Boolean!
+  }
+`;
 
-// app.post('/recommend', function(req, res) {
-//     let url = 'https://coding-jacks-awesome-bucket.s3.us-west-2.amazonaws.com/018993_BPI_KIDS_OWL_KIDS_HAT_AW15_3_l.jpg'
-//     recommendationService.getRecommendationsForURL(url, (err, recommendations) => {
-//         if (err) {
-//             res.send(err)
-//         } else {
-//             res.send(recommendations);
-//         }
-//     });
-    
-// });
+const resolvers = {
+  Query: {
+    test: () => "hello", 
+  },
+  Mutation: {
+    uploadLargeFile: async (_, args) => {
+      let image64 = args.input.substring(23)
+      console.log(args.name)
+      let result = await new Promise((resolve, reject) => {
+        recommendationService.getRecommendationsForImage64(image64, (err, recommendations)  => {
+          if (err) reject(err) 
+          else resolve(recommendations)       
+        })
+      })
+      return result
+    },
+    singleUpload: async (_, { input })  => {
+      console.log(input)
+      const { stream, filename, mimetype, encoding } = await input;
+      console.log(filename)
+      return true;
+    }
+  },
+};
 
-app.post('/upload', (req,res) => {
-    
-    let imageFile = req.files.file;
-    
-    imageUpload.uploadImage(imageFile, (err, recommendations) => {
-        console.log('recs sent as response', recommendations)
-        if (err) {
-            res.status(400).send(err);
-        } else {
-            res.status(200).send(recommendations);
-        }
-    })
-    
-   })
-
-app.post('/update', function(req, res) {
-    console.log('HIT ENDPOINT')
-    recWorker.updateIndexDB((err) => {
-        if (err) {
-            console.log(err);
-        }
-    });
-});
-
-app.post('/send', (req,res) => {
-    axios.post("http://18.222.174.170:8080/send",{image: req.files.image})
-    .then(({data})=>{
-      res.send(data)
-    })
+const server = new GraphQLServer({
+  typeDefs: typeDefs,
+  resolvers
 })
 
-app.listen(8080, () => console.log("Listening on port 8080"));
+server.express.use(express.static(__dirname + "../../client/dist"))
+server.express.use(bodyParser.json({ limit: 1024 * 1024 * 2000, type: 'application/json' }));
+server.express.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
+server.express.use(fileUpload());
+server.express.use(cors())
+server.express.use(morgan("dev"));
+server.express.use(session({secret: 'thecodingjack', cookie: {maxAge: 1000*20*60}}));
+server.express.use(passport.initialize());
+server.express.use(passport.session());
+server.express.use('/auth', authRouter)
+server.express.use('/', primaryRouter);
+
+
+const options = {
+  port: 4000,
+  endpoint: '/graphql',
+  playground: '/playground'
+}
+
+server.start(options, ({ port }) =>
+  console.log('Server is running on http://localhost:' + port)
+)

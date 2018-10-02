@@ -1,27 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App.jsx";
+import { Route, BrowserRouter } from 'react-router-dom'
+import './styles/css/main.css'
 
-import { ApolloProvider } from "react-apollo";
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createUploadLink } from 'apollo-upload-client'
+import { ApolloProvider ,  createNetworkInterface } from "react-apollo";
 
-// Create the httpLink that will connect your ApolloClient 
-    // instance with the GraphQL API
-// const httpLink = createHttpLink({
-//   uri: "http://localhost:8080"
-// });
+ const client = new ApolloClient({
+  link: createUploadLink({ uri: 'http://localhost:4000/graphql' }),
+  cache: new InMemoryCache()
+});
 
-//instantiate ApolloClient by passing in the httpLink 
-    // and a new instance of an InMemoryCache
-// const client = new ApolloClient({
-//   link: httpLink,
-//   cache: new InMemoryCache()
-// });
+ReactDOM.render( 
+  <ApolloProvider client={client}> 
+    <BrowserRouter>
+      <Route path="/" render={({history})=> <App history={history}/>}/>
+    </BrowserRouter>
+  </ApolloProvider>, document.getElementById("app")
+);
 
-ReactDOM.render(<App />, document.getElementById("app"));
+export default client;
 
-  // <ApolloProvider client={client}>
-    //<App />
-  /* </ApolloProvider>, */

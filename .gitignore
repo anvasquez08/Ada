@@ -3,4 +3,6 @@ package-lock.json
 node_modules
 client/dist/bundle.js
 config.js
+bundle.js
+*.pem
 

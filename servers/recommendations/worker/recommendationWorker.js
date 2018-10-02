@@ -1,22 +1,24 @@
 const helpers = require('./../../../databases/helpers.js');
-const googleVision = require('../helpers/googleVision.js');
+const detectLabels = require('../helpers/detectLabels.js');
 const async = require('async');
+
+//Recommendation worker checks the inventory DB for new additions and adds them to the recommendation DB
 
 let updateIndexDB = (callback) => {
     let now = Date.now();
-    console.log('hit updateIndex')
+
+    //Get the last time the recommendation worker ran
     helpers.getRecentTimestamp((err, recentTimstamp) => {
         if (err) {
             callback(err);
         } else {
             if (!recentTimstamp) {
-                console.log('no recent timestamp');
                 recentTimstamp = {timestamp: '1995-12-17T03:24:00'}
             }
+            //retrieve all items in the inventory DB added after most recent timestamp
             helpers.retrieveNewItems(recentTimstamp.timestamp, (err, newInventory) => {
-                console.log(newInventory);
                 if (err) {
-                    console.log(err);
+                    console.log("Error in rec worker: ", err);
                 } else {
                     indexNewItems(newInventory);
                     helpers.updateRecentTimestamp(now);
@@ -26,8 +28,9 @@ let updateIndexDB = (callback) => {
     })
 }
 
+//Check tags of image and add inventory ID to each of those tags in recommendation DB
 let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
-    googleVision.getLabelsFromURL(imageURL, function(err, descriptions) {
+    detectLabels.getLabelsFromUrl(imageURL, function(err, descriptions) {
         if (err) {
             callback(err);
         } else {
@@ -38,19 +41,17 @@ let indexAnalyzeInventoryItem = (inventoryID, imageURL, callback) => {
 }
 
 let saveItemRecommendation = (inventoryId, itemLabels) => {
-  helpers.indexItem(inventoryId, itemLabels);
+    helpers.indexItem(inventoryId, itemLabels);
 }
 
+//Takes an array of Items, gets their tags and adds them to the recommendation DB
 let indexNewItems = (newItems) => {
-    console.log('INDEXING NEW ITEMS')
     if (newItems) {
         async.each(newItems, (newItem) => {
             if (newItems) {
-                indexAnalyzeInventoryItem(newItem.id, newItem.imageUrl, (err) => {
+                indexAnalyzeInventoryItem(newItem._id, newItem.imageUrl, (err) => {
                     if(err) {
-                        console.log(err);
-                    } else {
-                        console.log('you did it');
+                        console.log("Error in rec worker: ", err);
                     }
                 })
             }
