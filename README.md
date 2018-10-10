@@ -19,6 +19,9 @@ Major stores such as Macys, Zara and Bloomingdales were scraped for clothings an
 to enable a quick search by tagged characteristics, pairs of inventory ids and tags (i.e. black shirt, gray shoes) were indexed in a Mongo database. 
 When a user's image is tagged with characterists, the server then searches the index database for matching inventory. 
 
+
+![https://media.giphy.com/media/1AirC3luKEhT6kVRnb/giphy.gif](https://media.giphy.com/media/1AirC3luKEhT6kVRnb/giphy.gif)
+
 **Learnings**
 
 Learning to manipulate images and large sets of data was a fun challenge! I also enjoyed creating the React components 
